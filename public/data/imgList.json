@@ -1,0 +1,9 @@
+{
+  "data": [
+    { "id": 1, "src": "/images/property1.png" },
+    { "id": 2, "src": "/images/property2.png" },
+    { "id": 3, "src": "/images/property3.png" },
+    { "id": 4, "src": "/images/property4.png" },
+    { "id": 5, "src": "/images/property5.png" }
+  ]
+}
