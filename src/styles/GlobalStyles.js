@@ -93,9 +93,7 @@ const GlobalStyles = createGlobalStyle`
     text-decoration: none;
     color: #222222;
   }
-​
   /* HTML5 display-role reset for older browsers */
-​
   article,
   aside,
   details,
@@ -109,21 +107,17 @@ const GlobalStyles = createGlobalStyle`
   section {
     display: block;
   }
-​
   body {
     line-height: 1;
   }
-​
   ol,
   ul {
     list-style: none;
   }
-​
   blockquote,
   q {
     quotes: none;
   }
-​
   blockquote {
     &:before,
     &:after {
@@ -131,7 +125,6 @@ const GlobalStyles = createGlobalStyle`
       content: none;
     }
   }
-​
   q {
     &:before,
     &:after {
@@ -139,16 +132,13 @@ const GlobalStyles = createGlobalStyle`
       content: none;
     }
   }
-​
   table {
     border-collapse: collapse;
     border-spacing: 0;
   }
-​
   html, body, #root {
     height: 100%;
   }
-  
   button,
   input {
     outline: none;
