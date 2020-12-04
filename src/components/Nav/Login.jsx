@@ -1,11 +1,12 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-import styled, { keyframes } from 'styled-components';
+import styled from 'styled-components';
 import { flexColumnCenter, flexRow, theme } from '../../styles/theme';
 import { LOGIN_API } from '../../config';
 import { MdClear } from 'react-icons/md';
 import { FcGoogle } from 'react-icons/fc';
 import { RiKakaoTalkFill } from 'react-icons/ri';
+import Fade from 'react-reveal/Fade';
 
 const Login = ({ onGoogleLogin, openLoginModal, closeModalAll }) => {
   const [userLoginInfo, setUserLoginInfo] = useState({});
@@ -38,83 +39,62 @@ const Login = ({ onGoogleLogin, openLoginModal, closeModalAll }) => {
 
   return (
     <LoginModal>
-      <ModalContainer>
-        <div className='modalHeader'>
-          <i onClick={closeModalAll}>
-            <MdClear size={25} />
-          </i>
-          <p>로그인</p>
-        </div>
-        <button id='Google' onClick={onGoogleLogin}>
-          <FcGoogle margin='10px' />
-          구글 계정으로 로그인
-        </button>
-        <button>
-          <RiKakaoTalkFill />
-          카카오 계정으로 로그인
-        </button>
-        <span>또는</span>
-        <input
-          type='text'
-          className='email'
-          placeholder='이메일 주소'
-          onChange={handleInput}
-          name='email'
-          autoComplete='off'
-        />
-        <input
-          type={isPasswordVisible ? 'text' : 'password'}
-          className='password'
-          placeholder='비밀번호'
-          onChange={handleInput}
-          name='password'
-          autoComplete='off'
-        />
-        <p className='passwordBtn' onClick={showPassword}>
-          비밀번호 보기
-        </p>
-        <p className='otherWays'>전화번호로 로그인 ・ 비밀번호를 잊으셨나요?</p>
-        <button onClick={axiosLogin}>로그인</button>
-        <div className='modalFooter'>
-          <span>에어비트앤바이트 계정이 없으세요?</span>{' '}
-          <span onClick={openLoginModal}>회원가입</span>
-        </div>
-      </ModalContainer>
+      <Fade bottom>
+        <ModalContainer>
+          <div className='modalHeader'>
+            <i onClick={closeModalAll}>
+              <MdClear size={25} />
+            </i>
+            <p>로그인</p>
+          </div>
+          <button id='Google' onClick={onGoogleLogin}>
+            <FcGoogle margin='10px' />
+            구글 계정으로 로그인
+          </button>
+          <button>
+            <RiKakaoTalkFill />
+            카카오 계정으로 로그인
+          </button>
+          <span>또는</span>
+          <input
+            type='text'
+            className='email'
+            placeholder='이메일 주소'
+            onChange={handleInput}
+            name='email'
+            autoComplete='off'
+          />
+          <input
+            type={isPasswordVisible ? 'text' : 'password'}
+            className='password'
+            placeholder='비밀번호'
+            onChange={handleInput}
+            name='password'
+            autoComplete='off'
+          />
+          <p className='passwordBtn' onClick={showPassword}>
+            비밀번호 보기
+          </p>
+          <p className='otherWays'>
+            전화번호로 로그인 ・ 비밀번호를 잊으셨나요?
+          </p>
+          <button onClick={axiosLogin}>로그인</button>
+          <div className='modalFooter'>
+            <span>에어비트앤바이트 계정이 없으세요?</span>{' '}
+            <span onClick={openLoginModal}>회원가입</span>
+          </div>
+        </ModalContainer>
+      </Fade>
     </LoginModal>
   );
 };
 
 export default Login;
 
-const topToBottom = keyframes`
-  0%: {
-    opacity: 0;
-  }
-  6%: {
-    opacity: 0;
-    transform: translateY(-30px);
-  }
-  10%: {
-    opacity: 1;
-    transform: translateY(0px);
-  }
-  25%: {
-    opacity: 1;
-    transform: translateY(0px);
-  }
-  29%: {
-    opacity: 0;
-    transform: translateY(30px);
-  }
-  80%: {
-    opacity: 0;
-  }
-  100%: {
-    opacity: 0;
-  }
-`;
-
 const LoginModal = styled.div`
+  display: flex;
+  justify-content:center;
+  align-items:center;
   position: fixed;
   top: 0;
   left: 0;
@@ -134,20 +114,13 @@ const LoginModal = styled.div`
 
 const ModalContainer = styled.div`
   ${flexColumnCenter}
-  position: absolute;
   width: 570px;
-  left: 50%;
-  top: 50%;
-  transform: translate(-50%, -50%);
   background-color: white;
   padding: 0 20px;
   border-radius: 15px;
   font-family: roboto;
   font-size: 15px;
   z-index: 100;
-  animation-name: ${topToBottom};
-  animation-duration: 10s;
-  animation-iteration-count: infinite;
 
   .modalHeader {
     ${flexRow}

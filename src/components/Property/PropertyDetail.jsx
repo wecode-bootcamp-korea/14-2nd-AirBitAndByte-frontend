@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import { flexSpaceBetweenCenter, theme } from '../../styles/theme';
+import { flexSpaceBetweenCenter, flexSet } from '../../styles/theme';
 
 import { BsCalendar } from 'react-icons/bs';
 import { BsBook } from 'react-icons/bs';
@@ -85,19 +85,18 @@ const PropertyDetail = (props) => {
         </div>
       </DefaultInfo>
       <InfoByHost>
-        <p>❋ 프로필을 클릭하시면 더 많은 방이 있어요 :) ❋ </p>
+        <p>❋ 프로필을 클릭하시면 더 많은 방이 있어요 :) ❋</p>
         <p>
           ❋ 2층짜리 단독주택을 쉐어하는 형태로 운영하고 있습니다. 거실, 주방,
-          욕실은 공용공간입니다. 숙소 설명을 꼭 읽어주세요. ❋{' '}
+          욕실은 공용공간입니다. 숙소 설명을 꼭 읽어주세요. ❋
         </p>
         <p> ❋ 조식 셀프, 별도 비용 없음❋ </p>
         <p>
-          {' '}
           ※ 코로나19로 인한 특별한 환불규정은 적용되지 않으니 에어비앤비
           환불규정을 확인하신 후 신중히 예약해주시기 바랍니다. 뮤지션이 운영하는
-          음악과 새소리, 휴식이 어우러진 숙소{' '}
+          음악과 새소리, 휴식이 어우러진 숙소
         </p>
-        <p> 숙소 </p>
+        <p>숙소</p>
         <p>
           ☀︎ 2층짜리 단독주택을 쉐어하는 형태로 운영하고 있습니다. 거실, 주방,
           욕실은 공용공간입니다.
@@ -106,7 +105,6 @@ const PropertyDetail = (props) => {
         <p>2층 : 2인실 1개, 1인실 1개, 욕실1, 거실1</p>
       </InfoByHost>
       <BedInfo>
-        {' '}
         <div className='bedInfoTitle title'>침대/침구 유형</div>
         <div className='bedInfoBox'>
           <div className='bedIconBox'>
@@ -120,41 +118,39 @@ const PropertyDetail = (props) => {
       <Accomodations>
         <div className='accomodationsTitle title'>편의시설</div>
         <div className='accomodationsBox'>
-          <ImSpoonKnife />
+          <ImSpoonKnife size={24}/>
           <span>주방</span>
         </div>
         <div className='accomodationsBox'>
-          <AiOutlineWifi />
+          <AiOutlineWifi size={24}/>
           <span>무선 인터넷</span>
         </div>
         <div className='accomodationsBox'>
-          <MdFreeBreakfast />
+          <MdFreeBreakfast size={24}/>
           <span>아침식사</span>
         </div>
         <div className='accomodationsBox'>
-          <RiTShirtAirLine />
+          <RiTShirtAirLine size={24}/>
           <span>헤어드라이어</span>
         </div>
         <div className='accomodationsBox'>
-          <AiOutlineLaptop />
+          <AiOutlineLaptop size={24}/>
           <span>업무 전용 공간</span>
         </div>
-        <div className='accomodationBtn'>편의시설 27개 모두 보기</div>
       </Accomodations>
     </PropertyDetailBox>
   );
 };
 
 const PropertyDetailBox = styled.div`
-  max-width: 630px;
-  margin: 20px;
+  margin: 20px 20px 20px 0;
 
   .title {
     font-size: 22px;
   }
 
   .propertyDetailHeader {
-    ${flexSpaceBetweenCenter}
+    ${flexSet('spacebetween', 'center')}
     padding: 24px 0;
 
     .titleInfo {
@@ -224,16 +220,19 @@ const BedInfo = styled.div`
   border-top: 1px solid #eeeeee;
   padding-top: 48px;
   padding-bottom: 48px;
+
   .bedInfoBox {
     margin: 20px 0;
-    width: 400px;
+    width: 200px;
     padding: 5px 20px;
     border: 1px solid #eeeeee;
     border-radius: 10px;
+
     div {
       margin: 16px 0;
       font-size: 14px;
     }
+
     .bold {
       font-size: 16px;
       font-weight: 600;
@@ -245,11 +244,16 @@ const Accomodations = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: space-around;
-  height: 420px;
   padding: 48px 0;
   border-top: 1px solid #eeeeee;
+  border-bottom: 1px solid #eeeeee;
+
+
   .accomodationsBox {
-    margin: 7px 0;
+    margin:10px 0;
+  }
+  svg {
+    margin-right: 10px;
   }
 `;
 

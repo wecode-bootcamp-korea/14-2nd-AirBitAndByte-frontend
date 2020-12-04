@@ -57,12 +57,14 @@ const GalleryModalBox = styled.div`
   right: 0;
   bottom: 0;
   background-color: white;
+  z-index: 1000000;
 
   .xBtn {
     width: 50px;
     height: 50px;
     background-color: white;
   }
+
   .imgBox {
     position: absolute;
     width: 900px;
@@ -76,6 +78,7 @@ const GalleryModalBox = styled.div`
       height: 600px;
       /* overflow: hidden; */
     }
+    
     img {
       object-fit: cover;
       height: 100%;
@@ -86,24 +89,15 @@ const GalleryModalBox = styled.div`
         filter: brightness(80%);
       }
     }
-    .slick-arrow.slick-prev::before {
-      /* position: fixed;
-      left: -100px;
-      z-index: 2000;
-      width: 40px;
-      height: 40px;
-      color: red; */
+    .slick-arrow {
       display: none;
-    }
-    .slick-arrow.slick-next::before {
-      position: fixed;
-      left: 80%;
-      z-index: 2000;
     }
     .slick-dots {
       top: 620px;
     }
+
   }
+
 `;
 
 export default GalleryModal;

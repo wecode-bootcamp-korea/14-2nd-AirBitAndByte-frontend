@@ -79,6 +79,9 @@ const PropertyGalleryBox = styled.section`
     border: 1px solid ${theme.black};
     border-radius: 10px;
     font-size: 14px;
+    svg {
+      margin-bottom: -3px;
+    }
   }
 `;
 
