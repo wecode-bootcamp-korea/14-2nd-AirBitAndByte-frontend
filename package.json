@@ -10,9 +10,10 @@
     "@testing-library/user-event": "^12.1.10",
     "animate.css": "^4.1.1",
     "axios": "^0.21.0",
+    "firebase": "^8.1.1",
     "node-sass": "^4.14.1",
     "react": "^17.0.1",
-    "react-chartjs-2": "^2.11.1",
+    "react-dates": "^21.8.0",
     "react-dom": "^17.0.1",
     "react-icons": "^3.11.0",
     "react-loading-skeleton": "^2.1.1",
@@ -49,5 +50,6 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
-  }
+  },
+  "proxy": "http://localhost:3000"
 }

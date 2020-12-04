@@ -3,6 +3,7 @@ export const theme = {
   pink: '#ff3a5c',
   grey: '#eeeeee',
   black: '#222222',
+  bordergrey: '#e4e4e4'
 };
 
 export const flexCenter = css`
