@@ -2,12 +2,9 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import styled from 'styled-components';
 import { SIGNUP_API } from '../../config';
-import {
-  flexColumnCenter,
-  flexRow,
-  theme,
-} from '../../styles/theme';
+import { flexColumnCenter, flexRow, theme } from '../../styles/theme';
 import { MdClear } from 'react-icons/md';
+import Fade from 'react-reveal/Fade';
 
 const MakeOptions = ({ num }) => {
   if (num > 2000) {
@@ -40,7 +37,7 @@ const SignupEmail = ({ openEmailSignup, openLoginModal, closeModalAll }) => {
   const axiosSignup = () => {
     axios
       .post(SIGNUP_API, {
-        ...userSignupInfo
+        ...userSignupInfo,
       })
       .then((res) => {
         console.log(res);
@@ -52,81 +49,83 @@ const SignupEmail = ({ openEmailSignup, openLoginModal, closeModalAll }) => {
 
   return (
     <SignupEmailModal>
-      <div className='modalContainer'>
-        <div className='modalHeader'>
-          <i onClick={closeModalAll}>
-            <MdClear size={25} />
-          </i>
-          <p>회원 가입</p>
-        </div>
-        <div className='otherWays' onClick={openEmailSignup}>
-          <span>카카오</span> 또는 <span>구글</span>로 회원 가입 하세요.
-        </div>
-        <input
-          type='text'
-          className='email'
-          placeholder='이메일 주소'
-          onChange={handleInput}
-          name='email'
-          autoComplete='off'
-        />
-        <input
-          type='text'
-          className='givenName'
-          placeholder='이름(예: 은정)'
-          onChange={handleInput}
-          name='givenName'
-          autoComplete='off'
-        />
-        <input
-          type='text'
-          className='familyName'
-          placeholder='성(예: 고)'
-          onChange={handleInput}
-          name='familyName'
-          autoComplete='off'
-        />
-        <input
-          type='password'
-          className='password'
-          placeholder='비밀번호 설정하기'
-          onChange={handleInput}
-          name='password'
-          autoComplete='off'
-        />
-        <div className='birthdayBox'>
-          <div className='birthdaySelectTitle'>생일</div>
-          <p>
-            만 18세 이상의 성인만 회원으로 가입할 수 있습니다.
-            <br /> 생일은 다른 에어비트앤바이트 이용자에게 공개되지 않습니다.
-          </p>
-          <select name='birthdayMonth' onChange={handleInput}>
-            <option value=''>월</option>
-            <MakeOptions num={12} />
-          </select>
-          <select name='birthdayDate' onChange={handleInput}>
-            <option value=''>일</option>
-            <MakeOptions num={31} />
-          </select>
-          <select name='birthdayYear' onChange={handleInput}>
-            <option value=''>년</option>
-            <MakeOptions num={2020} />
-          </select>
-          <p>
-            에어비앤비의 회원 전용 할인, 추천 여행 정보, 프로모션 및 정책
-            변경사항을 이메일로 보내드립니다. 계정 관리의 환경설정 또는 프로모션
-            알림에서 언제든지 메시지 수신을 거부할 수 있습니다.
-          </p>
-        </div>
+      <Fade bottom>
+        <div className='modalContainer'>
+          <div className='modalHeader'>
+            <i onClick={closeModalAll}>
+              <MdClear size={25} />
+            </i>
+            <p>회원 가입</p>
+          </div>
+          <div className='otherWays' onClick={openEmailSignup}>
+            <span>카카오</span> 또는 <span>구글</span>로 회원 가입 하세요.
+          </div>
+          <input
+            type='text'
+            className='email'
+            placeholder='이메일 주소'
+            onChange={handleInput}
+            name='email'
+            autoComplete='off'
+          />
+          <input
+            type='text'
+            className='givenName'
+            placeholder='이름(예: 은정)'
+            onChange={handleInput}
+            name='givenName'
+            autoComplete='off'
+          />
+          <input
+            type='text'
+            className='familyName'
+            placeholder='성(예: 고)'
+            onChange={handleInput}
+            name='familyName'
+            autoComplete='off'
+          />
+          <input
+            type='password'
+            className='password'
+            placeholder='비밀번호 설정하기'
+            onChange={handleInput}
+            name='password'
+            autoComplete='off'
+          />
+          <div className='birthdayBox'>
+            <div className='birthdaySelectTitle'>생일</div>
+            <p>
+              만 18세 이상의 성인만 회원으로 가입할 수 있습니다.
+              <br /> 생일은 다른 에어비트앤바이트 이용자에게 공개되지 않습니다.
+            </p>
+            <select name='birthdayMonth' onChange={handleInput}>
+              <option value=''>월</option>
+              <MakeOptions num={12} />
+            </select>
+            <select name='birthdayDate' onChange={handleInput}>
+              <option value=''>일</option>
+              <MakeOptions num={31} />
+            </select>
+            <select name='birthdayYear' onChange={handleInput}>
+              <option value=''>년</option>
+              <MakeOptions num={2020} />
+            </select>
+            <p>
+              에어비앤비의 회원 전용 할인, 추천 여행 정보, 프로모션 및 정책
+              변경사항을 이메일로 보내드립니다. 계정 관리의 환경설정 또는
+              프로모션 알림에서 언제든지 메시지 수신을 거부할 수 있습니다.
+            </p>
+          </div>
 
-        <button id='email' onClick={axiosSignup}>
-          가입하기
-        </button>
-        <div className='modalFooter'>
-          <span>이미 에어비트앤바이트 계정이 있나요?</span>{' '}
-          <span onClick={openLoginModal}>로그인</span>
+          <button id='email' onClick={axiosSignup}>
+            가입하기
+          </button>
+          <div className='modalFooter'>
+            <span>이미 에어비트앤바이트 계정이 있나요?</span>{' '}
+            <span onClick={openLoginModal}>로그인</span>
+          </div>
         </div>
-      </div>
+      </Fade>
     </SignupEmailModal>
   );
 };
@@ -134,6 +133,9 @@ const SignupEmail = ({ openEmailSignup, openLoginModal, closeModalAll }) => {
 export default SignupEmail;
 
 const SignupEmailModal = styled.div`
+  display: flex;
+  justify-content:center;
+  align-items:center;
   position: fixed;
   top: 0;
   left: 0;
@@ -154,11 +156,7 @@ const SignupEmailModal = styled.div`
   }
   .modalContainer {
     ${flexColumnCenter}
-    position: absolute;
     width: 570px;
-    left: 50%;
-    top: 50%;
-    transform: translate(-50%, -50%);
     background-color: white;
     padding: 0 20px;
     border-radius: 15px;
@@ -261,4 +259,3 @@ const SignupEmailModal = styled.div`
     }
   }
 `;
-
