@@ -1,12 +1,11 @@
 import React, { useState } from 'react';
 import axios from 'axios';
+import Fade from 'react-reveal/Fade';
 import styled from 'styled-components';
-import { flexColumnCenter, flexRow, theme } from '../../styles/theme';
 import { LOGIN_API } from '../../config';
 import { MdClear } from 'react-icons/md';
 import { FcGoogle } from 'react-icons/fc';
 import { RiKakaoTalkFill } from 'react-icons/ri';
-import Fade from 'react-reveal/Fade';
 
 const Login = ({ onGoogleLogin, openLoginModal, closeModalAll }) => {
   const [userLoginInfo, setUserLoginInfo] = useState({});
@@ -93,8 +92,8 @@ export default Login;
 
 const LoginModal = styled.div`
   display: flex;
-  justify-content:center;
-  align-items:center;
+  justify-content: center;
+  align-items: center;
   position: fixed;
   top: 0;
   left: 0;
@@ -113,7 +112,12 @@ const LoginModal = styled.div`
 `;
 
 const ModalContainer = styled.div`
-  ${flexColumnCenter}
+  ${({ theme }) => {
+      return theme.flexSet({
+        alignItems: 'center',
+        flexDirection: 'column'
+      });
+    }};
   width: 570px;
   background-color: white;
   padding: 0 20px;
@@ -123,7 +127,11 @@ const ModalContainer = styled.div`
   z-index: 100;
 
   .modalHeader {
-    ${flexRow}
+    ${({ theme }) => {
+      return theme.flexSet({
+        flexDirection: 'row'
+      });
+    }};
     align-items: center;
     position: relative;
     width: 568px;
@@ -148,7 +156,7 @@ const ModalContainer = styled.div`
     font-weight: 600;
 
     &:nth-child(2) {
-      border: 1px solid ${theme.black};
+      border: 1px solid ${({ theme }) => theme.black};
     }
     &:nth-child(3) {
       background-color: #f3d631;

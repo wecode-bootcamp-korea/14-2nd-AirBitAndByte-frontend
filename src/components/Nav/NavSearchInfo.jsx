@@ -2,14 +2,17 @@ import React, { useState, useEffect, useRef } from 'react';
 import styled from 'styled-components';
 import NavSearchModal from './NavSearchModal';
 import { BiSearch } from 'react-icons/bi';
-import { theme, flexCenter, flexColumn, flexSpaceBetweenCenter } from '../../styles/theme';
+import { theme, flexSet } from '../../styles/theme';
 
 const NavSearchInfo = ({ type }) => {
   const [searchDetailType, setsearchDetailType] = useState('');
   const setRef = useRef(null);
 
   useEffect(() => {
-    const closeModal = ({ target }) => searchDetailType && !setRef.current.contains(target) && setsearchDetailType('');
+    const closeModal = ({ target }) =>
+      searchDetailType &&
+      !setRef.current.contains(target) &&
+      setsearchDetailType('');
     document.addEventListener('click', closeModal);
   });
 
@@ -24,9 +27,10 @@ const NavSearchInfo = ({ type }) => {
           <SearchInfoItem
             key={index}
             data-type={`${type}_${item.type}`}
-            className={`${searchDetailType === `${type}_${item.type}` ? 'setFocus' : ''}`}
-            onClick={changeSearchType}
-          >
+            className={`${
+              searchDetailType === `${type}_${item.type}` ? 'setFocus' : ''
+            }`}
+            onClick={changeSearchType}>
             {SEARCH_ITEMS[type].length === index + 1 ? (
               <>
                 <div className='flexLow'>
@@ -34,7 +38,9 @@ const NavSearchInfo = ({ type }) => {
                     <span className='header'>{item.header}</span>
                     <span className='content'>{item.content}</span>
                   </div>
-                  <SearchIconForm isSize={50} searchDetailType={searchDetailType}>
+                  <SearchIconForm
+                    isSize={50}
+                    searchDetailType={searchDetailType}>
                     <BiSearch className='searchIcon' />
                     {searchDetailType && <span>검색</span>}
                   </SearchIconForm>
@@ -56,7 +62,7 @@ const NavSearchInfo = ({ type }) => {
 export default NavSearchInfo;
 
 const NavSearchInfoComponent = styled.div`
-  ${flexSpaceBetweenCenter}
+  ${flexSet('space-between', 'center')}
   width: 850px;
   border: 1px solid #dddddd;
   border-radius: 50px;
@@ -66,7 +72,7 @@ const NavSearchInfoComponent = styled.div`
 `;
 
 const SearchInfoItem = styled.div`
-  ${flexColumn}
+  ${flexSet('', '', 'column')}
   justify-content: center;
   position: relative;
   flex: 1;
@@ -114,15 +120,11 @@ const SearchInfoItem = styled.div`
   }
 
   .flexLow {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+    ${flexSet('space-between', 'center', '')}
   }
 
   .flexColumn {
-    display: flex;
-    flex-direction: column;
-    justify-content: space-around;
+    ${flexSet('space-arond', '', 'column')}
 
     .header {
       margin: 2px 0;
@@ -137,8 +139,9 @@ const SearchInfoItem = styled.div`
 `;
 
 const SearchIconForm = styled.div`
-  ${flexCenter}
-  width : ${({ isSize }) => `${isSize}px`}  ${({ searchDetailType }) => searchDetailType && '+100px'};
+  ${flexSet('center')}
+  width : ${({ isSize }) => `${isSize}px`}  ${({ searchDetailType }) =>
+    searchDetailType && '+100px'};
   height: ${({ isSize }) => `${isSize}px`};
   background-color: ${theme.pink};
   border-radius: 25px;

@@ -1,19 +1,16 @@
 import React from 'react';
+import styled from 'styled-components';
+import { theme, flexCenter } from '../../styles/theme';
 import { HiShieldCheck } from 'react-icons/hi';
 import { MdStar } from 'react-icons/md';
 import { FaMedal } from 'react-icons/fa';
-import styled from 'styled-components';
-import {
-  theme,
-  flexCenter,
-} from '../../styles/theme';
 
 const PropertyHost = (props) => {
   return (
     <HostInfo>
       <div className='flexBox'>
         <div className='hostProfile'>
-          <img src='images/hostProfile.jpg' alt='host profile' />
+          <img src='/images/hostProfile.jpg' alt='host profile' />
         </div>
         <div>
           <div className='hostName'>호스트: 은정님</div>
@@ -132,7 +129,13 @@ const HostInfo = styled.div`
         line-height: 1.3;
       }
       .hostPhoneBtn {
-        ${flexCenter}
+        ${({ theme }) => {
+          return theme.flexSet({
+            justifyContent: 'center',
+            alignItems: 'center',
+          });
+        }};
+
         width: 175px;
         height: 48px;
         margin: 30px 0 20px 0;

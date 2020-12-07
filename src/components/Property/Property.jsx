@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from 'react';
+import { useHistory } from 'react-router-dom';
 import axios from 'axios';
+import styled from 'styled-components';
 import PropertyGallery from './PropertyGallery';
 import PropertyDetail from './PropertyDetail';
 import PropertyCalender from './PropertyCalender';
@@ -8,17 +10,19 @@ import PropertyMap from './PropertyMap';
 import PropertyReservation from './PropertyReservation';
 import PropertyOthers from './PropertyOthers';
 import PropertyHost from './PropertyHost';
-import { DETAIL_API } from '../../config';
+import { DETAIL_API, BOOKMARK_API } from '../../config';
+import { theme } from '../../styles/theme';
 import { MdStar } from 'react-icons/md';
 import { FaMedal } from 'react-icons/fa';
 import { FiShare2 } from 'react-icons/fi';
 import { BsHeart } from 'react-icons/bs';
-import styled from 'styled-components';
-import { flexSet, theme } from '../../styles/theme';
+import { BsHeartFill } from 'react-icons/bs';
+
+const ACCESS_TOKEN = localStorage.getItem('accessToken');
 
 const Property = (props) => {
-  const [propertyImages, setPropertyImages] = useState([]);
-  const [propertyInfo, setPropertyInfo] = useState({});
+  const [isBookmarked, setBookmarked] = useState(true);
+  const [property, setProperty] = useState({});
   const [focus, setFocus] = useState(null);
   const [focusedInput, setFocusedInput] = useState('startDate');
   const [dateRange, setdateRange] = useState({
@@ -27,30 +31,49 @@ const Property = (props) => {
   });
   const { startDate, endDate } = dateRange;
 
+  const history = useHistory();
+
+  const handleBookmark = (event) => {
+    event.stopPropagation();
+    axios({
+      method: isBookmarked ? 'delete' : 'get',
+      headers: {
+        Authorization: ACCESS_TOKEN,
+      },
+      propertyId: property.propertyId,
+    });
+    setBookmarked(!isBookmarked);
+  };
+
   useEffect(() => {
     axios
-      .get('/data/propertyImages.json')
-      .then(({ data: { image } }) => setPropertyImages(image));
-    axios
-      .get('/data/property.json')
-      // .get(DETAIL_API)
-      .then(({ data: { result } }) => setPropertyInfo(result));
-  }, []);
+      .get(`${DETAIL_API}`)
+      // .get(`${DETAIL_API}${props.match.params.id}`)
+      .then(({ data: { result } }) => {
+        setProperty(result);
+        setBookmarked(result.isBookmarked);
+      });
+  }, [props.match.params.id]);
 
   const handleOnDateChange = ({ startDate, endDate }) => {
     setdateRange({ startDate, endDate });
   };
 
+  const moveToDetailPage = (id) => {
+    history.push(`/property/${id}`);
+    window.scrollTo(0, 0);
+  };
+
   return (
     <PropertyWrapper>
       <Header>
-        <div className='propertyTitle'>{propertyInfo.propertyName}</div>
+        <div className='propertyTitle'>{property.propertyName}</div>
         <div className='headerInfo'>
           <div className='headerInfoLeft'>
             <MdStar color={theme.pink} size={20} style={{ marginRight: 5 }} />
             <span className='propertyRate'>4.86</span>
             <span className='propertyReviewNum'>
-              ({propertyInfo.reviews?.length})
+              ({property.reviews?.length})
             </span>
             <span className='superhost'>
               <FaMedal color={theme.pink} style={{ marginRight: 5 }} />
@@ -62,18 +85,30 @@ const Property = (props) => {
           </div>
           <div className='headerInfoRight'>
             <button className='shareBtn'>
-              <FiShare2 style={{ marginRight: 5 }} />
+              <FiShare2 size={15} style={{ marginRight: 5 }} />
               공유하기
             </button>
-            <button className='wishlistBtn'>
-              <BsHeart style={{ marginRight: 5 }} />
+            <button className='BookmarkBtn' onClick={handleBookmark}>
+              {isBookmarked ? (
+                <BsHeartFill
+                  color={theme.pink}
+                  size={15}
+                  style={{ marginRight: 5 }}
+                />
+              ) : (
+                <BsHeart
+                  color={theme.pink}
+                  size={15}
+                  style={{ marginRight: 5 }}
+                />
+              )}
               저장
             </button>
           </div>
         </div>
       </Header>
-      {propertyImages.length > 0 && (
-        <PropertyGallery propertyImages={propertyImages} />
+      {property.propertyImageslength > 0 && (
+        <PropertyGallery propertyImages={property.propertyImages} />
       )}
 
       <ParagraphContainer>
@@ -89,7 +124,7 @@ const Property = (props) => {
         </div>
         <div className='proeprtyRight'>
           <PropertyReservation
-            propertyInfo={propertyInfo}
+            property={property}
             setFocusedInput={setFocusedInput}
             focus={focus}
             setFocus={setFocus}
@@ -99,10 +134,8 @@ const Property = (props) => {
           />
         </div>
       </ParagraphContainer>
-      {propertyInfo.propertyId && (
-        <PropertyReview reviews={propertyInfo.reviews} />
-      )}
-      {propertyInfo.propertyId && <PropertyMap propertyInfo={propertyInfo} />}
+      {property.propertyId && <PropertyReview reviews={property.reviews} />}
+      {property.propertyId && <PropertyMap property={property} />}
       <PropertyHost />
       <PropertyFooter>
         <div className='propertyFooterTitle title'>알아두어야 할 사항</div>
@@ -136,8 +169,12 @@ const Property = (props) => {
           </div>
         </div>
       </PropertyFooter>
-      {propertyInfo.propertyId && (
-        <PropertyOthers properties={propertyInfo.moreProperties} />
+      {property.propertyId && (
+        <PropertyOthers
+          handleBookmark={handleBookmark}
+          recommendedProperties={property.moreProperties}
+          moveToDetailPage={moveToDetailPage}
+        />
       )}
     </PropertyWrapper>
   );
@@ -146,7 +183,13 @@ const Property = (props) => {
 export default Property;
 
 const PropertyWrapper = styled.div`
-  ${flexSet('center', 'center', 'column')}
+  ${({ theme }) => {
+    return theme.flexSet({
+      justifyContent: 'center',
+      alignItems: 'center',
+      flexDirection: 'column',
+    });
+  }};
   margin-top: 120px;
   padding: 0 20px;
 
@@ -167,7 +210,12 @@ const Header = styled.header`
     margin-bottom: 30px;
   }
   .headerInfo {
-    ${flexSet('spacebetween', 'center')}
+    ${({ theme }) => {
+    return theme.flexSet({
+      justifyContent: 'space-between',
+      alignItems: 'center',
+    });
+  }};
     font-size: 14px;
     .superhost,
     .propertyReviewNum {
@@ -190,7 +238,6 @@ const Header = styled.header`
         background-color: #f1f1f1;
       }
       svg {
-        padding-top: 10px;
         margin-bottom: -3px;
       }
     }

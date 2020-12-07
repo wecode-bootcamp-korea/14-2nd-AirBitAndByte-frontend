@@ -1,20 +1,35 @@
-import React, { useRef } from 'react';
-import { useHistory } from 'react-router-dom';
-
+import React, { useRef, useState } from 'react';
+import axios from 'axios';
 import styled from 'styled-components';
 import Slider from 'react-slick';
-import {
-  flexSet,
-  theme,
-} from '../../styles/theme';
-import { AiOutlineArrowLeft } from 'react-icons/ai';
-import { AiOutlineArrowRight } from 'react-icons/ai';
+import { BOOKMARK_API } from '../../config';
+import { theme } from '../../styles/theme';
+import { AiOutlineArrowLeft, AiOutlineArrowRight } from 'react-icons/ai';
 import { MdStar } from 'react-icons/md';
-import { BsHeart } from 'react-icons/bs';
-import { BsHeartFill } from 'react-icons/bs';
+import { BsHeart, BsHeartFill } from 'react-icons/bs';
 
-const PropertyOthers = ({ properties }) => {
-  const history = useHistory();
+const ACCESS_TOKEN = localStorage.getItem('accessToken');
+
+const PropertyOthers = ({ recommendedProperties, moveToDetailPage }) => {
+  const [newRecommendedProperties, setNewOtherProperties] = useState(
+    recommendedProperties
+  );
+
+  const handleBookmark = (event, property) => {
+    event.stopPropagation();
+    const tmpNewRecommendedProperties = [...newRecommendedProperties];
+    const idx = tmpNewRecommendedProperties.find(property);
+    tmpNewRecommendedProperties[idx].isBookmarked = !property.isBookmarked;
+
+    axios({
+      method: tmpNewRecommendedProperties[idx].isBookmarked ? 'delete' : 'get',
+      headers: {
+        Authorization: ACCESS_TOKEN,
+      },
+      propertyId: property.propertyId,
+    });
+    setNewOtherProperties(tmpNewRecommendedProperties);
+  };
 
   const settings = {
     slidesToShow: 4,
@@ -79,21 +94,24 @@ const PropertyOthers = ({ properties }) => {
             </button>
           </div>
         </div>
-        <div className='properties'>
+        <div className='recommendedProperties'>
           <Slider {...settings} ref={sliderRef}>
-            {properties.map((property) => (
+            {newRecommendedProperties?.map((property) => (
               <div
                 key={property.propertyId}
                 className='propertyBox'
-                onClick={() => history.push(`/detail/${property.propertyId}`)}>
+                onClick={() => moveToDetailPage(property.propertyId)}>
                 <div className='pictureBox'>
                   <img src={property.propertyImage[0]} alt='other property' />
                   {property.is_super && <i>슈퍼호스트</i>}
-                  <button>
-                    <BsHeart color='white' size={20} />
-                  </button>
-                  <button>
-                    <BsHeartFill color={theme.pink} size={20} />
+                  <button
+                    id={property.propertyId}
+                    onClick={(e) => handleBookmark(e, property)}>
+                    {property.isBookmarked ? (
+                      <BsHeartFill color={theme.pink} size={20} />
+                    ) : (
+                      <BsHeart color='white' size={20} />
+                    )}
                   </button>
                 </div>
                 <p className='propertyRate'>
@@ -116,7 +134,12 @@ const PropertyOthers = ({ properties }) => {
 export default PropertyOthers;
 
 const OtherProperties = styled.div`
-  ${flexSet('center', 'center')}
+  ${({ theme }) => {
+    return theme.flexSet({
+      justifyContent: 'center',
+      alignItems: 'center',
+    });
+  }};
   width: 100%;
   background-color: #f7f7f7;
 
@@ -126,7 +149,12 @@ const OtherProperties = styled.div`
     padding-top: 50px;
 
     .otherPropertyHeader {
-      ${flexSet('spacebetween', 'center')}
+      ${({ theme }) => {
+        return theme.flexSet({
+          justifyContent: 'space-between',
+          alignItems: 'center',
+        });
+      }};
       height: 56px;
       margin-bottom: 15px;
 
@@ -146,9 +174,8 @@ const OtherProperties = styled.div`
         }
       }
     }
-    .properties {
+    .recommendedProperties {
       margin-bottom: 60px;
-      /* display: flex; */
       height: 400px;
 
       .slick-slider {
@@ -192,7 +219,12 @@ const OtherProperties = styled.div`
 
           i {
             position: absolute;
-            ${flexSet('center', 'center')}
+            ${({ theme }) => {
+              return theme.flexSet({
+                justifyContent: 'center',
+                alignItems: 'center',
+              });
+            }};
             top: 10px;
             left: 10px;
             width: 75px;
@@ -207,7 +239,12 @@ const OtherProperties = styled.div`
 
           button {
             position: absolute;
-            ${flexSet('center', 'center')}
+            ${({ theme }) => {
+              return theme.flexSet({
+                justifyContent: 'center',
+                alignItems: 'center',
+              });
+            }};
             right: 10px;
             top: 8px;
             background-color: transparent;

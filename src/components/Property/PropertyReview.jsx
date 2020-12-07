@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import PropertyReviewModal from './PropertyReviewModal';
 import styled from 'styled-components';
+import PropertyReviewModal from './PropertyReviewModal';
 import { theme } from '../../styles/theme';
 import { MdStar } from 'react-icons/md';
 
@@ -26,7 +26,10 @@ const PropertyReview = ({ reviews }) => {
             <li key={idx} className='review'>
               <div className='reviewerBox'>
                 <div className='reviewerProfile'>
-                  <img src='images/defaultProfile.png' alt='reviewer profile' />
+                  <img
+                    src='/images/defaultProfile.png'
+                    alt='reviewer profile'
+                  />
                 </div>
                 <div className='flexRight'>
                   <div className='reviewerName'>{review.user}</div>
@@ -39,7 +42,7 @@ const PropertyReview = ({ reviews }) => {
           <li className='review'>
             <div className='reviewerBox'>
               <div className='reviewerProfile'>
-                <img src='images/defaultProfile.png' alt='reviewer profile' />
+                <img src='/images/defaultProfile.png' alt='reviewer profile' />
               </div>
               <div className='flexRight'>
                 <div className='reviewerName'>프린스기용</div>
@@ -63,7 +66,7 @@ const PropertyReview = ({ reviews }) => {
           <li className='review'>
             <div className='reviewerBox'>
               <div className='reviewerProfile'>
-                <img src='images/defaultProfile.png' alt='reviewer profile' />
+                <img src='/images/defaultProfile.png' alt='reviewer profile' />
               </div>
               <div className='flexRight'>
                 <div className='reviewerName'>영주</div>

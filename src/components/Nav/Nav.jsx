@@ -3,12 +3,23 @@ import styled, { css } from 'styled-components';
 import NavSearchInfo from './NavSearchInfo.jsx';
 import { BiSearch } from 'react-icons/bi';
 import { GiHamburgerMenu } from 'react-icons/gi';
-import { theme, flexSet, flexCenter, flexColumnCenter } from '../../styles/theme';
+import {
+  theme,
+  flexSet,
+  flexCenter,
+  flexColumnCenter,
+} from '../../styles/theme';
+import Signup from './Signup.jsx';
 
-const Nav = (props) => {
+const Nav = ({ authService }) => {
   const [scrollYdata, setScrollYdata] = useState(1);
   const [searchType, setsearchType] = useState('rooms');
   const [foldNav, setfoldNav] = useState(false);
+  const [isSignupModalOn, setSignupModalOn] = useState(false);
+
+  const openSignup = () => {
+    setSignupModalOn(!isSignupModalOn);
+  };
 
   useLayoutEffect(() => {
     const getPostion = () => {
@@ -61,7 +72,7 @@ const Nav = (props) => {
             <NavSearchInfo type={searchType} />
           </NavSearchVar>
         </div>
-        <NavUserInfo>
+        <NavUserInfo onClick={openSignup}>
           <GiHamburgerMenu className='hameburgerIcon' />
           <div className='ImageBorder'>
             <img src='images/defaultProfile.png' alt='프로파일이미지' />
@@ -69,6 +80,13 @@ const Nav = (props) => {
         </NavUserInfo>
       </NavComponent>
       {foldNav && <SetFoldNavBackground />}
+      {isSignupModalOn && (
+        <Signup
+          authService={authService}
+          isSignupModalOn={isSignupModalOn}
+          setSignupModalOn={setSignupModalOn}
+        />
+      )}
     </>
   );
 };

@@ -1,18 +1,11 @@
 import React from 'react';
 import styled from 'styled-components';
-import { flexSpaceBetweenCenter, flexSet } from '../../styles/theme';
-
-import { BsCalendar } from 'react-icons/bs';
-import { BsBook } from 'react-icons/bs';
-import { BiBed } from 'react-icons/bi';
+import { BsCalendar, BsBook  } from 'react-icons/bs';
+import { BiBed, BiDoorOpen  } from 'react-icons/bi';
 import { ImSpoonKnife } from 'react-icons/im';
-import { AiOutlineWifi } from 'react-icons/ai';
 import { MdFreeBreakfast } from 'react-icons/md';
-import { RiTShirtAirLine } from 'react-icons/ri';
-import { AiOutlineLaptop } from 'react-icons/ai';
-import { RiMoonClearLine } from 'react-icons/ri';
-import { BiDoorOpen } from 'react-icons/bi';
-import { RiMedal2Line } from 'react-icons/ri';
+import { AiOutlineWifi, AiOutlineLaptop } from 'react-icons/ai';
+import { RiTShirtAirLine, RiMedal2Line, RiMoonClearLine } from 'react-icons/ri';
 
 const PropertyDetail = (props) => {
   return (
@@ -118,23 +111,23 @@ const PropertyDetail = (props) => {
       <Accomodations>
         <div className='accomodationsTitle title'>편의시설</div>
         <div className='accomodationsBox'>
-          <ImSpoonKnife size={24}/>
+          <ImSpoonKnife size={24} />
           <span>주방</span>
         </div>
         <div className='accomodationsBox'>
-          <AiOutlineWifi size={24}/>
+          <AiOutlineWifi size={24} />
           <span>무선 인터넷</span>
         </div>
         <div className='accomodationsBox'>
-          <MdFreeBreakfast size={24}/>
+          <MdFreeBreakfast size={24} />
           <span>아침식사</span>
         </div>
         <div className='accomodationsBox'>
-          <RiTShirtAirLine size={24}/>
+          <RiTShirtAirLine size={24} />
           <span>헤어드라이어</span>
         </div>
         <div className='accomodationsBox'>
-          <AiOutlineLaptop size={24}/>
+          <AiOutlineLaptop size={24} />
           <span>업무 전용 공간</span>
         </div>
       </Accomodations>
@@ -150,8 +143,13 @@ const PropertyDetailBox = styled.div`
   }
 
   .propertyDetailHeader {
-    ${flexSet('spacebetween', 'center')}
     padding: 24px 0;
+    ${({ theme }) => {
+      return theme.flexSet({
+        justifyContent: 'space-between',
+        alignItems: 'center',
+      });
+    }};
 
     .titleInfo {
       margin-top: 7px;
@@ -248,9 +246,8 @@ const Accomodations = styled.div`
   border-top: 1px solid #eeeeee;
   border-bottom: 1px solid #eeeeee;
 
-
   .accomodationsBox {
-    margin:10px 0;
+    margin: 10px 0;
   }
   svg {
     margin-right: 10px;
