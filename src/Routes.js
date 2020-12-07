@@ -8,6 +8,7 @@ import Nav from './Components/Nav/Nav.jsx';
 import Footer from './Components/Footer/Footer.jsx';
 import PropertyDetail from './Components/Property/Property.jsx';
 import PropertyCalender from './Components/Property/PropertyCalender.jsx';
+import PlaceList from './Pages/PlaceList/PlaceList.jsx';
 import 'react-dates/lib/css/_datepicker.css';
 
 const Routes = ({ authService }) => {
@@ -19,7 +20,9 @@ const Routes = ({ authService }) => {
         <Switch>
           <Route exact path='/' component={Main} />
           <Route exact path='/property/:id' component={PropertyDetail} />
+          <Route exact path='/property' component={PropertyDetail} />
           <Route exact path='/calender' component={PropertyCalender} />
+          <Route exact path='/placelist' component={PlaceList} />
         </Switch>
         <Footer />
       </Router>
