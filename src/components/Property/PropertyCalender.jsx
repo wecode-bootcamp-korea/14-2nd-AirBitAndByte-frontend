@@ -30,7 +30,6 @@ const PropertyCalender = ({
           noBorder={true}
           hideKeyboardShortcutsPanel={true}
           initialVisibleMonth={() => moment().add(2, 'M')}
-          showClearDates={true}
         />
       </CalenderBox>
     </>
@@ -54,7 +53,7 @@ const CalenderBox = styled.div`
     padding: 17px;
     border: none;
   }
-  
+
   .CalendarDay__selected_span {
     background: #ebebeb; //background
     color: black; //text

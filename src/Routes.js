@@ -18,7 +18,6 @@ const Routes = ({ authService }) => {
         <Nav authService={authService} />
         <Switch>
           <Route exact path='/' component={Main} />
-          <Route exact path='/property' component={PropertyDetail} />
           <Route exact path='/property/:id' component={PropertyDetail} />
           <Route exact path='/calender' component={PropertyCalender} />
         </Switch>

@@ -1,8 +1,8 @@
 import React, { useCallback, useState } from 'react';
 import styled from 'styled-components';
+import GalleryModal from './GalleryModal';
 import { theme } from '../../styles/theme';
 import { BsGrid3X3Gap } from 'react-icons/bs';
-import GalleryModal from './GalleryModal';
 
 const PropertyGallery = ({ propertyImages }) => {
   const [isGalleryModalOn, toggleGalleryModalOn] = useState(false);
@@ -18,9 +18,9 @@ const PropertyGallery = ({ propertyImages }) => {
   return (
     <>
       <PropertyGalleryBox>
-        {propertyImages.map((image) => (
-          <div key={image.id} className='imgWrapper'>
-            <img src={image.src} alt={`property ${image.id}`} />
+        {propertyImages.map((image, idx) => (
+          <div key={idx} className='imgWrapper'>
+            <img src={image} alt={`property ${idx}`} />
           </div>
         ))}
         <button className='galleryModalBtn' onClick={handleGalleryModal}>
@@ -72,7 +72,7 @@ const PropertyGalleryBox = styled.section`
     position: absolute;
     bottom: 20px;
     right: 20px;
-    color: ${theme.black};
+    color: ${(props) => props.theme.black};
     background-color: white;
     width: 135px;
     height: 35px;

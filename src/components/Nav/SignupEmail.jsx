@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
 import axios from 'axios';
+import Fade from 'react-reveal/Fade';
 import styled from 'styled-components';
 import { SIGNUP_API } from '../../config';
-import { flexColumnCenter, flexRow, theme } from '../../styles/theme';
+import { theme } from '../../styles/theme';
 import { MdClear } from 'react-icons/md';
-import Fade from 'react-reveal/Fade';
 
 const MakeOptions = ({ num }) => {
   if (num > 2000) {
@@ -134,8 +134,8 @@ export default SignupEmail;
 
 const SignupEmailModal = styled.div`
   display: flex;
-  justify-content:center;
-  align-items:center;
+  justify-content: center;
+  align-items: center;
   position: fixed;
   top: 0;
   left: 0;
@@ -155,7 +155,12 @@ const SignupEmailModal = styled.div`
     }
   }
   .modalContainer {
-    ${flexColumnCenter}
+    ${({ theme }) => {
+      return theme.flexSet({
+        alignItems: 'center',
+        flexDirection: 'column',
+      });
+    }};
     width: 570px;
     background-color: white;
     padding: 0 20px;
@@ -165,7 +170,11 @@ const SignupEmailModal = styled.div`
     z-index: 100;
 
     .modalHeader {
-      ${flexRow}
+      ${({ theme }) => {
+      return theme.flexSet({
+        flexDirection: 'row',
+      });
+    }};
       align-items: center;
       position: relative;
       width: 568px;

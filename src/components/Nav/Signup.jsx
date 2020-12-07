@@ -1,15 +1,15 @@
 import React, { useState } from 'react';
 import axios from 'axios';
+import Fade from 'react-reveal/Fade';
 import styled from 'styled-components';
 import SignupEmail from './SignupEmail';
 import Login from './Login';
-import { flexColumnCenter, flexRow, theme } from '../../styles/theme';
+import { theme } from '../../styles/theme';
 import { SOCIAL_API } from '../../config';
 import { MdClear } from 'react-icons/md';
 import { FcGoogle } from 'react-icons/fc';
 import { RiKakaoTalkFill } from 'react-icons/ri';
 import { GoMail } from 'react-icons/go';
-import Fade from 'react-reveal/Fade';
 
 const Signup = ({ authService }) => {
   const [isEmailSignup, setEmailSignup] = useState(false);
@@ -107,7 +107,6 @@ const Signup = ({ authService }) => {
 export default Signup;
 
 const SignupModal = styled.div`
-  /* display: flex; */
   display: ${(props) => (props.visible ? 'flex' : 'none')};
   justify-content: center;
   align-items: center;
@@ -128,7 +127,12 @@ const SignupModal = styled.div`
   }
 
   .modalContainer {
-    ${flexColumnCenter}
+    ${({ theme }) => {
+      return theme.flexSet({
+        justifyContent: 'center',
+        flexDirection: 'column',
+      });
+    }};
     width: 570px;
     height: 370px;
     background-color: white;
@@ -139,7 +143,11 @@ const SignupModal = styled.div`
     z-index: 100;
 
     .modalHeader {
-      ${flexRow}
+      ${({ theme }) => {
+      return theme.flexSet({
+        flexDirection: 'row'
+      });
+    }};
       align-items: center;
       position: relative;
       width: 568px;

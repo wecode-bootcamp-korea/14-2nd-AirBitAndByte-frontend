@@ -3,13 +3,13 @@ import styled from 'styled-components';
 
 const { kakao } = window;
 
-const PropertyMap = ({ propertyInfo }) => {
+const PropertyMap = ({ property }) => {
   useEffect(() => {
     const container = document.getElementById('myMap');
     const options = {
       center: new kakao.maps.LatLng(
-        propertyInfo.latitude,
-        propertyInfo.longitude
+        property.latitude,
+        property.longitude
       ),
       level: 3,
     };
@@ -30,8 +30,8 @@ const PropertyMap = ({ propertyInfo }) => {
         imageOption
       ),
       markerPosition = new kakao.maps.LatLng(
-        propertyInfo.latitude,
-        propertyInfo.longitude
+        property.latitude,
+        property.longitude
       );
 
     const marker = new kakao.maps.Marker({

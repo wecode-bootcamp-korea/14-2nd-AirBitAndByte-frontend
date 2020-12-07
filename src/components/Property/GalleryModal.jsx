@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
-import styled from 'styled-components';
 import Slider from 'react-slick';
+import styled from 'styled-components';
 import { BiArrowBack } from 'react-icons/bi';
 
 const GalleryModal = ({ closeGalleryModal, propertyImages }) => {

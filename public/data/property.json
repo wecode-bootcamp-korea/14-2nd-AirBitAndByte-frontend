@@ -2,10 +2,22 @@
   "result": {
     "propertyId": 1,
     "propertyName": "겨울 그리고 가을",
+    "propertyImages": [
+      "https://cdn.pixabay.com/photo/2020/11/24/11/36/bedroom-5772286_960_720.jpg",
+      "https://cdn.pixabay.com/photo/2020/08/25/18/28/workplace-5517744_960_720.jpg",
+      "https://images.unsplash.com/photo-1606765252374-5c746f7169e1?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=634&q=80",
+      "https://images.unsplash.com/photo-1550254478-ead40cc54513?ixlib=rb-1.2.1&ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&auto=format&fit=crop&w=611&q=80",
+      "https://images.unsplash.com/photo-1527694224012-be005121c774?ixlib=rb-1.2.1&ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&auto=format&fit=crop&w=634&q=80",
+      "https://images.unsplash.com/photo-1501876725168-00c445821c9e?ixlib=rb-1.2.1&ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&auto=format&fit=crop&w=1350&q=80"
+    ],
+    "country": "한국",
+    "province": "제주도",
+    "district": "애월읍",
     "price": "550000.00",
     "pricePerGuest": "30000.000",
-    "hostName": "유병민",
-    "is_supered": false,
+    "hostName": "은정",
+    "isSupered": true,
+    "isBookmarked": false,
     "capacity": 4,
     "longitude": "126.350570",
     "latitude": "33.472600",
@@ -40,7 +52,8 @@
     "rufund": "체크인 3일 전까지 수수료 없이 취소 가능",
     "reviews": [
       {
-        "user": "amusesla@gmail.com",
+        "user": "amusesla",
+        "created_at": "2020-12-08T03:19:51.822Z",
         "content": "뷰가 정말 끝내줘요. 따뜻하고 안락하게 잘 쉬다왔어요. 호스트분 응대도 너무 친절하게 신속하게 받아주셔서 너무 편했어요",
         "cleanliness": "5.00",
         "communications": "5.00",
@@ -50,7 +63,8 @@
         "affordability": "5.00"
       },
       {
-        "user": "amuseslaa@gmail.com",
+        "user": "amusesla",
+        "created_at": "2020-12-08T03:19:51.827Z",
         "content": "좋았어요. 뷰 진짜 멋있어요",
         "cleanliness": "4.50",
         "communications": "4.50",
@@ -73,7 +87,8 @@
           "https://images.unsplash.com/photo-1501876725168-00c445821c9e?ixlib=rb-1.2.1&ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&auto=format&fit=crop&w=1350&q=80"
         ],
         "price": "550000.00",
-        "is_super": false,
+        "isSuper": false,
+        "isBookmarked": false,
         "sizes": [
           {
             "sizeName": "1번 침실",
@@ -88,7 +103,8 @@
           "https://images.unsplash.com/photo-1556228453-efd6c1ff04f6?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=1650&q=80"
         ],
         "price": "600000.00",
-        "is_super": false,
+        "isSuper": false,
+        "isBookmarked": false,
         "sizes": [
           {
             "sizeName": "1번 침실",
@@ -97,24 +113,14 @@
         ]
       },
       {
-        "propertyId": 23,
-        "propertyName": "취약점의 융합 커뮤니티",
-        "propertyImage": ["/images/property1.png"],
-        "price": "578485.00",
-        "is_super": false,
-        "sizes": [
-          {
-            "sizeName": "공용 공간",
-            "sizeContent": "더블 침대 1개"
-          }
-        ]
-      },
-      {
-        "propertyId": 28,
-        "propertyName": "배열적인 창의적 인프라",
-        "propertyImage": ["/images/property2.png"],
-        "price": "502150.00",
-        "is_super": true,
+        "propertyId": 39,
+        "propertyName": "재발명된 선구적 패러다임",
+        "propertyImage": [
+          "https://images.unsplash.com/photo-1533779283484-8ad4940aa3a8?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=1650&q=80"
+        ],
+        "price": "588922.00",
+        "isSuper": false,
+        "isBookmarked": false,
         "sizes": [
           {
             "sizeName": "1번 침실",
@@ -123,50 +129,30 @@
         ]
       },
       {
-        "propertyId": 31,
-        "propertyName": "통합된 다음 세대 인프라",
-        "propertyImage": ["/images/property3.png"],
-        "price": "596213.00",
-        "is_super": true,
-        "sizes": [
-          {
-            "sizeName": "1번 침실",
-            "sizeContent": "퀸사이즈 침대 1개"
-          }
-        ]
-      },
-      {
-        "propertyId": 33,
-        "propertyName": "큰 무결점 컨텐츠",
-        "propertyImage": ["/images/property4.png"],
-        "price": "551510.00",
-        "is_super": false,
-        "sizes": [
-          {
-            "sizeName": "1번 침실",
-            "sizeContent": "퀸사이즈 침대 1개"
-          }
-        ]
-      },
-      {
-        "propertyId": 38,
-        "propertyName": "합성 전략적 주파수",
-        "propertyImage": ["/images/property5.png"],
-        "price": "548824.00",
-        "is_super": false,
-        "sizes": [
-          {
-            "sizeName": "1번 침실",
-            "sizeContent": "퀸사이즈 침대 1개"
-          }
-        ]
-      },
-      {
         "propertyId": 45,
-        "propertyName": "사용 가능한 혁명적 마케팅",
-        "propertyImage": ["https://unsplash.com/photos/JIUjvqe2ZHg"],
-        "price": "586035.00",
-        "is_super": false,
+        "propertyName": "벤치마킹된 반투명 전자 서비스",
+        "propertyImage": [
+          "https://images.unsplash.com/photo-1537726235470-8504e3beef77?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=1650&q=80"
+        ],
+        "price": "568115.00",
+        "isSuper": false,
+        "isBookmarked": false,
+        "sizes": [
+          {
+            "sizeName": "1번 침실",
+            "sizeContent": "퀸사이즈 침대 1개"
+          }
+        ]
+      },
+      {
+        "propertyId": 51,
+        "propertyName": "구조적인 날카로운 시너지",
+        "propertyImage": [
+          "https://images.unsplash.com/photo-1554995207-c18c203602cb?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=1650&q=80"
+        ],
+        "price": "596319.00",
+        "isSuper": false,
+        "isBookmarked": false,
         "sizes": [
           {
             "sizeName": "1번 침실",
@@ -175,24 +161,30 @@
         ]
       },
       {
-        "propertyId": 48,
-        "propertyName": "문화적인 반투명 전자 비즈니스",
-        "propertyImage": ["https://unsplash.com/photos/AkNRiespFjA"],
-        "price": "573283.00",
-        "is_super": false,
+        "propertyId": 52,
+        "propertyName": "큰 융합 네트웍스",
+        "propertyImage": [
+          "https://images.unsplash.com/photo-1560448205-4d9b3e6bb6db?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=1650&q=80"
+        ],
+        "price": "510947.00",
+        "isSuper": false,
+        "isBookmarked": false,
         "sizes": [
           {
-            "sizeName": "공용 공간",
-            "sizeContent": "더블 침대 1개"
+            "sizeName": "1번 침실",
+            "sizeContent": "싱글 침대 2개"
           }
         ]
       },
       {
         "propertyId": 53,
-        "propertyName": "엔지니어 효율적 인터페이스",
-        "propertyImage": ["https://unsplash.com/photos/AkNRiespFjA"],
-        "price": "555542.00",
-        "is_super": false,
+        "propertyName": "문화적인 B2B 전자화폐",
+        "propertyImage": [
+          "https://images.unsplash.com/photo-1558442074-3c19857bc1dc?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=2089&q=80"
+        ],
+        "price": "545064.00",
+        "isSuper": false,
+        "isBookmarked": false,
         "sizes": [
           {
             "sizeName": "공용 공간",
@@ -201,11 +193,46 @@
         ]
       },
       {
-        "propertyId": 64,
-        "propertyName": "취약점의 실시간 스키마",
-        "propertyImage": ["https://unsplash.com/photos/t-afILNf3Zg"],
-        "price": "565462.00",
-        "is_super": false,
+        "propertyId": 54,
+        "propertyName": "강화된 닷컴 기술",
+        "propertyImage": [
+          "https://images.unsplash.com/photo-1533779283484-8ad4940aa3a8?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=1650&q=80"
+        ],
+        "price": "509141.00",
+        "isSuper": false,
+        "isBookmarked": false,
+        "sizes": [
+          {
+            "sizeName": "공용 공간",
+            "sizeContent": "더블 침대 1개"
+          }
+        ]
+      },
+      {
+        "propertyId": 58,
+        "propertyName": "엔지니어 최첨단 웹서비스",
+        "propertyImage": [
+          "https://images.unsplash.com/photo-1558442074-3c19857bc1dc?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=2089&q=80"
+        ],
+        "price": "574632.00",
+        "isSuper": false,
+        "isBookmarked": false,
+        "sizes": [
+          {
+            "sizeName": "공용 공간",
+            "sizeContent": "더블 침대 1개"
+          }
+        ]
+      },
+      {
+        "propertyId": 61,
+        "propertyName": "배송 고운 네트웍스",
+        "propertyImage": [
+          "https://images.unsplash.com/photo-1554995207-c18c203602cb?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=1650&q=80"
+        ],
+        "price": "516692.00",
+        "isSuper": false,
+        "isBookmarked": false,
         "sizes": [
           {
             "sizeName": "1번 침실",
@@ -214,11 +241,30 @@
         ]
       },
       {
-        "propertyId": 74,
-        "propertyName": "웅장한 온라인 쇼핑 관계",
-        "propertyImage": ["https://unsplash.com/photos/t-afILNf3Zg"],
-        "price": "573478.00",
-        "is_super": false,
+        "propertyId": 64,
+        "propertyName": "합성 융합 시너지",
+        "propertyImage": [
+          "https://images.unsplash.com/photo-1533779283484-8ad4940aa3a8?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=1650&q=80"
+        ],
+        "price": "572966.00",
+        "isSuper": false,
+        "isBookmarked": false,
+        "sizes": [
+          {
+            "sizeName": "1번 침실",
+            "sizeContent": "싱글 침대 2개"
+          }
+        ]
+      },
+      {
+        "propertyId": 70,
+        "propertyName": "다용도의 날카로운 인터페이스",
+        "propertyImage": [
+          "https://images.unsplash.com/photo-1537726235470-8504e3beef77?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=1650&q=80"
+        ],
+        "price": "597575.00",
+        "isSuper": true,
+        "isBookmarked": false,
         "sizes": [
           {
             "sizeName": "1번 침실",
