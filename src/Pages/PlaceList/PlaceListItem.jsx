@@ -1,15 +1,16 @@
-import React from 'react';
+import React, { useRef } from 'react';
 import styled from 'styled-components';
 import { theme, flexSpaceBetweenCenter, flexColumn } from '../../styles/theme';
 import { AiFillStar, AiOutlineHeart, AiFillHeart } from 'react-icons/ai';
 import { MdKeyboardArrowLeft, MdKeyboardArrowRight } from 'react-icons/md';
+import { useHistory } from 'react-router-dom';
 import Slider from 'react-slick';
 
 const PlaceListItem = ({ onMouseOver, listItem }) => {
   const settings = {
     adaptiveHeight: true,
     accessibility: true,
-    dots: true,
+    dots: false,
     infinite: true,
     focusOnSelect: true,
     speed: 500,
@@ -17,16 +18,36 @@ const PlaceListItem = ({ onMouseOver, listItem }) => {
     slidesToScroll: 1,
   };
 
+  const history = useHistory();
+
+  const sliderRef = useRef(null);
+
+  const slidePrev = (event) => {
+    event.stopPropagation();
+
+    sliderRef.current.slickPrev();
+  };
+
+  const slideNext = (event) => {
+    event.stopPropagation();
+
+    sliderRef.current.slickNext();
+  };
+
   return (
-    <PlaceListItemComponent onMouseOver={onMouseOver}>
+    <PlaceListItemComponent onMouseOver={onMouseOver} onClick={() => history.push(`/property/${listItem.propertyId}`)}>
       <div className='placeImg'>
-        <MdKeyboardArrowLeft className='arrow_prev' />
-        <Slider {...settings}>
+        <MdKeyboardArrowLeft className='arrow_prev' onClick={slidePrev} />
+        <Slider {...settings} ref={sliderRef}>
           {listItem.propertyImages.map((image, index) => {
-            return <img src={image} key={index} />;
+            return (
+              <div key={index} className='imgBox'>
+                <img src={image} />
+              </div>
+            );
           })}
         </Slider>
-        <MdKeyboardArrowRight className='arrow_next' />
+        <MdKeyboardArrowRight className='arrow_next' onClick={slideNext} />
       </div>
       <div className='placeContent'>
         <div className='contentTitle'>
@@ -67,7 +88,7 @@ export default PlaceListItem;
 const PlaceListItemComponent = styled.div`
   display: flex;
   align-items: center;
-  width: 100%;
+  width: 700px;
   padding: 20px 0;
   border-top: 1px solid ${theme.bordergrey};
 
@@ -76,11 +97,21 @@ const PlaceListItemComponent = styled.div`
     width: 300px;
     height: 200px;
     border-radius: 15px;
-
-    img {
+    .imgBox {
       width: 300px;
       height: 200px;
-      border-radius: 15px;
+      overflow: hidden;
+      img {
+        border-radius: 15px;
+        object-fit: cover;
+        width: 300px;
+        height: 200px;
+        transition: 0.2s;
+        transition-timing-function: ease-in-out;
+        &:hover {
+          filter: brightness(80%);
+        }
+      }
     }
 
     .slick-dots {
@@ -98,7 +129,7 @@ const PlaceListItemComponent = styled.div`
       transform: translateY(-10);
       transition: 0.5s;
       background-color: rgba(255, 255, 255, 0.5);
-      z-index: 101;
+      z-index: 30;
 
       &:hover {
         background-color: rgba(255, 255, 255, 1);
@@ -124,6 +155,9 @@ const PlaceListItemComponent = styled.div`
   }
 
   .placeContent {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
     width: 100%;
     height: 100%;
     padding: 10px 10px 10px 20px;
@@ -181,6 +215,8 @@ const PlaceListItemComponent = styled.div`
 
     .placeValue {
       ${flexSpaceBetweenCenter}
+      /* position :relative;
+      bottom: 0px; */
 
       .placeGrade {
         display: flex;

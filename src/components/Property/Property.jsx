@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import axios from 'axios';
+import { useSelector } from 'react-redux';
 import styled, { keyframes } from 'styled-components';
 import PropertyGallery from './PropertyGallery';
 import PropertyDetail from './PropertyDetail';
@@ -20,14 +21,15 @@ import { BsHeart, BsHeartFill } from 'react-icons/bs';
 const ACCESS_TOKEN = localStorage.getItem('accessToken');
 
 const Property = (props) => {
+  const dateState = useSelector((store) => store.searchFilterReducer);
   const [isLoading, setLoading] = useState(true);
   const [isBookmarked, setBookmarked] = useState(true);
   const [property, setProperty] = useState({});
   const [focus, setFocus] = useState(null);
   const [focusedInput, setFocusedInput] = useState('startDate');
   const [dateRange, setdateRange] = useState({
-    startDate: null,
-    endDate: null,
+    startDate: dateState.checkIn,
+    endDate: dateState.checkOut,
   });
 
   const { startDate, endDate } = dateRange;
@@ -88,14 +90,8 @@ const Property = (props) => {
             <div className='headerInfoLeft'>
               <Skeleton isLoading={isLoading} />
               <MdStar size={20} style={{ marginRight: 5 }} />
-              {rate?.propertyRate && (
-                <span className='propertyRate'>
-                  {Math.floor(rate.propertyRate * 100) / 100}
-                </span>
-              )}
-              <span className='propertyReviewNum'>
-                ({property.reviews?.length})
-              </span>
+              {rate?.propertyRate && <span className='propertyRate'>{Math.floor(rate.propertyRate * 100) / 100}</span>}
+              <span className='propertyReviewNum'>({property.reviews?.length})</span>
               {property.isSupered ? (
                 <span className='superhost'>
                   <FaMedal style={{ marginRight: 5 }} />
@@ -127,10 +123,7 @@ const Property = (props) => {
           </div>
         </Header>
         {property.propertyImages?.length > 0 && (
-          <PropertyGallery
-            isLoading={isLoading}
-            propertyImages={property.propertyImages}
-          />
+          <PropertyGallery isLoading={isLoading} propertyImages={property.propertyImages} />
         )}
       </PropertyWrapper>
     );
@@ -143,14 +136,8 @@ const Property = (props) => {
         <div className='headerInfo'>
           <div className='headerInfoLeft'>
             <MdStar size={20} style={{ marginRight: 5 }} />
-            {rate?.propertyRate && (
-              <span className='propertyRate'>
-                {Math.floor(rate.propertyRate * 100) / 100}
-              </span>
-            )}
-            <span className='propertyReviewNum'>
-              ({property.reviews?.length})
-            </span>
+            {rate?.propertyRate && <span className='propertyRate'>{Math.floor(rate.propertyRate * 100) / 100}</span>}
+            <span className='propertyReviewNum'>({property.reviews?.length})</span>
             {property.isSupered ? (
               <span className='superhost'>
                 <FaMedal style={{ marginRight: 5 }} />
@@ -170,17 +157,9 @@ const Property = (props) => {
             </button>
             <button className='BookmarkBtn' onClick={handleBookmark}>
               {isBookmarked ? (
-                <BsHeartFill
-                  color={theme.pink}
-                  size={15}
-                  style={{ marginRight: 5 }}
-                />
+                <BsHeartFill color={theme.pink} size={15} style={{ marginRight: 5 }} />
               ) : (
-                <BsHeart
-                  color={theme.pink}
-                  size={15}
-                  style={{ marginRight: 5 }}
-                />
+                <BsHeart color={theme.pink} size={15} style={{ marginRight: 5 }} />
               )}
               저장
             </button>
@@ -188,17 +167,12 @@ const Property = (props) => {
         </div>
       </Header>
       {property.propertyImages?.length > 0 && (
-        <PropertyGallery
-          isLoading={isLoading}
-          propertyImages={property.propertyImages}
-        />
+        <PropertyGallery isLoading={isLoading} propertyImages={property.propertyImages} />
       )}
 
       <ParagraphContainer>
         <div className='propertyLeft'>
-          {property.sizes !== undefined && (
-            <PropertyDetail property={property} />
-          )}
+          {property.sizes !== undefined && <PropertyDetail property={property} />}
           <PropertyCalender
             setFocusedInput={setFocusedInput}
             focusedInput={focusedInput}
@@ -220,9 +194,7 @@ const Property = (props) => {
         </div>
       </ParagraphContainer>
 
-      {property.rate && (
-        <PropertyReview rate={property.rate} reviews={property.reviews} />
-      )}
+      {property.rate && <PropertyReview rate={property.rate} reviews={property.reviews} />}
       {property.propertyId && <PropertyMap property={property} />}
       <PropertyHost property={property} />
       <PropertyFooter>
@@ -240,10 +212,7 @@ const Property = (props) => {
               {safeties ? safeties[0] : ''}
               <b>자세히 알아보기</b>
             </p>
-            <p>
-              에이비트앤바이트의 사회적 거리 두기 및 관련 가이드라인이
-              적용됩니다.
-            </p>
+            <p>에이비트앤바이트의 사회적 거리 두기 및 관련 가이드라인이 적용됩니다.</p>
             <p>{safeties ? safeties[1] : ''}</p>
             <p>{safeties ? safeties[2] : ''}</p>
           </div>
@@ -251,8 +220,8 @@ const Property = (props) => {
             <p className='subtitle'>환불 정책</p>
             <p>{property.refund}</p>
             <p>
-              그 이후로는 체크인 전에 취소하면 첫 1박 요금과 서비스 수수료를
-              제외한 전액이 환불됩니다. <b>자세히 알아보기</b>
+              그 이후로는 체크인 전에 취소하면 첫 1박 요금과 서비스 수수료를 제외한 전액이 환불됩니다.{' '}
+              <b>자세히 알아보기</b>
             </p>
           </div>
         </div>

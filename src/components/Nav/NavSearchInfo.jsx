@@ -1,23 +1,31 @@
 import React, { useState, useEffect, useRef } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { useHistory } from 'react-router-dom';
+import { setKeyWord } from '../store/actions';
 import styled from 'styled-components';
 import NavSearchModal from './NavSearchModal';
 import { BiSearch } from 'react-icons/bi';
-import { theme, flexSet } from '../../styles/theme';
+import { theme, flexCenter, flexColumn, flexSpaceBetweenCenter } from '../../styles/theme';
+import moment from 'moment';
 
 const NavSearchInfo = ({ type }) => {
+  const { checkIn, checkOut, keyWord, capacity } = useSelector((store) => store.searchFilterReducer);
   const [searchDetailType, setsearchDetailType] = useState('');
+  const dispatch = useDispatch();
   const setRef = useRef(null);
+  const history = useHistory();
 
   useEffect(() => {
-    const closeModal = ({ target }) =>
-      searchDetailType &&
-      !setRef.current.contains(target) &&
-      setsearchDetailType('');
+    const closeModal = ({ target }) => searchDetailType && !setRef.current.contains(target) && setsearchDetailType('');
     document.addEventListener('click', closeModal);
   });
 
   const changeSearchType = (e) => {
     setsearchDetailType(e.currentTarget.dataset.type);
+  };
+
+  const searchPropertyList = () => {
+    history.push('/placelist?limit=10');
   };
 
   return (
@@ -27,34 +35,51 @@ const NavSearchInfo = ({ type }) => {
           <SearchInfoItem
             key={index}
             data-type={`${type}_${item.type}`}
-            className={`${
-              searchDetailType === `${type}_${item.type}` ? 'setFocus' : ''
-            }`}
-            onClick={changeSearchType}>
+            className={`${searchDetailType === `${type}_${item.type}` ? 'setFocus' : ''}`}
+            onClick={changeSearchType}
+          >
             {SEARCH_ITEMS[type].length === index + 1 ? (
               <>
                 <div className='flexLow'>
                   <div className='flexColumn'>
                     <span className='header'>{item.header}</span>
-                    <span className='content'>{item.content}</span>
+                    {Object.values(capacity).reduce((acc, aur) => {
+                      return acc + aur;
+                    }) ? (
+                      <span className='content'>
+                        게스트 {capacity['adult'] + capacity['child']} 유아 {capacity['infant']}
+                      </span>
+                    ) : (
+                      <span className='content'>게스트 추가</span>
+                    )}
                   </div>
-                  <SearchIconForm
-                    isSize={50}
-                    searchDetailType={searchDetailType}>
-                    <BiSearch className='searchIcon' />
-                    {searchDetailType && <span>검색</span>}
-                  </SearchIconForm>
                 </div>
               </>
             ) : (
               <div className='flexColumn'>
                 <span className='header'>{item.header}</span>
-                <span className='content'>{item.content}</span>
+                {item.type === 'location' ? (
+                  <input
+                    placeholder={item.content}
+                    value={keyWord}
+                    onChange={(e) => dispatch(setKeyWord(e.target.value))}
+                  />
+                ) : item.type === 'checkin' ? (
+                  <span className='content'>{checkIn ? moment(checkIn).format('YYYY-MM-DD') : item.content}</span>
+                ) : item.type === 'checkout' ? (
+                  <span className='content'>{checkOut ? moment(checkOut).format('YYYY-MM-DD') : item.content}</span>
+                ) : (
+                  <span></span>
+                )}
               </div>
             )}
           </SearchInfoItem>
         );
       })}
+      <SearchIconForm isSize={50} searchDetailType={searchDetailType} onClick={searchPropertyList}>
+        <BiSearch className='searchIcon' />
+        {searchDetailType && <span>검색</span>}
+      </SearchIconForm>
       <NavSearchModal type={searchDetailType} />
     </NavSearchInfoComponent>
   );
@@ -62,7 +87,7 @@ const NavSearchInfo = ({ type }) => {
 export default NavSearchInfo;
 
 const NavSearchInfoComponent = styled.div`
-  ${flexSet('space-between', 'center')}
+  ${flexSpaceBetweenCenter}
   width: 850px;
   border: 1px solid #dddddd;
   border-radius: 50px;
@@ -72,7 +97,7 @@ const NavSearchInfoComponent = styled.div`
 `;
 
 const SearchInfoItem = styled.div`
-  ${flexSet('', '', 'column')}
+  ${flexColumn}
   justify-content: center;
   position: relative;
   flex: 1;
@@ -120,11 +145,13 @@ const SearchInfoItem = styled.div`
   }
 
   .flexLow {
-    ${flexSet('space-between', 'center', '')}
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
   }
 
   .flexColumn {
-    ${flexSet('space-arond', '', 'column')}
+    ${flexColumn}
 
     .header {
       margin: 2px 0;
@@ -139,12 +166,14 @@ const SearchInfoItem = styled.div`
 `;
 
 const SearchIconForm = styled.div`
-  ${flexSet('center')}
-  width : ${({ isSize }) => `${isSize}px`}  ${({ searchDetailType }) =>
-    searchDetailType && '+100px'};
+  ${flexCenter}
+  position : absolute;
+  right: 10px;
+  width: ${({ isSize }) => `${isSize}px`} ${({ searchDetailType }) => searchDetailType && '+100px'};
   height: ${({ isSize }) => `${isSize}px`};
   background-color: ${theme.pink};
   border-radius: 25px;
+  cursor: pointer;
 
   .searchIcon {
     padding: 10px;

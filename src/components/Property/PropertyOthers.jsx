@@ -12,18 +12,13 @@ import { BsHeart, BsHeartFill } from 'react-icons/bs';
 const ACCESS_TOKEN = localStorage.getItem('accessToken');
 
 const PropertyOthers = ({ recommendedProperties, moveToDetailPage }) => {
-  const [newRecommendedProperties, setNewOtherProperties] = useState(
-    recommendedProperties
-  );
-
-  const loginState = useSelector((store) => store.loginReducer);
+  const [newRecommendedProperties, setNewOtherProperties] = useState(recommendedProperties);
 
   const handleBookmark = (event, property) => {
     event.stopPropagation();
     const tmpNewRecommendedProperties = [...newRecommendedProperties];
     const idx = tmpNewRecommendedProperties.indexOf(property);
     tmpNewRecommendedProperties[idx].isBookmarked = !property.isBookmarked;
-    console.log(property.propertyId);
 
     axios(BOOKMARK_API, {
       method: tmpNewRecommendedProperties[idx].isBookmarked ? 'post' : 'delete',
@@ -84,8 +79,6 @@ const PropertyOthers = ({ recommendedProperties, moveToDetailPage }) => {
     sliderRef.current.slickNext();
   };
 
-  console.log(recommendedProperties);
-
   return (
     <OtherProperties>
       <section>
@@ -106,13 +99,12 @@ const PropertyOthers = ({ recommendedProperties, moveToDetailPage }) => {
               <div
                 key={property.propertyId}
                 className='propertyBox'
-                onClick={() => moveToDetailPage(property.propertyId)}>
+                onClick={() => moveToDetailPage(property.propertyId)}
+              >
                 <div className='pictureBox'>
                   <img src={property.propertyImage[0]} alt='other property' />
                   {property.isSupered && <i>슈퍼호스트</i>}
-                  <button
-                    id={property.propertyId}
-                    onClick={(e) => handleBookmark(e, property)}>
+                  <button id={property.propertyId} onClick={(e) => handleBookmark(e, property)}>
                     {property.isBookmarked ? (
                       <BsHeartFill color={theme.pink} size={20} />
                     ) : (
@@ -121,8 +113,7 @@ const PropertyOthers = ({ recommendedProperties, moveToDetailPage }) => {
                   </button>
                 </div>
                 <p className='propertyRate'>
-                  <MdStar color={theme.pink} size={20} />{' '}
-                  {Number(Math.random() * 5).toFixed(2)}
+                  <MdStar color={theme.pink} size={20} /> {Number(Math.random() * 5).toFixed(2)}
                   <span>({Math.floor(Math.random() * 300)})</span>
                 </p>
                 <p className='propertyInfo'>{property.sizes[0].sizeContent}</p>

@@ -1,12 +1,18 @@
-import React from 'react';
+import React, { useEffect } from 'react';
+import { useDispatch } from 'react-redux';
+import { setNavState } from '../../Components/store/actions';
 import styled from 'styled-components';
 import RecommendedPlaces from './RecommendedPlaces';
 
 const Main = (props) => {
+  const dispatch = useDispatch();
+
+  useEffect(() => dispatch(setNavState('main')), []);
+
   return (
     <MainComponent>
       <MainBackgroundImg>
-        <img src='images/mainimage.jpeg' alt='배경?��미�??' />
+        <img src='images/mainimage.jpeg' alt='배경 이미지' />
         <label>
           이제, 여행은
           <br /> 자랑할 만한 곳에서

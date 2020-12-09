@@ -20,19 +20,14 @@ const PropertyGallery = ({ propertyImages, isLoading }) => {
       <PropertyGalleryBox isLoading={isLoading}>
         {propertyImages.slice(0, 5).map((image, idx) => (
           <ImgWrapper key={idx} isLoading={isLoading}>
-            <Image src={image} alt={`property ${idx}`} />
+            <Image isLoading={isLoading} src={image} alt={`property ${idx}`} />
           </ImgWrapper>
         ))}
         <button className='galleryModalBtn' onClick={handleGalleryModal}>
           <BsGrid3X3Gap /> 사진 모두 보기
         </button>
       </PropertyGalleryBox>
-      {isGalleryModalOn && (
-        <GalleryModal
-          propertyImages={propertyImages}
-          closeGalleryModal={closeGalleryModal}
-        />
-      )}
+      {isGalleryModalOn && <GalleryModal propertyImages={propertyImages} closeGalleryModal={closeGalleryModal} />}
     </>
   );
 };
@@ -94,7 +89,7 @@ const ImgWrapper = styled.div`
 `;
 
 const Image = styled.img.attrs((props) => ({
-  src: props.src || '/images/defaultProfile.png',
+  src: props.src ? props.src : '/images/defaultProfile.png',
 }))`
   opacity: ${(props) => (props.isLoading ? 0 : 1)};
   object-fit: cover;

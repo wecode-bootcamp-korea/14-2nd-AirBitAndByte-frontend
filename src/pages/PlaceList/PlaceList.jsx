@@ -1,7 +1,10 @@
 import React, { useState, useEffect, useRef } from 'react';
 import styled, { css } from 'styled-components';
-import { theme, flexSpaceBetweenCenter, flexColumn } from '../../styles/theme';
-import { AiFillStar, AiOutlineHeart, AiFillHeart } from 'react-icons/ai';
+import { theme } from '../../styles/theme';
+// import { setNavState } from '../../Components/store/actions';
+import { useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux';
+import { useHistory } from 'react-router-dom';
 import { LIST_API } from '../../config';
 import PlaceListMap from './PlaceListMap.jsx';
 import PlaceFilterPlaceList from './PlaceFilter.jsx';
@@ -16,6 +19,10 @@ const PlaceList = (props) => {
   const [houseTypte, setHouseType] = useState([]);
   const [modalState, setModalState] = useState({ houseFilter: false, moneyFilter: false, otherFilter: false });
   const [lodingSpinner, setLodingSpinner] = useState(false);
+  const [hoverLocation, sethoverLocation] = useState({ latitude: 0, longitude: 0 });
+
+  const dispatch = useDispatch();
+  const history = useHistory();
 
   useEffect(() => {
     getPlaceList();
@@ -32,6 +39,8 @@ const PlaceList = (props) => {
         `${LIST_API}?${pageNation}${facilityFilter && `&${facilityFilter}`}
         ${houseFilter && `&${houseFilter}`}`
       );
+
+      window.scrollTo(0, 0);
       setPlaceList(listData.data.result);
       setLodingSpinner(false);
     } catch (err) {
@@ -52,10 +61,6 @@ const PlaceList = (props) => {
     }
   };
 
-  const onFocusData = (e) => {
-    console.log(e);
-  };
-
   return (
     <PlaceListComponent>
       <ListContainer>
@@ -72,8 +77,14 @@ const PlaceList = (props) => {
         <span className='notice'>여행 날짜와 게스트 인원수를 입력하면 1박당 총 요금을 확인할 수 있습니다.</span>
         <div className='layoutLine'></div>
         {placeList.length ? (
-          placeList.map((el, index) => {
-            return <PlaceListItem listItem={el} key={index} onMouseOver={onFocusData}></PlaceListItem>;
+          placeList.map((itemData, index) => {
+            return (
+              <PlaceListItem
+                listItem={itemData}
+                key={index}
+                onMouseOver={({ latitude, longitude }) => sethoverLocation({ latitude, longitude })}
+              ></PlaceListItem>
+            );
           })
         ) : (
           <div>데이터가 없습니다</div>
@@ -96,7 +107,7 @@ const PlaceList = (props) => {
           />
         </div>
       </ListContainer>
-      {placeList && <PlaceListMap placeList={placeList} />}
+      {placeList && <PlaceListMap placeList={placeList} hoverLocation={hoverLocation} />}
       <LoadingSpinner state={lodingSpinner}>
         <img className='spinner' src='images/airBnB_pink.png' alt='스피너 이미지'></img>
       </LoadingSpinner>
@@ -115,7 +126,7 @@ const PlaceListComponent = styled.main`
 const ListContainer = styled.div`
   display: flex;
   flex-direction: column;
-  width: 100%;
+  width: 70%;
   padding: 90px 20px 20px 20px;
 
   h4 {
@@ -176,6 +187,7 @@ const LoadingSpinner = styled.div`
   left: 50%;
   top: 50%;
   transform: translate(-50%, -50%);
+  z-index: 1000;
 
   .spinner {
     transition: all 0.5s;

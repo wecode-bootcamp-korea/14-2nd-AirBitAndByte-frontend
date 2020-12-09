@@ -1,8 +1,14 @@
 import React, { useState, useEffect } from 'react';
+import { useHistory } from 'react-router-dom';
 import styled from 'styled-components';
+import { AiTwotoneHome, AiFillStar } from 'react-icons/ai';
+import jsxToString from 'jsx-to-string';
 
-const PlaceListMap = ({ placeList }) => {
+const PlaceListMap = ({ placeList, hoverLocation }) => {
   const [myPosition, setMyPosition] = useState(0);
+  const history = useHistory();
+
+  useEffect(() => {}, [hoverLocation]);
 
   useEffect(() => {
     const script = document.createElement('script');
@@ -20,6 +26,7 @@ const PlaceListMap = ({ placeList }) => {
   const getKakaoData = () => {
     const { kakao } = window;
 
+    let clickedOverlay = null;
     kakao.maps.load(() => {
       let mapContainer = document.getElementById('setMap');
       let mapOption = {
@@ -27,38 +34,55 @@ const PlaceListMap = ({ placeList }) => {
         level: 10,
       };
 
-      var map = new kakao.maps.Map(mapContainer, mapOption);
+      const map = new kakao.maps.Map(mapContainer, mapOption);
+
       placeList &&
         placeList.forEach((el) => {
+          const content =
+            '<div class="overlay" onclick="closeOverlay()" >' +
+            '<img class="overlayImage" src=' +
+            el.propertyImages[0] +
+            '></img>' +
+            '<div class="overLayForm"><div class="overlayContent">' +
+            '<div class="dibs"><img class="overLayIcon" src="https://icon-icons.com/icons2/1324/PNG/256/star_86960.png" ></img>' +
+            '<span>4.64</span></div></div>' +
+            '<div class="overLayContent"><h1>' +
+            el.hostName +
+            '&nbsp&nbsp' +
+            el.cateoryName +
+            '</h1><h3>' +
+            el.propertyName +
+            '&nbsp&nbsp' +
+            el.facilities[0] +
+            '...</h3></div>' +
+            '</div></div>';
+
           var marker = new kakao.maps.Marker({
             map: map,
             position: new kakao.maps.LatLng(el.latitude, el.longitude),
           });
 
-          var infowindow = new kakao.maps.InfoWindow({
-            position: new kakao.maps.LatLng(el.latitude, el.longitude),
-            content: `${`<div class="intoWindow" >
-              <img src="https://blog.kakaocdn.net/dn/0mySg/btqCUccOGVk/nQ68nZiNKoIEGNJkooELF1/img.jpg"/>
-              <div/>`}`,
+          var overlay = new kakao.maps.CustomOverlay({
+            content: content,
+            position: marker.getPosition(),
+            removable: true,
           });
-          //추후 연동 예정
-          // kakao.maps.event.addListener(marker, 'mouseover', makeOverListener(map, marker, infowindow));
-          // kakao.maps.event.addListener(marker, 'mouseout', makeOutListener(infowindow));
+
+          const makeOverListener = (map, marker, overlay) => {
+            if (clickedOverlay !== clickedOverlay) {
+              clickedOverlay.setMap(null);
+            }
+
+            overlay.setMap(map);
+            clickedOverlay = overlay;
+          };
+
+          kakao.maps.event.addListener(map, 'click', () => clickedOverlay && clickedOverlay.setMap(null));
+          kakao.maps.event.addListener(marker, 'click', () => makeOverListener(map, marker, overlay));
         });
+
       map.relayout();
     });
-
-    const makeOverListener = (map, marker, infowindow) => {
-      return () => {
-        infowindow.open(map, marker);
-      };
-    };
-
-    const makeOutListener = (infowindow) => {
-      return () => {
-        infowindow.close();
-      };
-    };
   };
 
   return (
@@ -72,7 +96,7 @@ export default PlaceListMap;
 const PlaceListMapComponent = styled.div`
   position: sticky;
   top: 0;
-  width: 75%;
+  width: 100%;
   height: 100vh;
   padding-top: 90px;
 
@@ -92,6 +116,56 @@ const PlaceListMapComponent = styled.div`
     img {
       width: 300px;
       height: 200px;
+    }
+  }
+
+  .overlay {
+    position: relative;
+    top: 0;
+    left: 0;
+    width: 250px;
+    height: auto;
+    background-color: rgb(255, 255, 255);
+    border-radius: 15px;
+    box-shadow: rgba(0, 0, 0, 0.28) 0px 8px 28px;
+    color: rgb(34, 34, 34);
+
+    .overlayImage {
+      position: relative;
+      width: 100%;
+      height: auto;
+      top: -5px;
+      border-radius: 15px;
+    }
+
+    .overLayForm {
+      width: 100%;
+      padding: 0 0 10px 10px;
+
+      .overlayContent {
+        position: relative;
+        top: 0;
+        bottom: 5px;
+        padding-bottom: 10px;
+
+        span {
+          position: relative;
+          top: 2px;
+        }
+
+        .dibs {
+          display: flex;
+          align-items: center;
+
+          .overLayIcon {
+            position: relative;
+            width: 20px;
+            height: 20px;
+            z-index: 100;
+            margin-right: 5px;
+          }
+        }
+      }
     }
   }
 `;

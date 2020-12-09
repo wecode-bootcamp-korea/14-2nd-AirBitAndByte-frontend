@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { DateRangePicker } from 'react-dates';
+import { useSelector } from 'react-redux';
 import 'react-dates/initialize';
 import 'react-dates/lib/css/_datepicker.css';
 import 'moment/locale/ko';
@@ -10,19 +11,13 @@ import { IoIosArrowUp, IoIosArrowDown } from 'react-icons/io';
 import { BiCurrentLocation } from 'react-icons/bi';
 import { HiInformationCircle } from 'react-icons/hi';
 
-const PropertyReservation = ({
-  property,
-  focus,
-  endDate,
-  startDate,
-  handleOnDateChange,
-  setFocus,
-}) => {
+const PropertyReservation = ({ property, focus, endDate, startDate, handleOnDateChange, setFocus }) => {
+  const capacityState = useSelector((store) => store.searchFilterReducer);
   const [isCapacityModalOn, setCapacityModal] = useState(false);
   const [capacity, setCapacity] = useState([
-    { value: '성인', id: 'adult', count: 1 },
-    { value: '어린이', id: 'child', count: 0 },
-    { value: '유아', id: 'infant', count: 0 },
+    { value: '성인', id: 'adult', count: capacityState.capacity.adult },
+    { value: '어린이', id: 'child', count: capacityState.capacity.child },
+    { value: '유아', id: 'infant', count: capacityState.capacity.infant },
   ]);
   const [nights, setNights] = useState(1);
 
@@ -81,9 +76,7 @@ const PropertyReservation = ({
       <PropertyReservationTab>
         <div className='flexCon'>
           <div className='leftCon'>
-            <span className='propertyPrice'>
-              ₩{money(Math.floor(property.price))}
-            </span>
+            <span className='propertyPrice'>₩{money(Math.floor(property.price))}</span>
             <span>/박</span>
           </div>
           <div className='rightCon'>
@@ -91,9 +84,7 @@ const PropertyReservation = ({
               <MdStar color={theme.pink} size={20} />
               {Math.floor(property.rate?.propertyRate * 100) / 100}
             </span>
-            <span className='propertyReviewNum'>
-              ({property.reviews?.length})
-            </span>
+            <span className='propertyReviewNum'>({property.reviews?.length})</span>
           </div>
         </div>
         <CalenderBox>
@@ -120,67 +111,45 @@ const PropertyReservation = ({
             className='capacitySelector'
             onClick={() => {
               setCapacityModal(!isCapacityModalOn);
-            }}>
+            }}
+          >
             <p>인원</p>
             <div className='capacityTotal'>
               <span>게스트 {capacity[0]?.count}명</span>{' '}
-              {capacity[1].count ? (
-                <span>, 어린이 {capacity[1]?.count}명</span>
-              ) : (
-                ''
-              )}{' '}
-              {capacity[2].count ? (
-                <span>, 유아 {capacity[2]?.count}명</span>
-              ) : (
-                ''
-              )}
+              {capacity[1].count ? <span>, 어린이 {capacity[1]?.count}명</span> : ''}{' '}
+              {capacity[2].count ? <span>, 유아 {capacity[2]?.count}명</span> : ''}
             </div>
-            <button>
-              {isCapacityModalOn ? (
-                <IoIosArrowUp size={23} />
-              ) : (
-                <IoIosArrowDown size={23} />
-              )}
-            </button>
+            <button>{isCapacityModalOn ? <IoIosArrowUp size={23} /> : <IoIosArrowDown size={23} />}</button>
           </div>
           <div className={isCapacityModalOn ? 'capacityModal' : 'displayNone'}>
             {capacity.map((person) => (
               <div key={person.id} className='switch'>
                 <span>{person.value}</span>
                 <div>
-                  <button
-                    className='minus'
-                    id={person.id}
-                    onClick={handleDecrement}>
+                  <button className='minus' id={person.id} onClick={handleDecrement}>
                     --
                   </button>
                   <span className='switchNum'>{person.count}</span>
-                  <button
-                    className='plus'
-                    id={person.id}
-                    onClick={handleIncrement}>
+                  <button className='plus' id={person.id} onClick={handleIncrement}>
                     +
                   </button>
                 </div>
               </div>
             ))}
 
-            <span>
-              최대 {property.capacity}명. 유아는 숙박인원에 포함되지 않습니다.
-            </span>
+            <span>최대 {property.capacity}명. 유아는 숙박인원에 포함되지 않습니다.</span>
             <div
               className='closeBtn'
               onClick={() => {
                 setCapacityModal(!isCapacityModalOn);
-              }}>
+              }}
+            >
               닫기
             </div>
           </div>
         </CapacityBox>
         <button className='reservationBtn'>예약하기</button>
-        <span className='smallText'>
-          예약 확정 전에는 요금이 청구되지 않습니다.
-        </span>
+        <span className='smallText'>예약 확정 전에는 요금이 청구되지 않습니다.</span>
         <PropertyBill>
           <div>
             <span>
