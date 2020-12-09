@@ -1,12 +1,14 @@
-import React, { useState, useLayoutEffect, useEffect } from 'react';
+import React, { useState, useLayoutEffect } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import { logout } from '../../store/actions';
 import styled, { css } from 'styled-components';
 import NavSearchInfo from './NavSearchInfo.jsx';
+import Signup from './Signup.jsx';
 import { BiSearch } from 'react-icons/bi';
 import { GiHamburgerMenu } from 'react-icons/gi';
-import { theme, flexSet, flexCenter, flexColumnCenter } from '../../styles/theme';
-import Signup from './Signup.jsx';
+import { theme } from '../../styles/theme';
 
-const Nav = (props) => {
+const Nav = ({ authService }) => {
   const [scrollYdata, setScrollYdata] = useState(0);
   const [searchType, setsearchType] = useState('rooms');
   const [foldNav, setfoldNav] = useState(false);
@@ -14,6 +16,15 @@ const Nav = (props) => {
 
   const openSignup = () => {
     setSignupModalOn(!isSignupModalOn);
+  };
+
+  const loginState = useSelector((store) => store.loginReducer);
+  const dispatch = useDispatch();
+
+  const handleLogout = () => {
+    dispatch(logout());
+    localStorage.removeItem('accessToken');
+    alert('로그아웃 되었습니다');
   };
 
   useLayoutEffect(() => {
@@ -33,10 +44,17 @@ const Nav = (props) => {
     <>
       <NavComponent scrollYdata={scrollYdata} foldNav={foldNav}>
         <div className='bitAandByteIcon'>
-          <img className='logoImg' src='/images/airBnBlogo.svg' alt='로고 이미지' />
+          <img
+            className='logoImg'
+            src='/images/airBnBlogo.svg'
+            alt='로고 이미지'
+          />
         </div>
         <div className='searchForm'>
-          <SearcBox scrollYdata={scrollYdata} foldNav={foldNav} onClick={() => toggleFoldNav()}>
+          <SearcBox
+            scrollYdata={scrollYdata}
+            foldNav={foldNav}
+            onClick={() => toggleFoldNav()}>
             <label>검색 시작하기</label>
             <SearchIcon isSize={35}>
               <BiSearch className='biSearch' />
@@ -44,21 +62,24 @@ const Nav = (props) => {
           </SearcBox>
           <NavSearchVar scrollYdata={scrollYdata} foldNav={foldNav}>
             <NavSearchTheme foldNav={foldNav}>
-              <span className={searchType === 'rooms' ? 'setType' : ''} data-type='rooms' onClick={changeSearchType}>
+              <span
+                className={searchType === 'rooms' ? 'setType' : ''}
+                data-type='rooms'
+                onClick={changeSearchType}>
                 숙소
               </span>
               <span
                 className={searchType === 'experience' ? 'setType' : ''}
                 data-type='experience'
-                onClick={changeSearchType}
-              >
+                onClick={changeSearchType}>
                 체험
               </span>
             </NavSearchTheme>
             <NavSearchInfo type={searchType} />
           </NavSearchVar>
         </div>
-        <NavUserInfo onClick={openSignup}>
+        <NavUserInfo
+          onClick={loginState.accessToken ? handleLogout : openSignup}>
           <GiHamburgerMenu className='hameburgerIcon' />
           <div className='ImageBorder'>
             <img src='/images/defaultProfile.png' alt='프로파일이미지' />
@@ -66,9 +87,13 @@ const Nav = (props) => {
         </NavUserInfo>
       </NavComponent>
       {foldNav && <SetFoldNavBackground />}
-      {/* {isSignupModalOn && (
-        <Signup authService={authService} isSignupModalOn={isSignupModalOn} setSignupModalOn={setSignupModalOn} />
-      )} */}
+      {isSignupModalOn && (
+        <Signup
+          authService={authService}
+          isSignupModalOn={isSignupModalOn}
+          setSignupModalOn={setSignupModalOn}
+        />
+      )}
     </>
   );
 };
@@ -80,7 +105,8 @@ const NavComponent = styled.header`
   align-items: flex-start;
   position: fixed;
   width: 100%;
-  height: ${({ scrollYdata, foldNav }) => (!scrollYdata || !foldNav ? '90px' : '150px')};
+  height: ${({ scrollYdata, foldNav }) =>
+    !scrollYdata || !foldNav ? '90px' : '150px'};
   top: 0;
   padding: 20px 60px;
   font-size: 21px;
@@ -105,8 +131,13 @@ const NavComponent = styled.header`
   }
 
   .searchForm {
-    ${flexColumnCenter}
-    position : relative;
+    ${({ theme }) => {
+      return theme.flexSet({
+        alignItems: 'center',
+        flexDirection: 'column',
+      });
+    }};
+    position: relative;
   }
 `;
 
@@ -115,7 +146,9 @@ const NavSearchVar = styled.div`
   top: ${({ foldNav }) => (foldNav ? 0 : '-40px')};
   transition: all 0.2s;
   transform: ${({ scrollYdata, foldNav }) =>
-    !scrollYdata || foldNav ? `translate(0, 0)` : `translate(0, -100px) scaleX( 0.5 )`};
+    !scrollYdata || foldNav
+      ? `translate(0, 0)`
+      : `translate(0, -100px) scaleX( 0.5 )`};
   opacity: ${({ scrollYdata, foldNav }) => (!scrollYdata || foldNav ? 1 : 0)};
 
   .modal {
@@ -127,8 +160,13 @@ const NavSearchVar = styled.div`
 `;
 
 const NavSearchTheme = styled.div`
-  ${flexSet('center', 'center')}
-  margin-bottom:20px;
+  ${({ theme }) => {
+    return theme.flexSet({
+      justifyContent: 'center',
+      alignItems: 'center',
+    });
+  }};
+  margin-bottom: 20px;
 
   span {
     position: relative;
@@ -145,7 +183,8 @@ const NavSearchTheme = styled.div`
       display: block;
       position: absolute;
       margin-top: 3px;
-      border-bottom: 2px solid ${({ foldNav }) => (foldNav ? theme.black : 'white')};
+      border-bottom: 2px solid
+        ${({ foldNav }) => (foldNav ? theme.black : 'white')};
       transition: all 0.3s ease;
     }
 
@@ -193,15 +232,25 @@ const SearcBox = styled.div`
 `;
 
 const SearchIcon = styled.div`
-  ${flexCenter}
-  width : ${(props) => `${props.isSize}px`};
+  ${({ theme }) => {
+    return theme.flexSet({
+      justifyContent: 'center',
+      alignItems: 'center',
+    });
+  }};
+  width: ${(props) => `${props.isSize}px`};
   height: ${(props) => `${props.isSize}px`};
   border-radius: 50%;
   background-color: ${theme.pink};
 `;
 
 const NavUserInfo = styled.div`
-  ${flexCenter};
+  ${({ theme }) => {
+    return theme.flexSet({
+      justifyContent: 'center',
+      alignItems: 'center',
+    });
+  }};
   height: 50px;
   padding: 0 10px;
   border: 1px solid #dddddd;
@@ -221,7 +270,12 @@ const NavUserInfo = styled.div`
   }
 
   .ImageBorder {
-    ${flexCenter};
+    ${({ theme }) => {
+      return theme.flexSet({
+        justifyContent: 'center',
+        alignItems: 'center',
+      });
+    }};
     height: 100%;
 
     img {

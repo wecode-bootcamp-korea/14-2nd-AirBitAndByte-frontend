@@ -23,7 +23,7 @@
     "latitude": "33.472600",
     "sizes": [
       {
-        "sizeNmae": "1번 침실",
+        "sizeName": "1번 침실",
         "sizeContent": "퀸사이즈 침대 1개"
       }
     ],
@@ -49,8 +49,52 @@
       "화재경보기",
       "보안 카메라/녹화 장치"
     ],
-    "rufund": "체크인 3일 전까지 수수료 없이 취소 가능",
+    "refund": "체크인 3일 전까지 수수료 없이 취소 가능",
     "reviews": [
+      {
+        "user": "amusesla",
+        "created_at": "2020-12-08T03:19:51.822Z",
+        "content": "뷰가 정말 끝내줘요. 따뜻하고 안락하게 잘 쉬다왔어요. 호스트분 응대도 너무 친절하게 신속하게 받아주셔서 너무 편했어요",
+        "cleanliness": "5.00",
+        "communications": "5.00",
+        "checkIn": "3.00",
+        "accuracy": "5.00",
+        "location": "5.00",
+        "affordability": "5.00"
+      },
+      {
+        "user": "amusesla",
+        "created_at": "2020-12-08T03:19:51.822Z",
+        "content": "뷰가 정말 끝내줘요. 따뜻하고 안락하게 잘 쉬다왔어요. 호스트분 응대도 너무 친절하게 신속하게 받아주셔서 너무 편했어요",
+        "cleanliness": "5.00",
+        "communications": "5.00",
+        "checkIn": "3.00",
+        "accuracy": "5.00",
+        "location": "5.00",
+        "affordability": "5.00"
+      },
+      {
+        "user": "amusesla",
+        "created_at": "2020-12-08T03:19:51.822Z",
+        "content": "뷰가 정말 끝내줘요. 따뜻하고 안락하게 잘 쉬다왔어요. 호스트분 응대도 너무 친절하게 신속하게 받아주셔서 너무 편했어요",
+        "cleanliness": "5.00",
+        "communications": "5.00",
+        "checkIn": "3.00",
+        "accuracy": "5.00",
+        "location": "5.00",
+        "affordability": "5.00"
+      },
+      {
+        "user": "amusesla",
+        "created_at": "2020-12-08T03:19:51.822Z",
+        "content": "뷰가 정말 끝내줘요. 따뜻하고 안락하게 잘 쉬다왔어요. 호스트분 응대도 너무 친절하게 신속하게 받아주셔서 너무 편했어요",
+        "cleanliness": "5.00",
+        "communications": "5.00",
+        "checkIn": "3.00",
+        "accuracy": "5.00",
+        "location": "5.00",
+        "affordability": "5.00"
+      },
       {
         "user": "amusesla",
         "created_at": "2020-12-08T03:19:51.822Z",
@@ -87,7 +131,7 @@
           "https://images.unsplash.com/photo-1501876725168-00c445821c9e?ixlib=rb-1.2.1&ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&auto=format&fit=crop&w=1350&q=80"
         ],
         "price": "550000.00",
-        "isSuper": false,
+        "isSupered": false,
         "isBookmarked": false,
         "sizes": [
           {
@@ -103,7 +147,7 @@
           "https://images.unsplash.com/photo-1556228453-efd6c1ff04f6?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=1650&q=80"
         ],
         "price": "600000.00",
-        "isSuper": false,
+        "isSupered": false,
         "isBookmarked": false,
         "sizes": [
           {
@@ -119,7 +163,7 @@
           "https://images.unsplash.com/photo-1533779283484-8ad4940aa3a8?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=1650&q=80"
         ],
         "price": "588922.00",
-        "isSuper": false,
+        "isSupered": false,
         "isBookmarked": false,
         "sizes": [
           {
@@ -135,7 +179,7 @@
           "https://images.unsplash.com/photo-1537726235470-8504e3beef77?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=1650&q=80"
         ],
         "price": "568115.00",
-        "isSuper": false,
+        "isSupered": false,
         "isBookmarked": false,
         "sizes": [
           {
@@ -151,7 +195,7 @@
           "https://images.unsplash.com/photo-1554995207-c18c203602cb?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=1650&q=80"
         ],
         "price": "596319.00",
-        "isSuper": false,
+        "isSupered": false,
         "isBookmarked": false,
         "sizes": [
           {
@@ -167,7 +211,7 @@
           "https://images.unsplash.com/photo-1560448205-4d9b3e6bb6db?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=1650&q=80"
         ],
         "price": "510947.00",
-        "isSuper": false,
+        "isSupered": false,
         "isBookmarked": false,
         "sizes": [
           {
@@ -183,7 +227,7 @@
           "https://images.unsplash.com/photo-1558442074-3c19857bc1dc?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=2089&q=80"
         ],
         "price": "545064.00",
-        "isSuper": false,
+        "isSupered": false,
         "isBookmarked": false,
         "sizes": [
           {
@@ -199,7 +243,7 @@
           "https://images.unsplash.com/photo-1533779283484-8ad4940aa3a8?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=1650&q=80"
         ],
         "price": "509141.00",
-        "isSuper": false,
+        "isSupered": false,
         "isBookmarked": false,
         "sizes": [
           {
@@ -215,7 +259,7 @@
           "https://images.unsplash.com/photo-1558442074-3c19857bc1dc?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=2089&q=80"
         ],
         "price": "574632.00",
-        "isSuper": false,
+        "isSupered": false,
         "isBookmarked": false,
         "sizes": [
           {
@@ -231,7 +275,7 @@
           "https://images.unsplash.com/photo-1554995207-c18c203602cb?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=1650&q=80"
         ],
         "price": "516692.00",
-        "isSuper": false,
+        "isSupered": false,
         "isBookmarked": false,
         "sizes": [
           {
@@ -247,7 +291,7 @@
           "https://images.unsplash.com/photo-1533779283484-8ad4940aa3a8?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=1650&q=80"
         ],
         "price": "572966.00",
-        "isSuper": false,
+        "isSupered": false,
         "isBookmarked": false,
         "sizes": [
           {
@@ -263,7 +307,7 @@
           "https://images.unsplash.com/photo-1537726235470-8504e3beef77?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=1650&q=80"
         ],
         "price": "597575.00",
-        "isSuper": true,
+        "isSupered": true,
         "isBookmarked": false,
         "sizes": [
           {

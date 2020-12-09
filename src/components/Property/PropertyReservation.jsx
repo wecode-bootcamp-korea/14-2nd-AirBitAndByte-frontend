@@ -7,6 +7,8 @@ import 'moment/locale/ko';
 import { theme } from '../../styles/theme';
 import { MdStar } from 'react-icons/md';
 import { IoIosArrowUp, IoIosArrowDown } from 'react-icons/io';
+import { BiCurrentLocation } from 'react-icons/bi';
+import { HiInformationCircle } from 'react-icons/hi';
 
 const PropertyReservation = ({
   property,
@@ -18,7 +20,7 @@ const PropertyReservation = ({
 }) => {
   const [isCapacityModalOn, setCapacityModal] = useState(false);
   const [capacity, setCapacity] = useState([
-    { value: '성인', id: 'adult', count: 0 },
+    { value: '성인', id: 'adult', count: 1 },
     { value: '어린이', id: 'child', count: 0 },
     { value: '유아', id: 'infant', count: 0 },
   ]);
@@ -40,9 +42,18 @@ const PropertyReservation = ({
   };
 
   const handleIncrement = (event) => {
+    const total = capacity[0].count + capacity[1].count;
+
     const newCapacity = capacity.map((person) => {
       if (person.id === event.target.id) {
-        return { ...person, count: person.count + 1 };
+        if (event.target.id === 'infant') {
+          return { ...person, count: person.count + 1 };
+        }
+        if (event.target.id === 'adult' || 'child') {
+          if (total < property.capacity) {
+            return { ...person, count: person.count + 1 };
+          }
+        }
       }
       return person;
     });
@@ -51,8 +62,11 @@ const PropertyReservation = ({
 
   const handleDecrement = (event) => {
     const newCapacity = capacity.map((person) => {
+      const res = person.count - 1;
       if (person.id === event.target.id) {
-        const res = person.count - 1;
+        if (event.target.id === 'adult') {
+          return { ...person, count: res < 1 ? 1 : res };
+        }
         return { ...person, count: res < 0 ? 0 : res };
       }
       return person;
@@ -75,7 +89,7 @@ const PropertyReservation = ({
           <div className='rightCon'>
             <span className='propertyRate'>
               <MdStar color={theme.pink} size={20} />
-              4.86
+              {Math.floor(property.rate?.propertyRate * 100) / 100}
             </span>
             <span className='propertyReviewNum'>
               ({property.reviews?.length})
@@ -151,7 +165,9 @@ const PropertyReservation = ({
               </div>
             ))}
 
-            <span>최대 2명. 유아는 숙박인원에 포함되지 않습니다.</span>
+            <span>
+              최대 {property.capacity}명. 유아는 숙박인원에 포함되지 않습니다.
+            </span>
             <div
               className='closeBtn'
               onClick={() => {
@@ -196,7 +212,7 @@ const PropertyReservationTab = styled.div`
   ${({ theme }) => {
     return theme.flexSet({
       alignItems: 'space-between',
-      flexDirection: 'column'
+      flexDirection: 'column',
     });
   }};
   position: sticky;
@@ -350,7 +366,7 @@ const CapacityBox = styled.div`
   .capacityModal {
     ${({ theme }) => {
       return theme.flexSet({
-        alignItems: 'space-between',
+        justifyContent: 'space-between',
         flexDirection: 'column',
       });
     }};

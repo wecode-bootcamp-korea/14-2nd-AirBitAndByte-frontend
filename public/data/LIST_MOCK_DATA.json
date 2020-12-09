@@ -1,327 +1,229 @@
 {
   "result": [
-      {
-          "propertyId": 23,
-          "propertyName": "취약점의 융합 커뮤니티",
-          "hostName": "유병민",
-          "isSuper": false,
-          "longitude": "128.988900",
-          "latitude": "37.175900",
-          "capacity": 4,
-          "numberOfReviews": 0,
-          "facilities": [
-              "게스트 전용 출입문",
-              "건조기",
-              "일산화탄소 경보기"
-          ],
-          "size": [
-              "공용 공간"
-          ],
-          "rate": []
-      },
-      {
-          "propertyId": 34,
-          "propertyName": "큰 크로스 미디어 전자 서비스",
-          "hostName": "이소헌",
-          "isSuper": false,
-          "longitude": "126.835000",
-          "latitude": "37.656390",
-          "capacity": 6,
-          "numberOfReviews": 0,
-          "facilities": [
-              "디지털 도어록",
-              "건물 내 무료 주차",
-              "여행 가방 보관 가능"
-          ],
-          "size": [
-              "1번 침실"
-          ],
-          "rate": []
-      },
-      {
-          "propertyId": 53,
-          "propertyName": "엔지니어 효율적 인터페이스",
-          "hostName": "이소헌",
-          "isSuper": false,
-          "longitude": "126.835000",
-          "latitude": "37.656390",
-          "capacity": 4,
-          "numberOfReviews": 0,
-          "facilities": [
-              "게스트 전용 출입문",
-              "TV",
-              "다리미"
-          ],
-          "size": [
-              "공용 공간"
-          ],
-          "rate": []
-      },
-      {
-          "propertyId": 86,
-          "propertyName": "재발명된 턴키 전자 비즈니스",
-          "hostName": "손승현",
-          "isSuper": false,
-          "longitude": "127.084720",
-          "latitude": "36.203890",
-          "capacity": 4,
-          "numberOfReviews": 0,
-          "facilities": [
-              "전자레인지",
-              "헤어드라이어",
-              "온수"
-          ],
-          "size": [
-              "공용 공간"
-          ],
-          "rate": []
-      },
-      {
-          "propertyId": 186,
-          "propertyName": "최적화된 철벽 네트웍스",
-          "hostName": "손승현",
-          "isSuper": false,
-          "longitude": "126.665000",
-          "latitude": "36.600900",
-          "capacity": 2,
-          "numberOfReviews": 0,
-          "facilities": [
-              "암막 커튼",
-              "여행 가방 보관 가능",
-              "세탁기"
-          ],
-          "size": [
-              "1번 침실"
-          ],
-          "rate": []
-      },
-      {
-          "propertyId": 230,
-          "propertyName": "혁명적인 직감 채널",
-          "hostName": "이소헌",
-          "isSuper": false,
-          "longitude": "128.988900",
-          "latitude": "37.175900",
-          "capacity": 4,
-          "numberOfReviews": 0,
-          "facilities": [
-              "TV",
-              "전자레인지",
-              "식기류"
-          ],
-          "size": [
-              "1번 침실"
-          ],
-          "rate": []
-      },
-      {
-          "propertyId": 274,
-          "propertyName": "배송 크로스 플랫폼 솔루션",
-          "hostName": "유병민",
-          "isSuper": false,
-          "longitude": "126.835000",
-          "latitude": "37.656390",
-          "capacity": 2,
-          "numberOfReviews": 0,
-          "facilities": [
-              "샤워젤",
-              "소화기",
-              "엘리베이터"
-          ],
-          "size": [
-              "1번 침실"
-          ],
-          "rate": []
-      },
-      {
-          "propertyId": 383,
-          "propertyName": "깨끗한 끈끈한 네트웍스",
-          "hostName": "유병민",
-          "isSuper": false,
-          "longitude": "126.665000",
-          "latitude": "36.600900",
-          "capacity": 2,
-          "numberOfReviews": 0,
-          "facilities": [
-              "업무 전용 공간",
-              "일산화탄소 경보기",
-              "식기류"
-          ],
-          "size": [
-              "공용 공간"
-          ],
-          "rate": []
-      },
-      {
-          "propertyId": 405,
-          "propertyName": "배열적인 강렬한 전자 서비스",
-          "hostName": "유병민",
-          "isSuper": false,
-          "longitude": "128.630830",
-          "latitude": "36.821670",
-          "capacity": 3,
-          "numberOfReviews": 0,
-          "facilities": [
-              "암막 커튼",
-              "전자레인지",
-              "구급 상자"
-          ],
-          "size": [
-              "공용 공간"
-          ],
-          "rate": []
-      },
-      {
-          "propertyId": 501,
-          "propertyName": "시각적인 오픈 소스 인프라",
-          "hostName": "이소헌",
-          "isSuper": false,
-          "longitude": "126.835000",
-          "latitude": "37.656390",
-          "capacity": 5,
-          "numberOfReviews": 0,
-          "facilities": [
-              "냉장고",
-              "디지털 도어록",
-              "정원 또는 뒷마당"
-          ],
-          "size": [
-              "1번 침실"
-          ],
-          "rate": []
-      },
-      {
-          "propertyId": 746,
-          "propertyName": "최적화된 전자 비즈니스 시너지",
-          "hostName": "손승현",
-          "isSuper": false,
-          "longitude": "126.835000",
-          "latitude": "37.656390",
-          "capacity": 3,
-          "numberOfReviews": 0,
-          "facilities": [
-              "건물 내 무료 주차",
-              "여행 가방 보관 가능",
-              "TV"
-          ],
-          "size": [
-              "1번 침실"
-          ],
-          "rate": []
-      },
-      {
-          "propertyId": 827,
-          "propertyName": "웅장한 가상 관계",
-          "hostName": "유병민",
-          "isSuper": false,
-          "longitude": "128.988900",
-          "latitude": "37.175900",
-          "capacity": 2,
-          "numberOfReviews": 0,
-          "facilities": [
-              "일산화탄소 경보기",
-              "침구",
-              "정원 또는 뒷마당"
-          ],
-          "size": [
-              "1번 침실"
-          ],
-          "rate": []
-      },
-      {
-          "propertyId": 859,
-          "propertyName": "취약점의 부자 네트웍스",
-          "hostName": "손승현",
-          "isSuper": false,
-          "longitude": "128.988900",
-          "latitude": "37.175900",
-          "capacity": 2,
-          "numberOfReviews": 0,
-          "facilities": [
-              "TV",
-              "소화기",
-              "세탁기"
-          ],
-          "size": [
-              "1번 침실"
-          ],
-          "rate": []
-      },
-      {
-          "propertyId": 890,
-          "propertyName": "확장된 백 엔드 시너지",
-          "hostName": "손승현",
-          "isSuper": false,
-          "longitude": "127.084720",
-          "latitude": "36.203890",
-          "capacity": 3,
-          "numberOfReviews": 0,
-          "facilities": [
-              "샴푸",
-              "샴푸",
-              "디지털 도어록"
-          ],
-          "size": [
-              "1번 침실"
-          ],
-          "rate": []
-      },
-      {
-          "propertyId": 894,
-          "propertyName": "구조적인 오픈 소스 생산라인",
-          "hostName": "유병민",
-          "isSuper": false,
-          "longitude": "128.988900",
-          "latitude": "37.175900",
-          "capacity": 3,
-          "numberOfReviews": 0,
-          "facilities": [
-              "난방",
-              "엘리베이터",
-              "업무 전용 공간"
-          ],
-          "size": [
-              "공용 공간"
-          ],
-          "rate": []
-      },
-      {
-          "propertyId": 897,
-          "propertyName": "합성 확장 관계",
-          "hostName": "유병민",
-          "isSuper": false,
-          "longitude": "128.626670",
-          "latitude": "34.882500",
-          "capacity": 4,
-          "numberOfReviews": 0,
-          "facilities": [
-              "암막 커튼",
-              "다리미",
-              "건조기"
-          ],
-          "size": [
-              "공용 공간"
-          ],
-          "rate": []
-      },
-      {
-          "propertyId": 1012,
-          "propertyName": "문화적인 강렬한 플랫폼",
-          "hostName": "이소헌",
-          "isSuper": false,
-          "longitude": "126.835000",
-          "latitude": "37.656390",
-          "capacity": 3,
-          "numberOfReviews": 0,
-          "facilities": [
-              "게스트 전용 출입문",
-              "세탁기",
-              "엘리베이터"
-          ],
-          "size": [
-              "공용 공간"
-          ],
-          "rate": []
-      }
+    {
+      "propertyId": 23,
+      "propertyName": "취약점의 융합 커뮤니티",
+      "hostName": "유병민",
+      "isSupered": false,
+      "longitude": "128.988900",
+      "latitude": "37.175900",
+      "capacity": 4,
+      "numberOfReviews": 0,
+      "facilities": ["게스트 전용 출입문", "건조기", "일산화탄소 경보기"],
+      "size": ["공용 공간"],
+      "rate": []
+    },
+    {
+      "propertyId": 34,
+      "propertyName": "큰 크로스 미디어 전자 서비스",
+      "hostName": "이소헌",
+      "isSupered": false,
+      "longitude": "126.835000",
+      "latitude": "37.656390",
+      "capacity": 6,
+      "numberOfReviews": 0,
+      "facilities": [
+        "디지털 도어록",
+        "건물 내 무료 주차",
+        "여행 가방 보관 가능"
+      ],
+      "size": ["1번 침실"],
+      "rate": []
+    },
+    {
+      "propertyId": 53,
+      "propertyName": "엔지니어 효율적 인터페이스",
+      "hostName": "이소헌",
+      "isSupered": false,
+      "longitude": "126.835000",
+      "latitude": "37.656390",
+      "capacity": 4,
+      "numberOfReviews": 0,
+      "facilities": ["게스트 전용 출입문", "TV", "다리미"],
+      "size": ["공용 공간"],
+      "rate": []
+    },
+    {
+      "propertyId": 86,
+      "propertyName": "재발명된 턴키 전자 비즈니스",
+      "hostName": "손승현",
+      "isSupered": false,
+      "longitude": "127.084720",
+      "latitude": "36.203890",
+      "capacity": 4,
+      "numberOfReviews": 0,
+      "facilities": ["전자레인지", "헤어드라이어", "온수"],
+      "size": ["공용 공간"],
+      "rate": []
+    },
+    {
+      "propertyId": 186,
+      "propertyName": "최적화된 철벽 네트웍스",
+      "hostName": "손승현",
+      "isSupered": false,
+      "longitude": "126.665000",
+      "latitude": "36.600900",
+      "capacity": 2,
+      "numberOfReviews": 0,
+      "facilities": ["암막 커튼", "여행 가방 보관 가능", "세탁기"],
+      "size": ["1번 침실"],
+      "rate": []
+    },
+    {
+      "propertyId": 230,
+      "propertyName": "혁명적인 직감 채널",
+      "hostName": "이소헌",
+      "isSupered": false,
+      "longitude": "128.988900",
+      "latitude": "37.175900",
+      "capacity": 4,
+      "numberOfReviews": 0,
+      "facilities": ["TV", "전자레인지", "식기류"],
+      "size": ["1번 침실"],
+      "rate": []
+    },
+    {
+      "propertyId": 274,
+      "propertyName": "배송 크로스 플랫폼 솔루션",
+      "hostName": "유병민",
+      "isSupered": false,
+      "longitude": "126.835000",
+      "latitude": "37.656390",
+      "capacity": 2,
+      "numberOfReviews": 0,
+      "facilities": ["샤워젤", "소화기", "엘리베이터"],
+      "size": ["1번 침실"],
+      "rate": []
+    },
+    {
+      "propertyId": 383,
+      "propertyName": "깨끗한 끈끈한 네트웍스",
+      "hostName": "유병민",
+      "isSupered": false,
+      "longitude": "126.665000",
+      "latitude": "36.600900",
+      "capacity": 2,
+      "numberOfReviews": 0,
+      "facilities": ["업무 전용 공간", "일산화탄소 경보기", "식기류"],
+      "size": ["공용 공간"],
+      "rate": []
+    },
+    {
+      "propertyId": 405,
+      "propertyName": "배열적인 강렬한 전자 서비스",
+      "hostName": "유병민",
+      "isSupered": false,
+      "longitude": "128.630830",
+      "latitude": "36.821670",
+      "capacity": 3,
+      "numberOfReviews": 0,
+      "facilities": ["암막 커튼", "전자레인지", "구급 상자"],
+      "size": ["공용 공간"],
+      "rate": []
+    },
+    {
+      "propertyId": 501,
+      "propertyName": "시각적인 오픈 소스 인프라",
+      "hostName": "이소헌",
+      "isSupered": false,
+      "longitude": "126.835000",
+      "latitude": "37.656390",
+      "capacity": 5,
+      "numberOfReviews": 0,
+      "facilities": ["냉장고", "디지털 도어록", "정원 또는 뒷마당"],
+      "size": ["1번 침실"],
+      "rate": []
+    },
+    {
+      "propertyId": 746,
+      "propertyName": "최적화된 전자 비즈니스 시너지",
+      "hostName": "손승현",
+      "isSupered": false,
+      "longitude": "126.835000",
+      "latitude": "37.656390",
+      "capacity": 3,
+      "numberOfReviews": 0,
+      "facilities": ["건물 내 무료 주차", "여행 가방 보관 가능", "TV"],
+      "size": ["1번 침실"],
+      "rate": []
+    },
+    {
+      "propertyId": 827,
+      "propertyName": "웅장한 가상 관계",
+      "hostName": "유병민",
+      "isSupered": false,
+      "longitude": "128.988900",
+      "latitude": "37.175900",
+      "capacity": 2,
+      "numberOfReviews": 0,
+      "facilities": ["일산화탄소 경보기", "침구", "정원 또는 뒷마당"],
+      "size": ["1번 침실"],
+      "rate": []
+    },
+    {
+      "propertyId": 859,
+      "propertyName": "취약점의 부자 네트웍스",
+      "hostName": "손승현",
+      "isSupered": false,
+      "longitude": "128.988900",
+      "latitude": "37.175900",
+      "capacity": 2,
+      "numberOfReviews": 0,
+      "facilities": ["TV", "소화기", "세탁기"],
+      "size": ["1번 침실"],
+      "rate": []
+    },
+    {
+      "propertyId": 890,
+      "propertyName": "확장된 백 엔드 시너지",
+      "hostName": "손승현",
+      "isSupered": false,
+      "longitude": "127.084720",
+      "latitude": "36.203890",
+      "capacity": 3,
+      "numberOfReviews": 0,
+      "facilities": ["샴푸", "샴푸", "디지털 도어록"],
+      "size": ["1번 침실"],
+      "rate": []
+    },
+    {
+      "propertyId": 894,
+      "propertyName": "구조적인 오픈 소스 생산라인",
+      "hostName": "유병민",
+      "isSupered": false,
+      "longitude": "128.988900",
+      "latitude": "37.175900",
+      "capacity": 3,
+      "numberOfReviews": 0,
+      "facilities": ["난방", "엘리베이터", "업무 전용 공간"],
+      "size": ["공용 공간"],
+      "rate": []
+    },
+    {
+      "propertyId": 897,
+      "propertyName": "합성 확장 관계",
+      "hostName": "유병민",
+      "isSupered": false,
+      "longitude": "128.626670",
+      "latitude": "34.882500",
+      "capacity": 4,
+      "numberOfReviews": 0,
+      "facilities": ["암막 커튼", "다리미", "건조기"],
+      "size": ["공용 공간"],
+      "rate": []
+    },
+    {
+      "propertyId": 1012,
+      "propertyName": "문화적인 강렬한 플랫폼",
+      "hostName": "이소헌",
+      "isSupered": false,
+      "longitude": "126.835000",
+      "latitude": "37.656390",
+      "capacity": 3,
+      "numberOfReviews": 0,
+      "facilities": ["게스트 전용 출입문", "세탁기", "엘리베이터"],
+      "size": ["공용 공간"],
+      "rate": []
+    }
   ]
 }
