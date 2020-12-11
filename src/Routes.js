@@ -23,6 +23,7 @@ const Routes = ({ authService }) => {
           <Route exact path='/property' component={PropertyDetail} />
           <Route exact path='/calender' component={PropertyCalender} />
           <Route exact path='/placelist' component={PlaceList} />
+          <Route exact path='/placelist?:test:' component={PlaceList} />
         </Switch>
         <Footer />
       </Router>

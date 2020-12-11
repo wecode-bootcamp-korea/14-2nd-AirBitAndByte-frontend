@@ -1,24 +1,21 @@
 import React, { useState, useLayoutEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { logout } from '../../store/actions';
+import { useHistory } from 'react-router-dom';
+import { setKeyWord } from '../store/actions';
 import styled, { css } from 'styled-components';
 import NavSearchInfo from './NavSearchInfo.jsx';
-import Signup from './Signup.jsx';
 import { BiSearch } from 'react-icons/bi';
-import { GiHamburgerMenu } from 'react-icons/gi';
-import { theme } from '../../styles/theme';
+import { GiConsoleController, GiHamburgerMenu } from 'react-icons/gi';
+import { theme, flexSet, flexCenter, flexColumnCenter } from '../../styles/theme';
+import Signup from './Signup.jsx';
 
 const Nav = ({ authService }) => {
   const [scrollYdata, setScrollYdata] = useState(0);
   const [searchType, setsearchType] = useState('rooms');
   const [foldNav, setfoldNav] = useState(false);
   const [isSignupModalOn, setSignupModalOn] = useState(false);
-
-  const openSignup = () => {
-    setSignupModalOn(!isSignupModalOn);
-  };
-
-  const loginState = useSelector((store) => store.loginReducer);
+  const history = useHistory();
   const dispatch = useDispatch();
 
   const handleLogout = () => {
@@ -37,49 +34,50 @@ const Nav = ({ authService }) => {
     return () => window.removeEventListener('scroll', getPostion);
   }, [scrollYdata]);
 
+  const openSignup = () => {
+    setSignupModalOn(!isSignupModalOn);
+  };
+
   const changeSearchType = (e) => setsearchType(e.target.dataset.type);
   const toggleFoldNav = () => setfoldNav(!foldNav);
+  const navState = useSelector((store) => store.searchFilterReducer);
+  const loginState = useSelector((store) => store.loginReducer);
 
   return (
     <>
-      <NavComponent scrollYdata={scrollYdata} foldNav={foldNav}>
-        <div className='bitAandByteIcon'>
-          <img
-            className='logoImg'
-            src='/images/airBnBlogo.svg'
-            alt='로고 이미지'
-          />
+      <NavComponent scrollYdata={scrollYdata} foldNav={foldNav} state={navState.navState}>
+        <div className='bitAandByteIcon' onClick={() => history.push('/')}>
+          <img className='logoImg' src='/images/airBnBlogo.svg' alt='로고 이미지' />
         </div>
         <div className='searchForm'>
           <SearcBox
             scrollYdata={scrollYdata}
             foldNav={foldNav}
-            onClick={() => toggleFoldNav()}>
+            state={navState.navState}
+            onClick={() => toggleFoldNav()}
+          >
             <label>검색 시작하기</label>
             <SearchIcon isSize={35}>
               <BiSearch className='biSearch' />
             </SearchIcon>
           </SearcBox>
-          <NavSearchVar scrollYdata={scrollYdata} foldNav={foldNav}>
+          <NavSearchVar scrollYdata={scrollYdata} foldNav={foldNav} state={navState.navState}>
             <NavSearchTheme foldNav={foldNav}>
-              <span
-                className={searchType === 'rooms' ? 'setType' : ''}
-                data-type='rooms'
-                onClick={changeSearchType}>
+              <span className={searchType === 'rooms' ? 'setType' : ''} data-type='rooms' onClick={changeSearchType}>
                 숙소
               </span>
               <span
                 className={searchType === 'experience' ? 'setType' : ''}
                 data-type='experience'
-                onClick={changeSearchType}>
+                onClick={changeSearchType}
+              >
                 체험
               </span>
             </NavSearchTheme>
             <NavSearchInfo type={searchType} />
           </NavSearchVar>
         </div>
-        <NavUserInfo
-          onClick={loginState.accessToken ? handleLogout : openSignup}>
+        <NavUserInfo onClick={loginState.accessToken ? handleLogout : openSignup}>
           <GiHamburgerMenu className='hameburgerIcon' />
           <div className='ImageBorder'>
             <img src='/images/defaultProfile.png' alt='프로파일이미지' />
@@ -88,36 +86,37 @@ const Nav = ({ authService }) => {
       </NavComponent>
       {foldNav && <SetFoldNavBackground />}
       {isSignupModalOn && (
-        <Signup
-          authService={authService}
-          isSignupModalOn={isSignupModalOn}
-          setSignupModalOn={setSignupModalOn}
-        />
+        <Signup authService={authService} isSignupModalOn={isSignupModalOn} setSignupModalOn={setSignupModalOn} />
       )}
     </>
   );
 };
+
 export default Nav;
 
 const NavComponent = styled.header`
+  ${({ state }) =>
+    state === 'main'
+      ? css`
+          height: ${({ scrollYdata, foldNav }) => (!scrollYdata || !foldNav ? '90px' : '150px')};
+          box-shadow: ${({ scrollYdata }) => scrollYdata && `0 -1px 5px 1px rgba(0, 0, 0, 0.3)`};
+        `
+      : css`
+          height: ${({ foldNav }) => (!foldNav ? '90px' : '150px')};
+          box-shadow: 0 -1px 5px 1px rgba(0, 0, 0, 0.3);
+        `}
+
   display: flex;
   justify-content: space-between;
   align-items: flex-start;
   position: fixed;
   width: 100%;
-  height: ${({ scrollYdata, foldNav }) =>
-    !scrollYdata || !foldNav ? '90px' : '150px'};
   top: 0;
   padding: 20px 60px;
   font-size: 21px;
-  background-color: ${({ scrollYdata }) => (!scrollYdata ? 'none' : 'white')};
-  z-index: 100;
+  z-index: 110;
   transition: 0.25s;
-  ${({ scrollYdata }) =>
-    scrollYdata &&
-    css`
-      box-shadow: 0 -1px 5px 1px rgba(0, 0, 0, 0.3);
-    `};
+  background-color: ${({ scrollYdata, state }) => (!scrollYdata && state === 'main' ? 'none' : 'white')};
 
   .bitAandByteIcon {
     position: relative;
@@ -145,12 +144,18 @@ const NavSearchVar = styled.div`
   position: relative;
   top: ${({ foldNav }) => (foldNav ? 0 : '-40px')};
   transition: all 0.2s;
-  transform: ${({ scrollYdata, foldNav }) =>
-    !scrollYdata || foldNav
-      ? `translate(0, 0)`
-      : `translate(0, -100px) scaleX( 0.5 )`};
-  opacity: ${({ scrollYdata, foldNav }) => (!scrollYdata || foldNav ? 1 : 0)};
 
+  ${({ state }) =>
+    state === 'main'
+      ? css`
+          transform: ${({ scrollYdata, foldNav }) =>
+            !scrollYdata || foldNav ? `translate(0, 0)` : `translate(0, -100px) scaleX( 0.5 )`};
+          opacity: ${({ scrollYdata, foldNav }) => (!scrollYdata || foldNav ? 1 : 0)};
+        `
+      : css`
+          transform: ${({ foldNav }) => (foldNav ? `translate(0, 0)` : `translate(0, -100px) scaleX( 0.5 )`)};
+          opacity: ${({ foldNav }) => (foldNav ? 1 : 0)};
+        `}
   .modal {
     position: absolute;
     background-color: red;
@@ -160,13 +165,8 @@ const NavSearchVar = styled.div`
 `;
 
 const NavSearchTheme = styled.div`
-  ${({ theme }) => {
-    return theme.flexSet({
-      justifyContent: 'center',
-      alignItems: 'center',
-    });
-  }};
-  margin-bottom: 20px;
+  ${flexCenter}
+  margin-bottom:20px;
 
   span {
     position: relative;
@@ -183,8 +183,7 @@ const NavSearchTheme = styled.div`
       display: block;
       position: absolute;
       margin-top: 3px;
-      border-bottom: 2px solid
-        ${({ foldNav }) => (foldNav ? theme.black : 'white')};
+      border-bottom: 2px solid ${({ foldNav }) => (foldNav ? theme.black : 'white')};
       transition: all 0.3s ease;
     }
 
@@ -214,6 +213,15 @@ const SearcBox = styled.div`
   opacity: ${({ scrollYdata }) => (!scrollYdata ? 0 : 1)};
   transition: 0.1s;
   cursor: pointer;
+
+  ${({ state }) =>
+    state === 'main'
+      ? css`
+          opacity: ${({ scrollYdata }) => (!scrollYdata ? 0 : 1)};
+        `
+      : css`
+          opacity: 1;
+        `}
 
   &:hover {
     box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.18);

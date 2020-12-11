@@ -8,7 +8,6 @@ const PlaceFilterPlaceList = ({ houseTypte, setHouseType, modalState, setModalSt
 
   useEffect(() => {
     const closeModal = ({ target }) => {
-      console.log(modalState);
       if (Object.keys(modalState).some((el) => modalState[el]) && !modal.current.contains(target)) {
         const closeModalList = {};
         Object.keys(modalState).forEach((modal) => {
@@ -98,6 +97,7 @@ const FilterComponent = styled.div`
   display: flex;
   position: relative;
   margin-bottom: 10px;
+  z-index: 99;
 
   .filter {
     margin-right: 10px;

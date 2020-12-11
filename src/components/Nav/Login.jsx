@@ -20,7 +20,7 @@ const Login = ({ onGoogleLogin, openLoginModal, closeModalAll }) => {
     dispatch(login(accessToken));
     localStorage.setItem('accessToken', accessToken);
     alert('로그인 되었습니다.');
-    console.log(loginState);
+    closeModalAll();
   };
 
   const handleInput = (e) => {
@@ -85,13 +85,10 @@ const Login = ({ onGoogleLogin, openLoginModal, closeModalAll }) => {
           <p className='passwordBtn' onClick={showPassword}>
             비밀번호 보기
           </p>
-          <p className='otherWays'>
-            전화번호로 로그인 ・ 비밀번호를 잊으셨나요?
-          </p>
+          <p className='otherWays'>전화번호로 로그인 ・ 비밀번호를 잊으셨나요?</p>
           <button onClick={axiosLogin}>로그인</button>
           <div className='modalFooter'>
-            <span>에어비트앤바이트 계정이 없으세요?</span>{' '}
-            <span onClick={openLoginModal}>회원가입</span>
+            <span>에어비트앤바이트 계정이 없으세요?</span> <span onClick={openLoginModal}>회원가입</span>
           </div>
         </ModalContainer>
       </Fade>

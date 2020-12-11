@@ -1,35 +1,59 @@
 import React, { useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { setCapacity, setFocus, setCheckIn, setCheckOut } from '../store/actions';
 import styled from 'styled-components';
 import { FaMapMarkedAlt } from 'react-icons/fa';
 import { IoIosRemoveCircleOutline, IoIosAddCircleOutline } from 'react-icons/io';
 import { BsToggleOff, BsToggleOn } from 'react-icons/bs';
 import { flexColumn } from '../../styles/theme';
+import PropertyCalender from '../Property/PropertyCalender';
 
 const NavSearchModal = ({ type }) => {
-  const [ageGroup, setAgeGroup] = useState({ adult: 0, child: 0, baby: 0, haveAnimal: false });
+  const filter = useSelector((store) => store.searchFilterReducer);
+  const dispatch = useDispatch();
 
   const setCount = (e, type) => {
-    const { dataset } = e.target;
+    const { dataset } = e.currentTarget;
+    const { capacity } = filter;
 
-    ageGroup[type] =
-      type !== 'haveAnimal'
+    filter.capacity[type] =
+      type !== 'animal'
         ? dataset.type === '+'
-          ? ageGroup[type] + 1
-          : ageGroup[type]
-          ? ageGroup[type] - 1
-          : 0
-        : !ageGroup[type];
+          ? dispatch(setCapacity({ ...filter.capacity, [type]: filter.capacity[type] + 1 }))
+          : filter.capacity[type]
+          ? dispatch(setCapacity({ ...filter.capacity, [type]: filter.capacity[type] - 1 }))
+          : dispatch(setCapacity({ ...filter.capacity, [type]: 0 }))
+        : dispatch(setCapacity({ ...filter.capacity, animal: !filter.capacity.animal }));
+  };
 
-    setAgeGroup({ ...ageGroup, [type]: ageGroup[type] });
+  const setSearchKeyWord = (value) => {
+    dispatch(filter.setKeyWord(value));
+  };
+
+  const handleOnDateChange = ({ startDate, endDate }) => {
+    !endDate ? dispatch(setCheckIn(startDate)) : dispatch(setCheckOut(endDate));
   };
 
   return (
     <>
       <SearchLocation type={type}>
-        <FaMapMarkedAlt className='mapIcon' />
-        가까운 여행지 둘러보기
+        <div className='myLocation'>
+          <FaMapMarkedAlt className='mapIcon' />
+          가까운 여행지 둘러보기
+        </div>
       </SearchLocation>
-      <SearchCheckDate type={type}>추후 넣을 예정</SearchCheckDate>
+      {type.indexOf('check') !== -1 && (
+        <SearchCheckDate type={type}>
+          <PropertyCalender
+            setFocusedInput={(focus) => dispatch(setFocus(focus))}
+            focusedInput={filter.focus}
+            endDate={filter.checkOut}
+            startDate={filter.checkIn}
+            handleOnDateChange={handleOnDateChange}
+          />
+        </SearchCheckDate>
+      )}
+
       <SearchPersonnel type={type}>
         {AGE_GROUP.map((group, index) => (
           <div className='ageGroup' key={index}>
@@ -39,11 +63,11 @@ const NavSearchModal = ({ type }) => {
             </div>
             <div className='setValueForm'>
               <IoIosRemoveCircleOutline
-                className={`${!ageGroup[group.type] && 'disabled'}`}
+                className={`${!filter.capacity[group.type] && 'disabled'}`}
                 data-type='-'
                 onClick={(e) => setCount(e, group.type)}
               />
-              <span>{ageGroup[group.type]}</span>
+              <span>{filter.capacity[group.type]}</span>
               <IoIosAddCircleOutline data-type='+' onClick={(e) => setCount(e, group.type)} />
             </div>
           </div>
@@ -54,10 +78,10 @@ const NavSearchModal = ({ type }) => {
             <span className='content'>반려동물을 동반하시나요?</span>
           </div>
           <div className='setValueForm'>
-            {ageGroup.haveAnimal ? (
-              <BsToggleOn className='toggleBtn active' onClick={(e) => setCount(e, 'haveAnimal')} />
+            {filter.capacity.animal ? (
+              <BsToggleOn className='toggleBtn active' onClick={(e) => setCount(e, 'animal')} />
             ) : (
-              <BsToggleOff className='toggleBtn ' onClick={(e) => setCount(e, 'haveAnimal')} />
+              <BsToggleOff className='toggleBtn ' onClick={(e) => setCount(e, 'animal')} />
             )}
           </div>
         </div>
@@ -74,22 +98,28 @@ const SearchLocation = styled.div`
   align-items: center;
   top: 70px;
   width: 550px;
-  height: 100px;
+  min-height: 100px;
   padding: 30px;
   border-radius: 30px;
   background-color: white;
   box-shadow: 0px 6px 20px rgba(0, 0, 0, 0.2);
   transition: 1s;
 
-  .mapIcon {
-    width: 50px;
-    height: 50px;
-    margin-right: 20px;
+  .myLocation {
+    display: flex;
+    align-items: center;
+
+    .mapIcon {
+      width: 50px;
+      height: 50px;
+      margin-right: 20px;
+    }
   }
 `;
 
 const SearchCheckDate = styled.div`
-  display: ${({ type }) => (type.indexOf('check') !== -1 ? 'flex' : 'none')};
+  display: flex;
+  justify-content: center;
   position: absolute;
   top: 70px;
   width: 850px;
@@ -98,6 +128,10 @@ const SearchCheckDate = styled.div`
   background-color: white;
   box-shadow: 0px 6px 20px rgba(0, 0, 0, 0.2);
   transition: 1s;
+
+  div {
+    margin-top: 5px !important;
+  }
 `;
 
 const SearchPersonnel = styled.div`
@@ -187,49 +221,6 @@ const SearchPersonnel = styled.div`
   }
 `;
 
-// .tgl-ios {
-//   + .tgl-btn {
-//     background: #fbfbfb;
-//     border-radius: 2em;
-//     padding: 2px;
-//     transition: all .4s ease;
-//     border: 1px solid #e8eae9;
-//     &:after {
-//       border-radius: 2em;
-//       background: #fbfbfb;
-//       transition:
-//         left .3s cubic-bezier(
-//           0.175, 0.885, 0.320, 1.275
-//         ),
-//         padding .3s ease, margin .3s ease;
-//       box-shadow:
-//         0 0 0 1px rgba(0,0,0,.1),
-//         0 4px 0 rgba(0,0,0,.08);
-//     }
-
-//     &:hover:after {
-//       will-change: padding;
-//     }
-
-//     &:active {
-//       box-shadow: inset 0 0 0 2em #e8eae9;
-//       &:after {
-//         padding-right: .8em;
-//       }
-//     }
-//   }
-
-//   &:checked + .tgl-btn {
-//     background: #86d993;
-//     &:active {
-//       box-shadow: none;
-//       &:after {
-//         margin-left: -.8em;
-//       }
-//     }
-//   }
-// }
-
 const AGE_GROUP = [
   {
     header: '성인',
@@ -244,6 +235,6 @@ const AGE_GROUP = [
   {
     header: '유아',
     content: '2세 미만',
-    type: 'baby',
+    type: 'infant',
   },
 ];
