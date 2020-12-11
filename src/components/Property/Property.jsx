@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import axios from 'axios';
-import styled from 'styled-components';
+import styled, { keyframes } from 'styled-components';
 import PropertyGallery from './PropertyGallery';
 import PropertyDetail from './PropertyDetail';
 import PropertyCalender from './PropertyCalender';
@@ -15,12 +15,12 @@ import { theme } from '../../styles/theme';
 import { MdStar } from 'react-icons/md';
 import { FaMedal } from 'react-icons/fa';
 import { FiShare2 } from 'react-icons/fi';
-import { BsHeart } from 'react-icons/bs';
-import { BsHeartFill } from 'react-icons/bs';
+import { BsHeart, BsHeartFill } from 'react-icons/bs';
 
 const ACCESS_TOKEN = localStorage.getItem('accessToken');
 
 const Property = (props) => {
+  const [isLoading, setLoading] = useState(true);
   const [isBookmarked, setBookmarked] = useState(true);
   const [property, setProperty] = useState({});
   const [focus, setFocus] = useState(null);
@@ -29,31 +29,43 @@ const Property = (props) => {
     startDate: null,
     endDate: null,
   });
+
   const { startDate, endDate } = dateRange;
 
   const history = useHistory();
 
   const handleBookmark = (event) => {
     event.stopPropagation();
-    axios({
-      method: isBookmarked ? 'delete' : 'get',
+    axios(BOOKMARK_API, {
+      method: isBookmarked ? 'delete' : 'post',
       headers: {
         Authorization: ACCESS_TOKEN,
       },
-      propertyId: property.propertyId,
+      data: { propertyId: property.propertyId },
     });
     setBookmarked(!isBookmarked);
   };
 
   useEffect(() => {
+    setTimeout(() => {
+      setLoading(false);
+    }, 2000);
     axios
-      .get(`${DETAIL_API}`)
-      // .get(`${DETAIL_API}${props.match.params.id}`)
+      // 서버 연결
+      .get(`${DETAIL_API}${props.match.params.id}`, {
+        headers: {
+          Authorization: ACCESS_TOKEN,
+        },
+      })
+      // Mock data 연결
+      // .get(DETAIL_API)
       .then(({ data: { result } }) => {
         setProperty(result);
         setBookmarked(result.isBookmarked);
       });
   }, [props.match.params.id]);
+
+  const { rules, safeties, rate } = property;
 
   const handleOnDateChange = ({ startDate, endDate }) => {
     setdateRange({ startDate, endDate });
@@ -64,23 +76,91 @@ const Property = (props) => {
     window.scrollTo(0, 0);
   };
 
+  if (isLoading) {
+    return (
+      <PropertyWrapper>
+        <Header isLoading={isLoading}>
+          <div className='propertyTitle'>
+            {property.propertyName}
+            <Skeleton isLoading={isLoading} />
+          </div>
+          <div className='headerInfo'>
+            <div className='headerInfoLeft'>
+              <Skeleton isLoading={isLoading} />
+              <MdStar size={20} style={{ marginRight: 5 }} />
+              {rate?.propertyRate && (
+                <span className='propertyRate'>
+                  {Math.floor(rate.propertyRate * 100) / 100}
+                </span>
+              )}
+              <span className='propertyReviewNum'>
+                ({property.reviews?.length})
+              </span>
+              {property.isSupered ? (
+                <span className='superhost'>
+                  <FaMedal style={{ marginRight: 5 }} />
+                  슈퍼호스트
+                </span>
+              ) : (
+                ''
+              )}
+              <span className='propertyLocation'>
+                {property.district}, {property.province}, {property.country}
+              </span>
+            </div>
+            <div className='headerInfoRight'>
+              <button className='shareBtn'>
+                <Skeleton isLoading={isLoading} />
+                <FiShare2 size={15} style={{ marginRight: 5 }} />
+                공유하기
+              </button>
+              <button className='BookmarkBtn' onClick={handleBookmark}>
+                <Skeleton isLoading={isLoading} />
+                {isBookmarked ? (
+                  <BsHeartFill size={15} style={{ marginRight: 5 }} />
+                ) : (
+                  <BsHeart size={15} style={{ marginRight: 5 }} />
+                )}
+                저장
+              </button>
+            </div>
+          </div>
+        </Header>
+        {property.propertyImages?.length > 0 && (
+          <PropertyGallery
+            isLoading={isLoading}
+            propertyImages={property.propertyImages}
+          />
+        )}
+      </PropertyWrapper>
+    );
+  }
+
   return (
     <PropertyWrapper>
-      <Header>
+      <Header isLoading={isLoading}>
         <div className='propertyTitle'>{property.propertyName}</div>
         <div className='headerInfo'>
           <div className='headerInfoLeft'>
-            <MdStar color={theme.pink} size={20} style={{ marginRight: 5 }} />
-            <span className='propertyRate'>4.86</span>
+            <MdStar size={20} style={{ marginRight: 5 }} />
+            {rate?.propertyRate && (
+              <span className='propertyRate'>
+                {Math.floor(rate.propertyRate * 100) / 100}
+              </span>
+            )}
             <span className='propertyReviewNum'>
               ({property.reviews?.length})
             </span>
-            <span className='superhost'>
-              <FaMedal color={theme.pink} style={{ marginRight: 5 }} />
-              슈퍼호스트
-            </span>
+            {property.isSupered ? (
+              <span className='superhost'>
+                <FaMedal style={{ marginRight: 5 }} />
+                슈퍼호스트
+              </span>
+            ) : (
+              ''
+            )}
             <span className='propertyLocation'>
-              제주시, 제주특별자치도, 한국
+              {property.district}, {property.province}, {property.country}
             </span>
           </div>
           <div className='headerInfoRight'>
@@ -107,13 +187,18 @@ const Property = (props) => {
           </div>
         </div>
       </Header>
-      {property.propertyImageslength > 0 && (
-        <PropertyGallery propertyImages={property.propertyImages} />
+      {property.propertyImages?.length > 0 && (
+        <PropertyGallery
+          isLoading={isLoading}
+          propertyImages={property.propertyImages}
+        />
       )}
 
       <ParagraphContainer>
         <div className='propertyLeft'>
-          <PropertyDetail />
+          {property.sizes !== undefined && (
+            <PropertyDetail property={property} />
+          )}
           <PropertyCalender
             setFocusedInput={setFocusedInput}
             focusedInput={focusedInput}
@@ -134,34 +219,37 @@ const Property = (props) => {
           />
         </div>
       </ParagraphContainer>
-      {property.propertyId && <PropertyReview reviews={property.reviews} />}
+
+      {property.rate && (
+        <PropertyReview rate={property.rate} reviews={property.reviews} />
+      )}
       {property.propertyId && <PropertyMap property={property} />}
-      <PropertyHost />
+      <PropertyHost property={property} />
       <PropertyFooter>
         <div className='propertyFooterTitle title'>알아두어야 할 사항</div>
         <div className='gridBox'>
           <div className='footerRule'>
             <p className='subtitle'>숙소 이용규칙</p>
-            <p>체크인 시간: 오후 3:00 이후</p>
-            <p>흡연 금지</p>
-            <p>반려동물 동반 가능</p>
+            <p>{rules ? rules[0] : ''}</p>
+            <p>{rules ? rules[1] : ''}</p>
+            <p>{rules ? rules[2] : ''}</p>
           </div>
           <div className='footerSafety'>
             <p className='subtitle'>건강과 안전</p>
             <p>
-              에어비트앤바이트의 강화된 청소 절차 준수에 동의했습니다.{' '}
+              {safeties ? safeties[0] : ''}
               <b>자세히 알아보기</b>
             </p>
             <p>
               에이비트앤바이트의 사회적 거리 두기 및 관련 가이드라인이
               적용됩니다.
             </p>
-            <p>일산화탄소 경보기</p>
-            <p>화재경보기</p>
+            <p>{safeties ? safeties[1] : ''}</p>
+            <p>{safeties ? safeties[2] : ''}</p>
           </div>
           <div className='footerRefund'>
             <p className='subtitle'>환불 정책</p>
-            <p>체크인 24시간 전까지 수수료 없이 예약 취소 가능</p>
+            <p>{property.refund}</p>
             <p>
               그 이후로는 체크인 전에 취소하면 첫 1박 요금과 서비스 수수료를
               제외한 전액이 환불됩니다. <b>자세히 알아보기</b>
@@ -181,6 +269,18 @@ const Property = (props) => {
 };
 
 export default Property;
+
+const loading = keyframes` 
+  0% {
+    opacity: 1;
+  }
+  50%{
+    opacity: 0.3;
+  }
+  100% {
+    opacity : 1;
+  }
+  `;
 
 const PropertyWrapper = styled.div`
   ${({ theme }) => {
@@ -202,43 +302,75 @@ const PropertyWrapper = styled.div`
 const Header = styled.header`
   max-width: 1130px;
   width: 100%;
-  height: 90px;
+  height: 60px;
 
   .propertyTitle {
+    position: relative;
     font-size: 26px;
     font-weight: 600;
-    margin-bottom: 30px;
+    margin-bottom: 10px;
+    width: 500px;
+    color: ${(props) => (props.isLoading ? 'transparent' : 'black')};
   }
+
   .headerInfo {
     ${({ theme }) => {
-    return theme.flexSet({
-      justifyContent: 'space-between',
-      alignItems: 'center',
-    });
-  }};
-    font-size: 14px;
-    .superhost,
-    .propertyReviewNum {
-      color: #8f8f8f;
-      &::after {
-        content: '·';
-        margin: 0 7px;
+      return theme.flexSet({
+        justifyContent: 'space-between',
+        alignItems: 'center',
+      });
+    }};
+    font-size: 16px;
+
+    .headerInfoLeft {
+      position: relative;
+
+      svg {
+        margin-bottom: -3px;
+        color: ${(props) => (props.isLoading ? 'transparent' : '#ff3a5c')};
+      }
+
+      .propertyRate {
+        font-weight: 500;
+        color: ${(props) => (props.isLoading ? 'transparent' : 'black')};
+      }
+
+      .superhost,
+      .propertyReviewNum {
+        color: ${(props) => (props.isLoading ? 'transparent' : '#8f8f8f')};
+
+        &::after {
+          content: '·';
+          margin: 0 7px;
+        }
+      }
+      .propertyLocation {
+        color: ${(props) => (props.isLoading ? 'transparent' : 'black')};
+        text-decoration: underline;
+      }
+      .propertyReviewNum {
+        margin-left: 3px;
       }
     }
-    .propertyLocation {
-      text-decoration: underline;
-    }
+
     button {
+      position: relative;
       width: 90px;
-      height: 36px;
+      height: 30px;
+      margin-left: 10px;
       border-radius: 10px;
       background-color: #fff;
       text-decoration: underline;
+      color: ${(props) => (props.isLoading ? 'transparent' : 'black')};
+
       &:hover {
         background-color: #f1f1f1;
       }
       svg {
         margin-bottom: -3px;
+        &::nth-child(2) {
+          color: ${theme.pink};
+        }
       }
     }
   }
@@ -291,4 +423,15 @@ const PropertyFooter = styled.div`
     .footerSafety {
     }
   }
+`;
+
+const Skeleton = styled.div`
+  background-color: #bdbdbd;
+  position: absolute;
+  top: -8px;
+  left: 0;
+  right: 0;
+  bottom: 0px;
+  border-radius: 5px;
+  animation: ${loading} 2.5s ease-in-out alternate;
 `;

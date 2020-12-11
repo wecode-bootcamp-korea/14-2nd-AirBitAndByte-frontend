@@ -1,4 +1,5 @@
 import React, { useRef, useState } from 'react';
+import { useSelector } from 'react-redux';
 import axios from 'axios';
 import styled from 'styled-components';
 import Slider from 'react-slick';
@@ -15,18 +16,21 @@ const PropertyOthers = ({ recommendedProperties, moveToDetailPage }) => {
     recommendedProperties
   );
 
+  const loginState = useSelector((store) => store.loginReducer);
+
   const handleBookmark = (event, property) => {
     event.stopPropagation();
     const tmpNewRecommendedProperties = [...newRecommendedProperties];
-    const idx = tmpNewRecommendedProperties.find(property);
+    const idx = tmpNewRecommendedProperties.indexOf(property);
     tmpNewRecommendedProperties[idx].isBookmarked = !property.isBookmarked;
+    console.log(property.propertyId);
 
-    axios({
-      method: tmpNewRecommendedProperties[idx].isBookmarked ? 'delete' : 'get',
+    axios(BOOKMARK_API, {
+      method: tmpNewRecommendedProperties[idx].isBookmarked ? 'post' : 'delete',
       headers: {
         Authorization: ACCESS_TOKEN,
       },
-      propertyId: property.propertyId,
+      data: { propertyId: property.propertyId },
     });
     setNewOtherProperties(tmpNewRecommendedProperties);
   };
@@ -80,6 +84,8 @@ const PropertyOthers = ({ recommendedProperties, moveToDetailPage }) => {
     sliderRef.current.slickNext();
   };
 
+  console.log(recommendedProperties);
+
   return (
     <OtherProperties>
       <section>
@@ -103,7 +109,7 @@ const PropertyOthers = ({ recommendedProperties, moveToDetailPage }) => {
                 onClick={() => moveToDetailPage(property.propertyId)}>
                 <div className='pictureBox'>
                   <img src={property.propertyImage[0]} alt='other property' />
-                  {property.is_super && <i>슈퍼호스트</i>}
+                  {property.isSupered && <i>슈퍼호스트</i>}
                   <button
                     id={property.propertyId}
                     onClick={(e) => handleBookmark(e, property)}>
@@ -115,7 +121,9 @@ const PropertyOthers = ({ recommendedProperties, moveToDetailPage }) => {
                   </button>
                 </div>
                 <p className='propertyRate'>
-                  <MdStar color={theme.pink} size={20} /> 4.81(21)
+                  <MdStar color={theme.pink} size={20} />{' '}
+                  {Number(Math.random() * 5).toFixed(2)}
+                  <span>({Math.floor(Math.random() * 300)})</span>
                 </p>
                 <p className='propertyInfo'>{property.sizes[0].sizeContent}</p>
                 <p className='propertyName'>{property.propertyName}</p>
@@ -207,7 +215,7 @@ const OtherProperties = styled.div`
           width: 270px;
           height: 180px;
           overflow: hidden;
-          margin-bottom: 15px;
+          margin-bottom: 10px;
 
           img {
             object-fit: cover;
@@ -256,9 +264,13 @@ const OtherProperties = styled.div`
             padding: 0px;
             margin-bottom: -3px;
           }
+          span {
+            margin-left: 4px;
+            color: grey;
+          }
         }
         p {
-          margin-bottom: 5px;
+          margin-bottom: 7px;
         }
         .propertyName {
           overflow: hidden;
@@ -266,7 +278,7 @@ const OtherProperties = styled.div`
           text-overflow: ellipsis;
         }
         b {
-          font-weight: 600;
+          font-weight: 500;
         }
       }
     }

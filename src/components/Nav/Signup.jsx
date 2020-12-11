@@ -1,4 +1,6 @@
 import React, { useState } from 'react';
+import { useDispatch } from 'react-redux';
+import { login } from '../../store/actions';
 import axios from 'axios';
 import Fade from 'react-reveal/Fade';
 import styled from 'styled-components';
@@ -11,10 +13,9 @@ import { FcGoogle } from 'react-icons/fc';
 import { RiKakaoTalkFill } from 'react-icons/ri';
 import { GoMail } from 'react-icons/go';
 
-const Signup = ({ authService }) => {
+const Signup = ({ authService, isSignupModalOn, setSignupModalOn }) => {
   const [isEmailSignup, setEmailSignup] = useState(false);
   const [isLoginModalOn, setLoginModal] = useState(false);
-  const [isSignupModalOn, setSignupModalOn] = useState(true);
 
   const closeModalAll = () => {
     setSignupModalOn(false);
@@ -31,6 +32,13 @@ const Signup = ({ authService }) => {
     setEmailSignup(false);
   };
 
+  const dispatch = useDispatch();
+  const saveToken = (accessToken) => {
+    dispatch(login(accessToken));
+    localStorage.setItem('accessToken', accessToken);
+    alert('로그인 되었습니다.');
+  };
+
   const sendGoogleUser = (token) => {
     axios({
       method: 'post',
@@ -41,9 +49,12 @@ const Signup = ({ authService }) => {
       },
     })
       .then((res) => {
-        if (res.data.result) {
-          localStorage.setItem('token', res.data.result.accessToken);
-        }
+        saveToken(res.data.accessToken);
+        console.log(res);
+      })
+      .then(() => {
+        setLoginModal(false);
+        setSignupModalOn(false);
       })
       .catch((err) => console.log(err));
   };
@@ -130,6 +141,7 @@ const SignupModal = styled.div`
     ${({ theme }) => {
       return theme.flexSet({
         justifyContent: 'center',
+        alignItems: 'center',
         flexDirection: 'column',
       });
     }};
@@ -144,10 +156,11 @@ const SignupModal = styled.div`
 
     .modalHeader {
       ${({ theme }) => {
-      return theme.flexSet({
-        flexDirection: 'row'
-      });
-    }};
+        return theme.flexSet({
+          justifyContent: 'center',
+          flexDirection: 'row',
+        });
+      }};
       align-items: center;
       position: relative;
       width: 568px;

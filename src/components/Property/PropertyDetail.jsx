@@ -1,28 +1,38 @@
 import React from 'react';
 import styled from 'styled-components';
-import { BsCalendar, BsBook  } from 'react-icons/bs';
-import { BiBed, BiDoorOpen  } from 'react-icons/bi';
+import { theme } from '../../styles/theme';
+import { BsCalendar, BsBook } from 'react-icons/bs';
+import { BiBed, BiDoorOpen } from 'react-icons/bi';
 import { ImSpoonKnife } from 'react-icons/im';
 import { MdFreeBreakfast } from 'react-icons/md';
 import { AiOutlineWifi, AiOutlineLaptop } from 'react-icons/ai';
 import { RiTShirtAirLine, RiMedal2Line, RiMoonClearLine } from 'react-icons/ri';
+import { FaMedal } from 'react-icons/fa';
 
-const PropertyDetail = (props) => {
+const PropertyDetail = ({ property, property: { sizes } }) => {
   return (
     <PropertyDetailBox>
       <div className='propertyDetailHeader'>
         <div className='detailHeaderLeft'>
-          <div className='title'>은정님이 호스팅하는 주택의 개인실</div>
+          <div className='title'>
+            {property.hostName}님이 호스팅하는 주택의 개인실
+          </div>
           <div className='titleInfo'>
-            최대 인원 2명 침실 1개 침대 2개 공동 사용 욕실 2개
+            최대 인원 {property.capacity}명 ・ {sizes[0].sizeName} ・
+            {sizes[0].sizeContent} ・ 공동 사용 욕실 2개
           </div>
         </div>
         <div className='detailRight'>
           <img
-            src='/images/hostProfile.jpg'
+            src='/images/defaultProfile.png'
             alt='host profile'
             className='hostProfile'
           />
+          {property.isSupered ? (
+            <FaMedal color={theme.pink} style={{ marginRight: 7 }} />
+          ) : (
+            ''
+          )}
         </div>
       </div>
 
@@ -49,7 +59,11 @@ const PropertyDetail = (props) => {
         <div className='defaultInfoBox'>
           <RiMedal2Line size={30} />
           <div className='defaultInfoRight'>
-            <div className='defaultInfoTitle'>은정님은 슈퍼호스트입니다.</div>
+            {property.isSupered ? (
+              <div className='defaultInfoTitle'>은정님은 슈퍼호스트입니다.</div>
+            ) : (
+              <div>훌륭한 커뮤니케이션</div>
+            )}
             <div className='defaultInfodetail'>
               에어비트앤바이트의 강화된 5단계 청소 절차를 준수하겠다고 동의한
               호스트입니다. <span>자세히 알아보기</span>
@@ -61,8 +75,7 @@ const PropertyDetail = (props) => {
           <div className='defaultInfoRight'>
             <div className='defaultInfoTitle'>환불 정책</div>
             <div className='defaultInfodetail'>
-              12월 13일 12:00 PM 전에 예약을 취소하면 총 숙박 요금의 50% 및
-              서비스 수수료 전액이 환불됩니다. <span>자세히 보기</span>
+              {property.refund} <span>자세히 보기</span>
             </div>
           </div>
         </div>
@@ -104,8 +117,8 @@ const PropertyDetail = (props) => {
             <BiBed size={30} />
             <BiBed size={30} />
           </div>
-          <div className='bold'> 1번 침실</div>
-          <div> 슈퍼싱글 2개</div>
+          <div className='bold'> {sizes[0].sizeName}</div>
+          <div> {sizes[0].sizeContent}</div>
         </div>
       </BedInfo>
       <Accomodations>
@@ -140,6 +153,7 @@ const PropertyDetailBox = styled.div`
 
   .title {
     font-size: 22px;
+    margin-bottom: 15px;
   }
 
   .propertyDetailHeader {
@@ -155,9 +169,20 @@ const PropertyDetailBox = styled.div`
       margin-top: 7px;
     }
 
-    img {
-      border-radius: 50%;
-      width: 56px;
+    .detailRight {
+      position: relative;
+      img {
+        border-radius: 50%;
+        width: 56px;
+      }
+      svg {
+        position: absolute;
+        top: 5px;
+        right: -8px;
+        background-color: white;
+        border: 1px solid #707070;
+        border-radius: 50%;
+      }
     }
   }
 `;
@@ -251,6 +276,8 @@ const Accomodations = styled.div`
   }
   svg {
     margin-right: 10px;
+    padding-top: 5ps;
+    margin-bottom: -5px;
   }
 `;
 

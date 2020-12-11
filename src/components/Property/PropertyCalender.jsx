@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useRef } from 'react';
 import moment from 'moment';
 import { DayPickerRangeController } from 'react-dates';
 import 'react-dates/initialize';
@@ -13,6 +13,7 @@ const PropertyCalender = ({
   startDate,
   handleOnDateChange,
 }) => {
+
   return (
     <>
       <CalenderBox>

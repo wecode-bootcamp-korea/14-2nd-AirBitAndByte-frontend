@@ -41,6 +41,7 @@ const SignupEmail = ({ openEmailSignup, openLoginModal, closeModalAll }) => {
       })
       .then((res) => {
         console.log(res);
+        closeModalAll();
       })
       .catch((res) => {
         console.log(res);
@@ -171,11 +172,12 @@ const SignupEmailModal = styled.div`
 
     .modalHeader {
       ${({ theme }) => {
-      return theme.flexSet({
-        flexDirection: 'row',
-      });
-    }};
-      align-items: center;
+        return theme.flexSet({
+          justifyContent: 'center',
+          alignItems: 'center',
+          flexDirection: 'row',
+        });
+      }};
       position: relative;
       width: 568px;
       height: 64px;
