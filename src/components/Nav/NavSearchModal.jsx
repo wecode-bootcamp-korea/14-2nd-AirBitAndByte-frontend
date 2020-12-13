@@ -1,6 +1,6 @@
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { setCapacity, setFocus, setCheckIn, setCheckOut } from '../store/actions';
+import { setCapacity, setFocus, setCheckIn, setCheckOut } from '../../store/actions';
 import styled from 'styled-components';
 import { FaMapMarkedAlt } from 'react-icons/fa';
 import { IoIosRemoveCircleOutline, IoIosAddCircleOutline } from 'react-icons/io';

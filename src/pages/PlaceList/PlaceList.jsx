@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { theme } from '../../styles/theme';
-import { setNavState } from '../../Components/store/actions';
+import { setNavState } from '../../store/actions';
 import { useDispatch } from 'react-redux';
 import { LIST_API } from '../../config';
 import PlaceListMap from './PlaceListMap.jsx';

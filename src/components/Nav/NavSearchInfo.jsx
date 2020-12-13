@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
-import { setKeyWord } from '../store/actions';
+import { setKeyWord } from '../../store/actions';
 import styled from 'styled-components';
 import NavSearchModal from './NavSearchModal';
 import { BiSearch } from 'react-icons/bi';
