@@ -2,12 +2,11 @@ import React, { useState, useLayoutEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { logout } from '../../store/actions';
 import { useHistory } from 'react-router-dom';
-import { setKeyWord } from '../store/actions';
 import styled, { css } from 'styled-components';
 import NavSearchInfo from './NavSearchInfo.jsx';
 import { BiSearch } from 'react-icons/bi';
-import { GiConsoleController, GiHamburgerMenu } from 'react-icons/gi';
-import { theme, flexSet, flexCenter, flexColumnCenter } from '../../styles/theme';
+import { GiHamburgerMenu } from 'react-icons/gi';
+import { theme, flexCenter } from '../../styles/theme';
 import Signup from './Signup.jsx';
 
 const Nav = ({ authService }) => {

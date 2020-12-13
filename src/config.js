@@ -1,5 +1,5 @@
 //API
-export const SERVER = 'http://3.35.217.3:8000';
+export const SERVER = process.env.REACT_APP_SERVER_IP;
 
 export const SOCIAL_API = `${SERVER}/socialLogin`;
 export const SIGNUP_API = `${SERVER}/register`;

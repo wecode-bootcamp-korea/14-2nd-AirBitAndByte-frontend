@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { setCapacity, setFocus, setCheckIn, setCheckOut } from '../store/actions';
 import styled from 'styled-components';
@@ -14,7 +14,6 @@ const NavSearchModal = ({ type }) => {
 
   const setCount = (e, type) => {
     const { dataset } = e.currentTarget;
-    const { capacity } = filter;
 
     filter.capacity[type] =
       type !== 'animal'
@@ -24,10 +23,6 @@ const NavSearchModal = ({ type }) => {
           ? dispatch(setCapacity({ ...filter.capacity, [type]: filter.capacity[type] - 1 }))
           : dispatch(setCapacity({ ...filter.capacity, [type]: 0 }))
         : dispatch(setCapacity({ ...filter.capacity, animal: !filter.capacity.animal }));
-  };
-
-  const setSearchKeyWord = (value) => {
-    dispatch(filter.setKeyWord(value));
   };
 
   const handleOnDateChange = ({ startDate, endDate }) => {

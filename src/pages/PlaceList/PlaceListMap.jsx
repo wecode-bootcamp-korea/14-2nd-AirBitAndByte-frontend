@@ -1,18 +1,10 @@
-import React, { useState, useEffect } from 'react';
-import { useHistory } from 'react-router-dom';
+import React, { useEffect } from 'react';
 import styled from 'styled-components';
-import { AiTwotoneHome, AiFillStar } from 'react-icons/ai';
-import jsxToString from 'jsx-to-string';
 
-const PlaceListMap = ({ placeList, hoverLocation }) => {
-  const [myPosition, setMyPosition] = useState(0);
-  const history = useHistory();
-
-  useEffect(() => {}, [hoverLocation]);
-
+const PlaceListMap = ({ placeList }) => {
   useEffect(() => {
     const script = document.createElement('script');
-    script.src = 'https://dapi.kakao.com/v2/maps/sdk.js?appkey=0770b1cc9392dd3dccaecc81e3d9734e&autoload=false';
+    script.src = `https://dapi.kakao.com/v2/maps/sdk.js?appkey=${process.env.REACT_APP_FIREBASE_API_KEY}&autoload=false`;
     document.head.appendChild(script);
     script.onload = () => {
       getKakaoData();
@@ -68,8 +60,8 @@ const PlaceListMap = ({ placeList, hoverLocation }) => {
             removable: true,
           });
 
-          const makeOverListener = (map, marker, overlay) => {
-            if (clickedOverlay !== clickedOverlay) {
+          const makeOverListener = (map, overlay) => {
+            if (clickedOverlay) {
               clickedOverlay.setMap(null);
             }
 
@@ -78,7 +70,7 @@ const PlaceListMap = ({ placeList, hoverLocation }) => {
           };
 
           kakao.maps.event.addListener(map, 'click', () => clickedOverlay && clickedOverlay.setMap(null));
-          kakao.maps.event.addListener(marker, 'click', () => makeOverListener(map, marker, overlay));
+          kakao.maps.event.addListener(marker, 'click', () => makeOverListener(map, overlay));
         });
 
       map.relayout();

@@ -42,7 +42,7 @@ const PlaceListItem = ({ onMouseOver, listItem }) => {
           {listItem.propertyImages.map((image, index) => {
             return (
               <div key={index} className='imgBox'>
-                <img src={image} />
+                <img src={image} alt='propertyListImg' />
               </div>
             );
           })}
