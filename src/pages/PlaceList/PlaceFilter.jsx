@@ -1,7 +1,6 @@
-import React, { useState, useEffect, useRef } from 'react';
-import { AiOutlineConsoleSql } from 'react-icons/ai';
-import styled, { css } from 'styled-components';
-import { theme, flexSpaceBetweenCenter, flexColumn } from '../../styles/theme';
+import React, { useEffect, useRef } from 'react';
+import styled from 'styled-components';
+import { theme, flexColumn } from '../../styles/theme';
 
 const PlaceFilterPlaceList = ({ houseTypte, setHouseType, modalState, setModalState, facility, setfacility }) => {
   const modal = useRef(null);

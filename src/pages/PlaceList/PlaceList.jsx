@@ -1,10 +1,8 @@
-import React, { useState, useEffect, useRef } from 'react';
-import styled, { css } from 'styled-components';
+import React, { useState, useEffect } from 'react';
+import styled from 'styled-components';
 import { theme } from '../../styles/theme';
-// import { setNavState } from '../../Components/store/actions';
+import { setNavState } from '../../Components/store/actions';
 import { useDispatch } from 'react-redux';
-import { useSelector } from 'react-redux';
-import { useHistory } from 'react-router-dom';
 import { LIST_API } from '../../config';
 import PlaceListMap from './PlaceListMap.jsx';
 import PlaceFilterPlaceList from './PlaceFilter.jsx';
@@ -22,32 +20,32 @@ const PlaceList = (props) => {
   const [hoverLocation, sethoverLocation] = useState({ latitude: 0, longitude: 0 });
 
   const dispatch = useDispatch();
-  const history = useHistory();
+
+  useEffect(() => dispatch(setNavState('list')), [dispatch]);
 
   useEffect(() => {
+    const getPlaceList = async () => {
+      const pageNation = `${currentPage > 1 ? `offset=${currentPage}&limit=10` : `limit=10`}`;
+      const facilityFilter = toQueryString(facility, 'facility');
+      const houseFilter = toQueryString(houseTypte, 'type');
+
+      try {
+        setLodingSpinner(true);
+        const listData = await axios.get(
+          `${LIST_API}?${pageNation}${facilityFilter && `&${facilityFilter}`}
+          ${houseFilter && `&${houseFilter}`}`
+        );
+
+        window.scrollTo(0, 0);
+        setPlaceList(listData.data.result);
+        setLodingSpinner(false);
+      } catch (err) {
+        console.log('err', err);
+        setLodingSpinner(false);
+      }
+    };
     getPlaceList();
   }, [houseTypte, currentPage, facility]);
-
-  const getPlaceList = async () => {
-    const pageNation = `${currentPage > 1 ? `offset=${currentPage}&limit=10` : `limit=10`}`;
-    const facilityFilter = toQueryString(facility, 'facility');
-    const houseFilter = toQueryString(houseTypte, 'type');
-
-    try {
-      setLodingSpinner(true);
-      const listData = await axios.get(
-        `${LIST_API}?${pageNation}${facilityFilter && `&${facilityFilter}`}
-        ${houseFilter && `&${houseFilter}`}`
-      );
-
-      window.scrollTo(0, 0);
-      setPlaceList(listData.data.result);
-      setLodingSpinner(false);
-    } catch (err) {
-      console.log('err', err);
-      setLodingSpinner(false);
-    }
-  };
 
   const toQueryString = (data, type) => {
     if (type === undefined) {

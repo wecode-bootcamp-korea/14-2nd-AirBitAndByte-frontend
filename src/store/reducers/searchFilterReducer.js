@@ -1,5 +1,3 @@
-import { setKeyWord } from '../../Components/store/actions';
-
 const INITAL_SATE = {
   navState: '',
   keyWord: '',

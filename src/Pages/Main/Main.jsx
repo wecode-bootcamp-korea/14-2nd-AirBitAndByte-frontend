@@ -7,7 +7,7 @@ import RecommendedPlaces from './RecommendedPlaces';
 const Main = (props) => {
   const dispatch = useDispatch();
 
-  useEffect(() => dispatch(setNavState('main')), []);
+  useEffect(() => dispatch(setNavState('main')), [dispatch]);
 
   return (
     <MainComponent>
