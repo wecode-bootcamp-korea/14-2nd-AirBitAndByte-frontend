@@ -5,7 +5,6 @@ import { AiFillStar, AiOutlineHeart, AiFillHeart } from 'react-icons/ai';
 import { MdKeyboardArrowLeft, MdKeyboardArrowRight } from 'react-icons/md';
 import { useHistory } from 'react-router-dom';
 import Slider from 'react-slick';
-
 const PlaceListItem = ({ onMouseOver, listItem }) => {
   const settings = {
     adaptiveHeight: true,
@@ -17,25 +16,20 @@ const PlaceListItem = ({ onMouseOver, listItem }) => {
     slidesToShow: 1,
     slidesToScroll: 1,
   };
-
   const history = useHistory();
-
   const sliderRef = useRef(null);
-
   const slidePrev = (event) => {
     event.stopPropagation();
-
     sliderRef.current.slickPrev();
   };
-
   const slideNext = (event) => {
     event.stopPropagation();
-
     sliderRef.current.slickNext();
   };
-
   return (
-    <PlaceListItemComponent onMouseOver={onMouseOver} onClick={() => history.push(`/property/${listItem.propertyId}`)}>
+    <PlaceListItemComponent
+      onMouseOver={onMouseOver}
+      onClick={() => history.push(`/property/${listItem.propertyId}`)}>
       <div className='placeImg'>
         <MdKeyboardArrowLeft className='arrow_prev' onClick={slidePrev} />
         <Slider {...settings} ref={sliderRef}>
@@ -55,7 +49,9 @@ const PlaceListItem = ({ onMouseOver, listItem }) => {
             <div className='subTitle'>{`${listItem.hostName}의 ${listItem.porpertyType}`}</div>
             <div className='title'>{listItem.propertyName}</div>
           </div>
-          <div className='placeDibs'>{true ? <AiOutlineHeart /> : <AiFillHeart />}</div>
+          <div className='placeDibs'>
+            {true ? <AiOutlineHeart /> : <AiFillHeart />}
+          </div>
         </div>
         <div className='layoutLine'></div>
         <div className='optionList'>
@@ -75,7 +71,9 @@ const PlaceListItem = ({ onMouseOver, listItem }) => {
             <span className='plceGradeNumber'>4.64</span>
           </div>
           <div className='placePrice'>
-            <span className='price'>{Number(listItem.price).toLocaleString()}</span>
+            <span className='price'>
+              {Number(listItem.price).toLocaleString()}
+            </span>
             <span className='perMonth'>/월</span>
           </div>
         </div>
@@ -84,14 +82,12 @@ const PlaceListItem = ({ onMouseOver, listItem }) => {
   );
 };
 export default PlaceListItem;
-
 const PlaceListItemComponent = styled.div`
   display: flex;
   align-items: center;
   width: 700px;
   padding: 20px 0;
   border-top: 1px solid ${theme.bordergrey};
-
   .placeImg {
     position: relative;
     width: 300px;
@@ -113,11 +109,9 @@ const PlaceListItemComponent = styled.div`
         }
       }
     }
-
     .slick-dots {
       bottom: -19px;
     }
-
     .arrow_prev {
       position: absolute;
       top: 40%;
@@ -130,7 +124,6 @@ const PlaceListItemComponent = styled.div`
       transition: 0.5s;
       background-color: rgba(255, 255, 255, 0.5);
       z-index: 30;
-
       &:hover {
         background-color: rgba(255, 255, 255, 1);
       }
@@ -147,13 +140,11 @@ const PlaceListItemComponent = styled.div`
       transition: 0.5s;
       background-color: rgba(255, 255, 255, 0.3);
       z-index: 101;
-
       &:hover {
         background-color: rgba(255, 255, 255, 1);
       }
     }
   }
-
   .placeContent {
     display: flex;
     flex-direction: column;
@@ -161,15 +152,12 @@ const PlaceListItemComponent = styled.div`
     width: 100%;
     height: 100%;
     padding: 10px 10px 10px 20px;
-
     .contentTitle {
       display: flex;
       justify-content: space-between;
-
       div {
         ${flexColumn}
         justify-content : center;
-
         .subTitle {
           font-size: 13px;
           color: #717171;
@@ -179,7 +167,6 @@ const PlaceListItemComponent = styled.div`
           font-size: 20px;
         }
       }
-
       .placeDibs {
         svg {
           width: 30px;
@@ -192,36 +179,29 @@ const PlaceListItemComponent = styled.div`
       margin: 15px 0;
       border-top: 1px solid ${theme.bordergrey};
     }
-
     .optionList {
       ${flexColumn}
-
       .optionCapacity {
         margin: 5px 0;
         font-size: 14px;
         color: ${theme.grey};
       }
-
       .option {
         margin: 10px 0;
         font-size: 14px;
         color: #ceceec;
-
         span {
           margin-right: 5px;
         }
       }
     }
-
     .placeValue {
       ${flexSpaceBetweenCenter}
       /* position :relative;
       bottom: 0px; */
-
       .placeGrade {
         display: flex;
         align-items: center;
-
         .plceGradeIcon {
           color: ${theme.pink};
         }
