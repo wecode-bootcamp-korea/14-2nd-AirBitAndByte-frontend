@@ -10,6 +10,7 @@ import PropertyDetail from './Components/Property/Property.jsx';
 import PropertyCalender from './Components/Property/PropertyCalender.jsx';
 import PlaceList from './Pages/PlaceList/PlaceList.jsx';
 import 'react-dates/lib/css/_datepicker.css';
+import 'antd/dist/antd.css';
 
 const Routes = ({ authService }) => {
   return (

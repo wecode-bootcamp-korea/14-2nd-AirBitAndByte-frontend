@@ -1,62 +1,62 @@
 import React, { useState, useEffect } from 'react';
+import { useLocation, useHistory } from 'react-router-dom';
 import styled from 'styled-components';
 import { theme } from '../../styles/theme';
-import { setNavState } from '../../store/actions';
-import { useDispatch } from 'react-redux';
 import { LIST_API } from '../../config';
 import PlaceListMap from './PlaceListMap.jsx';
 import PlaceFilterPlaceList from './PlaceFilter.jsx';
-import ReactPaginate from 'react-paginate';
 import PlaceListItem from './PlaceListItem';
 import axios from 'axios';
+import { Pagination } from 'antd';
+import queryStirng from 'query-string';
+import { toQueryStr } from '../../Components/Common/util';
 
 const PlaceList = (props) => {
-  const [placeList, setPlaceList] = useState([]);
-  const [currentPage, setCurrentPage] = useState(1);
   const [facility, setfacility] = useState([]);
-  const [houseTypte, setHouseType] = useState([]);
-  const [modalState, setModalState] = useState({ houseFilter: false, moneyFilter: false, otherFilter: false });
+  const [placeList, setPlaceList] = useState([]);
+  const [houseType, setHouseType] = useState([]);
+  const [currentPage, setCurrentPage] = useState(1);
   const [lodingSpinner, setLodingSpinner] = useState(false);
+  const [priceValue, setPriceValue] = useState([0, 0]);
   const [hoverLocation, sethoverLocation] = useState({ latitude: 0, longitude: 0 });
 
-  const dispatch = useDispatch();
-
-  useEffect(() => dispatch(setNavState('list')), [dispatch]);
+  const history = useHistory();
+  const location = useLocation();
 
   useEffect(() => {
+    const query = location.search;
     const getPlaceList = async () => {
-      const pageNation = `${currentPage > 1 ? `offset=${currentPage}&limit=10` : `limit=10`}`;
-      const facilityFilter = toQueryString(facility, 'facility');
-      const houseFilter = toQueryString(houseTypte, 'type');
+      if (query) {
+        try {
+          window.scrollTo(0, 0);
+          setLodingSpinner(true);
 
-      try {
-        setLodingSpinner(true);
-        const listData = await axios.get(
-          `${LIST_API}?${pageNation}${facilityFilter && `&${facilityFilter}`}
-          ${houseFilter && `&${houseFilter}`}`
-        );
-
-        window.scrollTo(0, 0);
-        setPlaceList(listData.data.result);
-        setLodingSpinner(false);
-      } catch (err) {
-        console.log('err', err);
-        setLodingSpinner(false);
+          const listData = await axios.get(`${LIST_API}${query}`);
+          setPlaceList(listData.data.result);
+        } catch (err) {
+          console.log('err', err);
+        } finally {
+          setLodingSpinner(false);
+        }
       }
     };
     getPlaceList();
-  }, [houseTypte, currentPage, facility]);
+    const { type, offset, facility, min, max } = queryStirng.parse(query);
 
-  const toQueryString = (data, type) => {
-    if (type === undefined) {
-      const result = [];
-      Object.entries(data).forEach((filterData) => filterData[1] && result.push(filterData.join('=')));
-      return result && result.join('&');
-    } else {
-      const result = [];
-      data.forEach((filterData) => result.push(`${type}=${filterData}`));
-      return result && result.join('&');
-    }
+    if (type) setHouseType([...type]);
+    if (facility) setfacility([...facility]);
+    if (offset) setCurrentPage(Number(offset));
+    if (min && max) setPriceValue([Number(min), Number(max)]);
+  }, [location, currentPage]);
+
+  const changePage = (page) => {
+    let query = queryStirng.parse(location.search);
+    query['offset'] = page;
+
+    history.push({
+      pathname: '/placelist',
+      search: toQueryStr(query),
+    });
   };
 
   return (
@@ -65,12 +65,12 @@ const PlaceList = (props) => {
         <h4>300개 이상의 숙소</h4>
         <h1>지도에서 선택한 지역의 숙소</h1>
         <PlaceFilterPlaceList
-          houseTypte={houseTypte}
-          setHouseType={setHouseType}
-          modalState={modalState}
-          setModalState={setModalState}
           facility={facility}
+          houseType={houseType}
+          priceValue={priceValue}
           setfacility={setfacility}
+          setHouseType={setHouseType}
+          setPriceValue={setPriceValue}
         />
         <span className='notice'>여행 날짜와 게스트 인원수를 입력하면 1박당 총 요금을 확인할 수 있습니다.</span>
         <div className='layoutLine'></div>
@@ -78,8 +78,8 @@ const PlaceList = (props) => {
           placeList.map((itemData, index) => {
             return (
               <PlaceListItem
-                listItem={itemData}
                 key={index}
+                listItem={itemData}
                 onMouseOver={({ latitude, longitude }) => sethoverLocation({ latitude, longitude })}
               ></PlaceListItem>
             );
@@ -88,21 +88,7 @@ const PlaceList = (props) => {
           <div>데이터가 없습니다</div>
         )}
         <div className='pageNate'>
-          <ReactPaginate
-            pageCount={Math.ceil(50 / 10)}
-            pageRangeDisplayed={10}
-            marginPagesDisplayed={0}
-            breakLabel='다다음'
-            previousLabel='이전'
-            nextLabel='다음'
-            onPageChange={(cnt) => {
-              setCurrentPage(cnt.selected * 10);
-            }}
-            containerClassName='pagination-ul'
-            activeClassName='currentPage'
-            previousClassName='pageLabel-btn'
-            nextClassName='pageLabel-btn'
-          />
+          <Pagination current={currentPage} onChange={(num) => changePage(num)} total={50} />
         </div>
       </ListContainer>
       {placeList && <PlaceListMap placeList={placeList} hoverLocation={hoverLocation} />}

@@ -1,92 +1,210 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
 import styled from 'styled-components';
-import { theme, flexColumn } from '../../styles/theme';
+import queryStirng from 'query-string';
+import BarChart from '../../Components/Common/BarChart';
+import { Slider, Input } from 'antd';
+import { LIST_API } from '../../config';
+import { useHistory } from 'react-router-dom';
+import { theme } from '../../styles/theme';
+import { toQueryStr } from '../../Components/Common/util';
+import { Modal, Button, Checkbox, Space, Collapse } from 'antd';
+import _ from 'lodash';
 
-const PlaceFilterPlaceList = ({ houseTypte, setHouseType, modalState, setModalState, facility, setfacility }) => {
-  const modal = useRef(null);
+const PlaceFilterPlaceList = ({ houseType, setHouseType, facility, setfacility, priceValue, setPriceValue }) => {
+  const [houstType, setHoustType] = useState(false);
+  const [moneyFilter, setMoneyFilter] = useState(false);
+  const [facilityFiler, setFacilityFiler] = useState(false);
+  const [priceListData, setPriceListData] = useState([0, 0]);
+  const [priceMinMax, setPriceMinMax] = useState([0, 0]);
+
+  const history = useHistory();
+  const { Panel } = Collapse;
 
   useEffect(() => {
-    const closeModal = ({ target }) => {
-      if (Object.keys(modalState).some((el) => modalState[el]) && !modal.current.contains(target)) {
-        const closeModalList = {};
-        Object.keys(modalState).forEach((modal) => {
-          closeModalList[modal] = false;
-        });
-        setModalState(closeModalList);
-      }
-      document.removeEventListener('click', closeModal);
-    };
-    document.addEventListener('click', closeModal);
-  });
+    const priceList = async () => {
+      try {
+        const listData = await axios.get(`${LIST_API}`);
+        const data = listData.data.result.map((item) => Number(item.price));
 
-  const openModal = (e) => {
-    const { dataset } = e.currentTarget;
-    Object.keys(modalState).forEach((filter) => {
-      filter === dataset.filter && setModalState({ ...modalState, [dataset.filter]: true });
+        const max = Math.max.apply(null, data);
+        const min = Math.min.apply(null, data);
+
+        setPriceListData(data);
+        setPriceMinMax([min, max]);
+        priceValue[0] && setPriceValue([min, max]);
+      } catch (err) {
+        console.log('err', err);
+      }
+    };
+    priceList();
+  }, []);
+
+  const setType = (setItem) => {
+    const setList = houseType.some((item) => setItem == item);
+
+    if (setList) {
+      const list = houseType.filter((item) => setItem != item);
+      setHouseType(list);
+    } else {
+      setHouseType([...houseType, setItem]);
+    }
+  };
+
+  const setFacility = (setItem) => {
+    const setList = facility.some((item) => setItem == item);
+
+    if (setList) {
+      const list = facility.filter((item) => setItem != item);
+      setfacility(list);
+    } else {
+      setfacility([...facility, setItem]);
+    }
+  };
+
+  const filterSubmit = (submit, type) => {
+    const getQuery = queryStirng.parse(history.location.search);
+    const query = { ...getQuery, offset: 1, [type]: submit };
+
+    history.push({
+      pathname: '/placelist',
+      search: toQueryStr(query),
     });
   };
 
-  const toggleFilter = (e) => {
-    facility.indexOf(e.type) === -1
-      ? setfacility([...facility, e.type])
-      : setfacility(
-          facility.filter((type) => {
-            return type !== e.type;
-          })
-        );
-  };
+  const priceSubmit = (submit) => {
+    const getQuery = queryStirng.parse(history.location.search);
+    const query = { ...getQuery, offset: 1, min: submit[0], max: submit[1] };
 
-  const houseTypeFilter = (e) => {
-    houseTypte.indexOf(e.type) === -1
-      ? setHouseType([...houseTypte, e.type])
-      : setHouseType(
-          houseTypte.filter((type) => {
-            return type !== e.type;
-          })
-        );
+    history.push({
+      pathname: '/placelist',
+      search: toQueryStr(query),
+    });
   };
 
   return (
-    <FilterComponent ref={modal}>
-      <div className='filter HouseTypeFilter' data-filter='houseFilter' onClick={openModal}>
-        <span>숙소유형</span>
-        <FilterModal state={modalState.houseFilter}>
-          {FILTER_HOUSE_TYPE.map((el, index) => {
-            return (
-              <label>
-                <input type='checkbox' onClick={() => houseTypeFilter(el)} />
+    <FilterComponent>
+      <Space size={10}>
+        <Button type='primary' ghost shape='round' size={40} onClick={() => setHoustType(true)}>
+          숙소유형
+        </Button>
+        <Button type='primary' ghost shape='round' size={40} onClick={() => setMoneyFilter(true)}>
+          요금
+        </Button>
+        <Button type='primary' ghost shape='round' size={40} onClick={() => setFacilityFiler(true)}>
+          필터 추가히기
+        </Button>
+      </Space>
+      <Modal
+        okText='확인'
+        cancelText='취소'
+        type='primary'
+        visible={houstType}
+        mask={false}
+        onCancel={() => setHoustType(false)}
+        closable={false}
+        okButtonProps={{ type: 'ghost' }}
+        onOk={() => {
+          setHoustType(false);
+          filterSubmit(houseType, 'type');
+        }}
+      >
+        <ModalStyle>
+          {FILTER_HOUSE_TYPE.map(({ type, title, content }, index) => (
+            <label key={index}>
+              <Checkbox checked={houseType.some((filter) => filter == type)} onChange={() => setType(type)}>
                 <div className='filterValue'>
-                  <span className='filterTitle'>{el.title}</span>
-                  <span className='filterContent'>{el.content}</span>
+                  <span className='filterTitle'>{title}</span>
+                  <span className='filterContent'>{content}</span>
                 </div>
-              </label>
-            );
-          })}
-          <div className='layoutLine'></div>
-          <div className='filterDataSet'>
-            <span className='filterDelete'>지우기</span>
-            <span className='filterSave'>저장</span>
-          </div>
-        </FilterModal>
-      </div>
-      <div className='filter moneyFilter' data-filter='moneyFilter' onClick={openModal}>
-        <span>요금</span>
-        <FilterModal state={modalState.moneyFilter}>요금</FilterModal>
-      </div>
-      <div className='filter otherFilter' data-filter='otherFilter' onClick={openModal}>
-        <span>필터 추가히기</span>
-        <FilterFullModal state={modalState.otherFilter}>
+              </Checkbox>
+            </label>
+          ))}
+        </ModalStyle>
+      </Modal>
+      <Modal
+        okText='확인'
+        cancelText='취소'
+        type='primary'
+        visible={moneyFilter}
+        mask={false}
+        onCancel={() => setMoneyFilter(false)}
+        closable={false}
+        okButtonProps={{ type: 'ghost' }}
+        onOk={() => {
+          setMoneyFilter(false);
+          priceSubmit(priceValue);
+        }}
+      >
+        <ModalStyle>
+          <h1>평균 1박 요금은 ₩127,194입니다</h1>
+          <HistoHramSlider>
+            <BarChart data={priceListData} highlight={priceValue} />
+            <Slider
+              range={{ draggableTrack: true }}
+              defaultValue={priceMinMax}
+              onChange={(value) => setPriceValue(value)}
+              value={priceValue}
+              max={priceMinMax[1]}
+              min={priceMinMax[0]}
+            />
+            <div className='inputStyle'>
+              <Input
+                prefix='최저가격'
+                suffix='원'
+                size={'smal'}
+                value={priceValue[0]}
+                onChange={({ target }) => setPriceValue([Number(target.value), priceValue[1]])}
+              />
+              <Input
+                prefix='최고가격'
+                suffix='원'
+                value={priceValue[1]}
+                onChange={({ target }) => setPriceValue([priceValue[0], Number(target.value)])}
+              />
+            </div>
+          </HistoHramSlider>
+        </ModalStyle>
+      </Modal>
+      <Modal
+        okText='확인'
+        cancelText='취소'
+        type='primary'
+        closable={false}
+        visible={facilityFiler}
+        onCancel={() => setFacilityFiler(false)}
+        okButtonProps={{ type: 'ghost' }}
+        onOk={() => {
+          setFacilityFiler(false);
+          filterSubmit(facility, 'facility');
+        }}
+      >
+        <ModalStyle>
           <h1>편의 시설</h1>
-          {FILTER_FACILITY.map((el, index) => {
+          {FILTER_FACILITY.slice(0, 4).map(({ type, title }, index) => {
             return (
-              <label className='filterItem'>
-                <input type='checkbox' onClick={() => toggleFilter(el)} />
-                <span>{el.title}</span>
-              </label>
+              <div className='wrapStyle' key={index}>
+                <Checkbox checked={facility.some((filter) => filter == type)} onChange={() => setFacility(type)}>
+                  {title}
+                </Checkbox>
+              </div>
             );
           })}
-        </FilterFullModal>
-      </div>
+          <Collapse ghost={true}>
+            <Panel header='더보기' key='1'>
+              {FILTER_FACILITY.slice(4, FILTER_FACILITY.length).map(({ type, title }, index) => {
+                return (
+                  <div className='wrapStyle' key={index}>
+                    <Checkbox checked={facility.some((filter) => filter == type)} onChange={() => setFacility(type)}>
+                      {title}
+                    </Checkbox>
+                  </div>
+                );
+              })}
+            </Panel>
+          </Collapse>
+        </ModalStyle>
+      </Modal>
     </FilterComponent>
   );
 };
@@ -97,6 +215,10 @@ const FilterComponent = styled.div`
   position: relative;
   margin-bottom: 10px;
   z-index: 99;
+
+  .ant-modal-content {
+    border-radius: 100px !important;
+  }
 
   .filter {
     margin-right: 10px;
@@ -111,100 +233,61 @@ const FilterComponent = styled.div`
   }
 `;
 
-const FilterModal = styled.div`
-  display: ${({ state }) => (state ? 'flex' : 'none')};
-  flex-direction: column;
-  position: absolute;
-  top: 40px;
-  width: 370px;
-  padding: 20px;
-  background-color: white;
-  border-radius: 25px;
-  border: 0.5px solid rgba(118, 118, 118, 0.28);
-  box-shadow: rgba(0, 0, 0, 0.15) 0px 10px 37px;
+const ModalStyle = styled.div`
+  display: flex;
+  flex-wrap: wrap;
+  padding: 10px;
+
+  h1 {
+    flex: 100%;
+    font-size: 18px;
+  }
 
   label {
     display: flex;
     align-items: center;
-    margin: 10px 0;
-    font-size: 15px;
+    margin: 5px 0;
 
     .filterValue {
-      ${flexColumn}
-      justify-content : center;
-
-      .filterTitle {
-        font-size: 16px;
-      }
-      .filterContent {
-        font-size: 13px;
-      }
-      span {
-        margin: 2px;
-      }
+      display: flex;
+      flex-direction: column;
+      margin-left: 10px;
     }
   }
 
-  .layoutLine {
-    width: 100%;
-    height: 1px;
-    border-top: 1px solid #b0b0b0;
-  }
-
-  .filterDataSet {
+  .ant-collapse-content-box {
     display: flex;
-    align-items: center;
-    justify-content: space-between;
+    flex-wrap: wrap;
+    padding: 0;
+    margin: 0;
+  }
 
-    margin: 10px 0;
-    .filterDelete {
-      font-size: 15px;
-      transition: 0.5s;
-      cursor: pointer;
+  .wrapStyle {
+    width: 50%;
 
-      &:hover {
-        transform: scale(1.1);
-      }
-    }
-    .filterSave {
-      font-size: 15px;
-      transition: 0.5s;
-      cursor: pointer;
-
-      &:hover {
-        transform: scale(1.1);
-      }
+    .ant-checkbox-wrapper {
+      padding: 5px !important;
+      margin: 0 !important;
     }
   }
 `;
 
-const FilterFullModal = styled.div`
-  display: flex;
-  flex-wrap: wrap;
-  position: fixed;
-  top: ${({ state }) => (state ? '50%' : '160%')};
-  left: 50%;
-  width: 60%;
-  margin: 0 auto;
-  padding: 2%;
-  transform: translate(-50%, -50%);
-  background-color: white;
-  border-radius: 25px;
-  border: 0.5px solid rgba(118, 118, 118, 0.28);
-  box-shadow: rgba(0, 0, 0, 0.15) 0px 10px 37px;
-  z-index: 100;
-  transition: 0.5s;
-
-  h1 {
-    width: 100%;
+const HistoHramSlider = styled.div`
+  canvas {
+    height: 100px !important;
+    margin-top: 100px;
   }
+  .inputStyle {
+    display: flex;
 
-  .filterItem {
-    display: inline;
-    width: 40%;
-    padding: 15px 10px;
-    font-size: 21px;
-    transition: 1s;
+    .ant-input-affix-wrapper {
+      margin: 10px;
+      height: 50px;
+    }
+
+    input {
+      text-align: center;
+    }
   }
 `;
 

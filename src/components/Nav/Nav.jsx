@@ -1,7 +1,7 @@
-import React, { useState, useLayoutEffect } from 'react';
+import React, { useState, useLayoutEffect, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { logout } from '../../store/actions';
-import { useHistory } from 'react-router-dom';
+import { useHistory, useLocation } from 'react-router-dom';
 import styled, { css } from 'styled-components';
 import NavSearchInfo from './NavSearchInfo.jsx';
 import { BiSearch } from 'react-icons/bi';
@@ -15,7 +15,13 @@ const Nav = ({ authService }) => {
   const [foldNav, setfoldNav] = useState(false);
   const [isSignupModalOn, setSignupModalOn] = useState(false);
   const history = useHistory();
+  const location = useLocation();
   const dispatch = useDispatch();
+
+  const changeSearchType = (e) => setsearchType(e.target.dataset.type);
+  const toggleFoldNav = () => setfoldNav(!foldNav);
+  const loginState = useSelector((store) => store.loginReducer);
+  let navState = location.pathname === '/' ? 'main' : 'other';
 
   const handleLogout = () => {
     dispatch(logout());
@@ -37,30 +43,20 @@ const Nav = ({ authService }) => {
     setSignupModalOn(!isSignupModalOn);
   };
 
-  const changeSearchType = (e) => setsearchType(e.target.dataset.type);
-  const toggleFoldNav = () => setfoldNav(!foldNav);
-  const navState = useSelector((store) => store.searchFilterReducer);
-  const loginState = useSelector((store) => store.loginReducer);
-
   return (
     <>
-      <NavComponent scrollYdata={scrollYdata} foldNav={foldNav} state={navState.navState}>
+      <NavComponent scrollYdata={scrollYdata} foldNav={foldNav} state={navState}>
         <div className='bitAandByteIcon' onClick={() => history.push('/')}>
           <img className='logoImg' src='/images/airBnBlogo.svg' alt='로고 이미지' />
         </div>
         <div className='searchForm'>
-          <SearcBox
-            scrollYdata={scrollYdata}
-            foldNav={foldNav}
-            state={navState.navState}
-            onClick={() => toggleFoldNav()}
-          >
+          <SearcBox scrollYdata={scrollYdata} foldNav={foldNav} state={navState} onClick={() => toggleFoldNav()}>
             <label>검색 시작하기</label>
             <SearchIcon isSize={35}>
               <BiSearch className='biSearch' />
             </SearchIcon>
           </SearcBox>
-          <NavSearchVar scrollYdata={scrollYdata} foldNav={foldNav} state={navState.navState}>
+          <NavSearchVar scrollYdata={scrollYdata} foldNav={foldNav} state={navState}>
             <NavSearchTheme foldNav={foldNav}>
               <span className={searchType === 'rooms' ? 'setType' : ''} data-type='rooms' onClick={changeSearchType}>
                 숙소

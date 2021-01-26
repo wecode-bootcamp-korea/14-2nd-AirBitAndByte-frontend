@@ -25,7 +25,25 @@ const NavSearchInfo = ({ type }) => {
   };
 
   const searchPropertyList = () => {
-    history.push('/placelist?limit=10');
+    let query = '';
+
+    if (keyWord) {
+      query += `&keyWord=${keyWord}`;
+    }
+    if (checkIn) {
+      query += `&checkIn=${checkIn.format('YYYY-MM-DD')}`;
+    }
+    if (checkOut) {
+      query += `&checkOut=${checkOut.format('YYYY-MM-DD')}`;
+    }
+    if (Object.values(capacity).some((item) => item)) {
+      Object.keys(capacity).forEach((opt) => capacity[opt] && (query += `&${opt}=${capacity[opt]}`));
+    }
+
+    history.push({
+      pathname: '/placelist',
+      search: `?limit=10${query}`,
+    });
   };
 
   return (
@@ -77,7 +95,7 @@ const NavSearchInfo = ({ type }) => {
         );
       })}
       <SearchIconForm isSize={50} searchDetailType={searchDetailType} onClick={searchPropertyList}>
-        <BiSearch className='searchIcon' />
+        <BiSearch />
         {searchDetailType && <span>검색</span>}
       </SearchIconForm>
       <NavSearchModal type={searchDetailType} />
@@ -162,6 +180,10 @@ const SearchInfoItem = styled.div`
       font-size: 14px;
       color: #717171;
     }
+
+    input {
+      font-size: 15px;
+    }
   }
 `;
 
@@ -173,10 +195,10 @@ const SearchIconForm = styled.div`
   height: ${({ isSize }) => `${isSize}px`};
   background-color: ${theme.pink};
   border-radius: 25px;
+  padding: 10px;
   cursor: pointer;
 
-  .searchIcon {
-    padding: 10px;
+  svg {
     color: white;
   }
 

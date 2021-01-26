@@ -6,10 +6,7 @@ import RecommendedPlaces from './RecommendedPlaces';
 
 const Main = (props) => {
   const dispatch = useDispatch();
-<<<<<<< HEAD
 
-=======
->>>>>>> 877f07a... update : 리팩토링 에러 다시 수정
   useEffect(() => dispatch(setNavState('main')), [dispatch]);
 
   return (
