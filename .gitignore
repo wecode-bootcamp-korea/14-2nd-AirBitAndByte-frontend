@@ -11,6 +11,12 @@
 # production
 /build
 
+# API keys
+.env
+
+# settings
+.vscode
+
 # misc
 .DS_Store
 .env.local

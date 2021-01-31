@@ -2,12 +2,5 @@
   "workbench.colorCustomizations": {
     "titleBar.activeBackground": "#ff3a5c",
     "titleBar.inactiveBackground": "#ff3a5c"
-  },
-  "explorer.compactFolders": false,
-  "extensions.ignoreRecommendations": true,
-  "files.autoSave": "off",
-  "typescript.tsc.autoDetect": "off",
-  "npm.autoDetect": "off",
-  "debug.allowBreakpointsEverywhere": true,
-  "html.autoClosingTags": false
+  }
 }
